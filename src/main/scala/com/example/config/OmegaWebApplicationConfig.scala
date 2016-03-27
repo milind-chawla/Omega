@@ -64,7 +64,7 @@ class OmegaWebApplicationConfig extends WebMvcConfigurerAdapter {
         viewResolver.setViewClass(classOf[JstlView])
         viewResolver.setPrefix("/WEB-INF/views/")
         viewResolver.setSuffix(".jsp")
-        // viewResolver.setOrder(2)
+        viewResolver.setOrder(1)
         viewResolver
     }
 }
