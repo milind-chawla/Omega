@@ -39,7 +39,7 @@ class OmegaWebApplicationConfig extends WebMvcConfigurerAdapter {
     //     viewResolver.setPrefix("/WEB-INF/views/html/")
     //     viewResolver.setSuffix(".html")
     //     viewResolver.setTemplateMode("HTML5")
-    //     viewResolver.setOrder(1)
+    //     viewResolver.setOrder(2)
     //     viewResolver
     // }
 
