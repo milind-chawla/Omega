@@ -12,7 +12,14 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test"
 libraryDependencies += "com.h2database" % "h2" % "1.3.148"
 
 libraryDependencies += "javax.servlet" % "javax.servlet-api" % "3.1.0" % "provided"
+libraryDependencies += "javax.persistence" % "persistence-api" % "1.0.2"
 
+libraryDependencies += "org.springframework" % "spring-test" % "4.1.9.RELEASE"
+libraryDependencies += "org.springframework" % "spring-context" % "4.1.9.RELEASE"
+libraryDependencies += "org.springframework" % "spring-jdbc" % "4.1.9.RELEASE"
+libraryDependencies += "org.springframework" % "spring-tx" % "4.1.9.RELEASE"
+libraryDependencies += "org.springframework" % "spring-orm" % "4.1.9.RELEASE"
+libraryDependencies += "org.springframework" % "spring-expression" % "4.1.9.RELEASE"
 libraryDependencies += "org.springframework" % "spring-webmvc" % "4.1.9.RELEASE"
 
 // libraryDependencies += "org.thymeleaf" % "thymeleaf-spring4" % "2.1.4.RELEASE"
