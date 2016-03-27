@@ -9,6 +9,8 @@ scalaVersion := "2.11.7"
 // Change this to another test framework if you prefer
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test"
 
+libraryDependencies += "com.h2database" % "h2" % "1.3.148"
+
 libraryDependencies += "javax.servlet" % "javax.servlet-api" % "3.1.0" % "provided"
 
 libraryDependencies += "org.springframework" % "spring-webmvc" % "4.1.9.RELEASE"
