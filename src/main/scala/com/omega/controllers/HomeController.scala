@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 
 @Controller
-class HelloWorldController {
+class HomeController {
     
     @RequestMapping(value = Array("/"), method = Array(RequestMethod.GET))
 	def index(model: Model) = {
