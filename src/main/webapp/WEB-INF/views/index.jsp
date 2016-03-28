@@ -1,2 +1,0 @@
-${date}
-Hello world
