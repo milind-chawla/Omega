@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = Array("com.omega.controllers"))
 @Import(Array(classOf[OmegaCoreConfig]))
+@ComponentScan(basePackages = Array("com.omega.controllers"))
 class OmegaWebApplicationConfig extends WebMvcConfigurerAdapter {
     
     override def addResourceHandlers(registry: ResourceHandlerRegistry): Unit = {
