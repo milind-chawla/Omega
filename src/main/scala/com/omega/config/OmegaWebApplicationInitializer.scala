@@ -17,7 +17,7 @@ class OmegaWebApplicationInitializer extends WebApplicationInitializer {
 	}
 
 	private def registerDispatcherServlet(servletContext: ServletContext): Unit = {
-		val rootContext: AnnotationConfigWebApplicationContext = createContext(Array(classOf[OmegaWebApplicationConfig]))
+		val rootContext: AnnotationConfigWebApplicationContext = createContext(classOf[OmegaWebApplicationConfig])
 		servletContext.addListener(new ContextLoaderListener(rootContext))
 		
 		val dispatcherServlet: DispatcherServlet = new DispatcherServlet(rootContext)
@@ -27,12 +27,9 @@ class OmegaWebApplicationInitializer extends WebApplicationInitializer {
 		dispatcher.addMapping("/")
 	}
 
-	private def createContext(annotatedClasses: Array[Class[_]]): AnnotationConfigWebApplicationContext = {
+	private def createContext(annotatedClasses: Class[_]): AnnotationConfigWebApplicationContext = {
 		val context: AnnotationConfigWebApplicationContext = new AnnotationConfigWebApplicationContext()
-		
-		for(clazz <- annotatedClasses)
-		    context.register(clazz)
-		    
+		context.register(annotatedClasses)
 		context
 	}
 }

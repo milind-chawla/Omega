@@ -5,6 +5,7 @@
 	
 	<h3><jsp:getProperty property="greet" name="helloBean"></jsp:getProperty></h3>
 	
-	Hello date: ${date}
+	Hello date: ${date} <br>
+	
 </body>
 </html>
