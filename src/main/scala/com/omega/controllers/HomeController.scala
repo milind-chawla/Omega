@@ -14,5 +14,5 @@ class HomeController {
 	def index(model: Model) = {
     	model.addAttribute("date", new Date)
     	"index"
-	}
+    }
 }
