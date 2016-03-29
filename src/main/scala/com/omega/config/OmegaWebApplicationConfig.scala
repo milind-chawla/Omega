@@ -20,9 +20,9 @@ class OmegaWebApplicationConfig extends WebMvcConfigurerAdapter {
     
     override def addResourceHandlers(registry: ResourceHandlerRegistry): Unit = {
         registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/META-INF/resources/webjars/").setCachePeriod(31556926)
-        registry.addResourceHandler("/stylesheets/**").addResourceLocations("/css/").setCachePeriod(31556926)
-        registry.addResourceHandler("/images/**").addResourceLocations("/img/").setCachePeriod(31556926)
-        registry.addResourceHandler("/javascripts/**").addResourceLocations("/js/").setCachePeriod(31556926)
+        registry.addResourceHandler("/stylesheets/**").addResourceLocations("/resources/stylesheets/").setCachePeriod(31556926)
+        registry.addResourceHandler("/images/**").addResourceLocations("/resources/images/").setCachePeriod(31556926)
+        registry.addResourceHandler("/javascripts/**").addResourceLocations("/resources/javascripts/").setCachePeriod(31556926)
     }
 
     override def configureDefaultServletHandling(configurer: DefaultServletHandlerConfigurer) {
