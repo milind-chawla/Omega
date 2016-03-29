@@ -1,0 +1,71 @@
+Compiling Scala from Ant
+
+Beware of a small issue here with classpath and taskdef.
+
+<target name="compile-scala">
+	<taskdef resource="scala/tools/ant/antlib.xml">
+		<classpath>
+		<pathelement location="${scala.home}/lib/scala-compiler.jar"/>
+		<pathelement location="${scala.home}/lib/scala-library.jar"/>
+		</classpath>
+	</taskdef> 
+	
+	<path id="cp-scala">
+		<pathelement location="${scala.home}/lib/scala-compiler.jar"/>
+		<pathelement location="${scala.home}/lib/scala-library.jar"/>
+		<pathelement location="${tomcat.home}/common/lib/servlet-api.jar"/>
+	</path>
+	
+	<mkdir dir="build/scala"/>
+	
+	<scalac srcdir="src-scala" destdir="build/scala" classpathref="cp-scala" force="changed">
+		<include name="**/*.scala"/>
+	</scalac> 
+</target>
+
+
+
+---------------------------------------------------------------------------------------------
+
+
+
+I was playing with Scala today and hit this error while trying to compile Scala source file from Apache Ant <scalac /> task. Here the error stack:
+
+[scalac] scala.tools.nsc.FatalError: object scala not found.
+[scalac] at scala.tools.nsc.symtab.Definitions$definitions$.getModuleOrClass(Definitions.scala:363)
+[scalac] at scala.tools.nsc.symtab.Definitions$definitions$.getModule(Definitions.scala:332)
+[scalac] at scala.tools.nsc.symtab.Definitions$definitions$.ScalaPackage(Definitions.scala:34)
+[scalac] at scala.tools.nsc.symtab.Definitions$definitions$.ScalaPackageClass(Definitions.scala:35)
+[scalac] at scala.tools.nsc.symtab.Definitions$definitions$.init(Definitions.scala:664)
+[scalac] at scala.tools.nsc.Global$Run.<init>(Global.scala:449)
+[scalac] at scala.tools.ant.Scalac.execute(Scalac.scala:584)
+[scalac] at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:275)
+[scalac] at org.apache.tools.ant.Task.perform(Task.java:364)
+[scalac] at org.apache.tools.ant.Target.execute(Target.java:341)
+[scalac] at org.apache.tools.ant.Target.performTasks(Target.java:369)
+[scalac] at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1216)
+[scalac] at org.apache.tools.ant.Project.executeTarget(Project.java:1185)
+[scalac] at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:40)
+[scalac] at org.eclipse.ant.internal.ui.antsupport.EclipseDefaultExecutor.executeTargets(EclipseDefaultExecutor.java:32)
+[scalac] at org.apache.tools.ant.Project.executeTargets(Project.java:1068)
+[scalac] at org.eclipse.ant.internal.ui.antsupport.InternalAntRunner.run(InternalAntRunner.java:423)
+[scalac] at org.eclipse.ant.internal.ui.antsupport.InternalAntRunner.main(InternalAntRunner.java:137)
+
+The solution was quite easy to find. The example for <scalac /> task typically starts with <taskdef >:
+
+<taskdef resource="scala/tools/ant/antlib.xml">
+    <classpath>
+        <pathelement location="${scala.home}/lib/scala-compiler.jar"/>
+        <pathelement location="${scala.home}/lib/scala-library.jar"/>
+    </classpath>
+</taskdef>
+
+And then you call <scalac /> like this:
+
+<scalac srcdir="src-scala" destdir="build/scala" classpathref="my-classpath" force="changed">
+    <include name="**/*.scala"/>
+</scalac>
+
+It turns out that the error above will show up if my-classpath does not have scala-compiler.jar and scala-library.jar specified on it. Because when you specify classpath parameter to <scalac /> task it overrides class path defined inside <taskdef /> rather then adds to it. So just add scala jars to your own class path.
+
+This is it.
