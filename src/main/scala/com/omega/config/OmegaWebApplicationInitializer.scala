@@ -1,6 +1,7 @@
 package com.omega.config
 
 import org.springframework.web.WebApplicationInitializer
+import org.springframework.web.context.ContextLoaderListener
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext
 import org.springframework.web.servlet.DispatcherServlet
 
@@ -16,17 +17,22 @@ class OmegaWebApplicationInitializer extends WebApplicationInitializer {
 	}
 
 	private def registerDispatcherServlet(servletContext: ServletContext): Unit = {
-		val dispatcherContext: AnnotationConfigWebApplicationContext = createContext(classOf[OmegaWebApplicationConfig])
-		val dispatcherServlet: DispatcherServlet = new DispatcherServlet(dispatcherContext)
+		val rootContext: AnnotationConfigWebApplicationContext = createContext(Array(classOf[OmegaWebApplicationConfig]))
+		servletContext.addListener(new ContextLoaderListener(rootContext))
+		
+		val dispatcherServlet: DispatcherServlet = new DispatcherServlet(rootContext)
 		val dispatcher: ServletRegistration.Dynamic = servletContext.addServlet("dispatcher", dispatcherServlet)
 
 		dispatcher.setLoadOnStartup(1)
 		dispatcher.addMapping("/")
 	}
 
-	private def createContext(annotatedClasses: Class[_]): AnnotationConfigWebApplicationContext = {
+	private def createContext(annotatedClasses: Array[Class[_]]): AnnotationConfigWebApplicationContext = {
 		val context: AnnotationConfigWebApplicationContext = new AnnotationConfigWebApplicationContext()
-		context.register(annotatedClasses)
+		
+		for(clazz <- annotatedClasses)
+		    context.register(clazz)
+		    
 		context
 	}
 }
