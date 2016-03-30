@@ -1,9 +1,9 @@
-package com.omega.service
+package com.omega.repository
 
 import java.util.{List => JList}
 
 import com.omega.domain.Book
 
-trait BookService {
+trait BookDAO {
     def getBooks: JList[Book]
 }

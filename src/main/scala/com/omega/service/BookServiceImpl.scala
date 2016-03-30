@@ -1,14 +1,22 @@
 package com.omega.service
 
-import com.omega.domain.Book
+import java.util.{List => JList}
+
 import org.springframework.stereotype.Service
-import org.springframework.stereotype.Component
+
+import com.omega.domain.Book
+import com.omega.repository.BookDAO
+
+import javax.annotation.Resource
+import javax.persistence.Entity
 
 @Service
 class BookServiceImpl extends BookService {
     
-    def getBooks: List[Book] = {
-        val books = List(Book(1, "Alice In Wonder Land"), Book(2, "Bugs Bunny"))
-        books
+    @Resource
+    private var bookDAO: BookDAO = _
+    
+    def getBooks: JList[Book] = {
+        bookDAO.getBooks
     }
 }

@@ -30,7 +30,7 @@ class OmegaWebApplicationConfig extends WebMvcConfigurerAdapter {
     }
     
     @Bean
-    def getJspViewResolver(): InternalResourceViewResolver = {
+    def theJspViewResolver(): InternalResourceViewResolver = {
         val viewResolver = new InternalResourceViewResolver
         viewResolver.setViewClass(classOf[JstlView])
         viewResolver.setPrefix("/WEB-INF/views/jsp/")
