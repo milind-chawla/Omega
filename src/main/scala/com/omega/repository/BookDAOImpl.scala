@@ -29,7 +29,6 @@ class BookDAOImpl extends BookDAO {
     
     def getBooks: JList[Book] = {
         // jdbcTemplate.query("SELECT ID, NAME FROM BOOK", new BeanPropertyRowMapper(classOf[Book]))
-        // println(slickDatabase)
         entityManager.createQuery("SELECT b FROM Book b").getResultList.asInstanceOf[JList[Book]]
     }
 }
