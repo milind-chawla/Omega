@@ -75,7 +75,14 @@
 		<artifactId>h2</artifactId>
 		<version>1.4.191</version>
 	</dependency>
-	    
+
+	<!-- SLICK -->
+	
+	<!-- <dependency>
+		<groupId>com.typesafe.slick</groupId>
+		<artifactId>slick_2.11</artifactId>
+		<version>3.1.1</version>
+	</dependency> -->
     
     <!-- Spring -->
     <dependency>
