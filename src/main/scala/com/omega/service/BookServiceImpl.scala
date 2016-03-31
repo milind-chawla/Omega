@@ -12,7 +12,7 @@ import javax.annotation.Resource
 import javax.persistence.Entity
 import javax.persistence.Table
 
-@Service
+@Service("BookService")
 @DependsOn(Array("OmegaCoreConfig"))
 class BookServiceImpl extends BookService {
     

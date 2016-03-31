@@ -2,6 +2,8 @@ package com.omega.config
 
 import org.springframework.beans.factory.FactoryBean
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationContext
+import org.springframework.context.ApplicationContextAware
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
@@ -21,13 +23,17 @@ import javax.sql.DataSource
 @Configuration("OmegaCoreConfig")
 @EnableTransactionManagement
 @ComponentScan(basePackages = Array("com.omega.service", "com.omega.repository"))
-class OmegaCoreConfig {
+class OmegaCoreConfig extends ApplicationContextAware {
     
     @Autowired
     private var dataSource: DataSource = _
     
     @Autowired
     private var entityManagerFactory: EntityManagerFactory = _
+    
+    override def setApplicationContext(applicationContext: ApplicationContext): Unit = {
+        OmegaCoreConfig.setApplicationContext(applicationContext)
+    }
     
     @Bean
     def theDataSource: DataSource = {
@@ -64,4 +70,14 @@ class OmegaCoreConfig {
         jdbcTemplate.setDataSource(this.dataSource)
         jdbcTemplate
     }
+}
+
+object OmegaCoreConfig {
+    private var applicationContext: ApplicationContext = _
+    
+    def setApplicationContext(applicationContext: ApplicationContext): Unit = {
+        this.applicationContext = applicationContext
+    }
+    
+    def getApplicationContext: ApplicationContext = applicationContext 
 }

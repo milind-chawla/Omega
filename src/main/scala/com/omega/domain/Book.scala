@@ -1,11 +1,14 @@
 package com.omega.domain
 
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
+import java.util.{ List => JList }
+
 import org.hibernate.validator.constraints.NotEmpty
+
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
 import javax.persistence.Table
+import javax.persistence.GenerationType
 
 @Entity
 @Table(name = "BOOK")

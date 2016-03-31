@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver
 import org.springframework.web.servlet.view.JstlView
 import org.springframework.beans.factory.annotation.Autowired
 
-@Configuration
+@Configuration("OmegaWebApplicationConfig")
 @EnableWebMvc
 @Import(Array(classOf[OmegaCoreConfig]))
 @ComponentScan(basePackages = Array("com.omega.controllers"))

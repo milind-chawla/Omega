@@ -14,8 +14,8 @@ import javax.persistence.Entity
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
-@Repository
-@DependsOn(Array("OmegaCoreConfig"))
+@Repository("BookDAO")
+@DependsOn(Array("BookService"))
 class BookDAOImpl extends BookDAO {
     
     @Autowired
