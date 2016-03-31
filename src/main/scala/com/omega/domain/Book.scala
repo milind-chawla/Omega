@@ -5,8 +5,10 @@ import javax.persistence.Id
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import org.hibernate.validator.constraints.NotEmpty
+import javax.persistence.Table
 
 @Entity
+@Table(name = "BOOK")
 class Book(_id: Long, _name: String) {
     
     def this(_name: String) = this(-1, _name)
