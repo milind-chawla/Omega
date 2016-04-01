@@ -6,7 +6,7 @@ object Debug {
     trait Off
     
     object on extends DebugFlag with On
-    object off extends DebugFlag with On
+    object off extends DebugFlag with Off
     
     object debug {
         def apply(t: DebugFlag)(f: => Unit): Unit = t match {
