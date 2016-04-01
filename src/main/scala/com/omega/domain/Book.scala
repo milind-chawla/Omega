@@ -34,4 +34,5 @@ class Book(_id: Long, _name: String) {
 object Book {
     def apply(_id: Long, _name: String): Book = new Book(_id, _name)
     def apply(_name: String): Book = new Book(_name)
+    def apply(): Book = new Book()
 }
