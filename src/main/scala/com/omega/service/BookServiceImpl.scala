@@ -13,7 +13,7 @@ import javax.persistence.Entity
 import javax.persistence.Table
 
 @Service("BookService")
-@DependsOn(Array("OmegaCoreConfig"))
+@DependsOn(Array("BookDAO"))
 class BookServiceImpl extends BookService {
     
     @Resource

@@ -20,16 +20,15 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
 
+import com.omega.debug.Debug._
+
 @Configuration("OmegaCoreConfig")
 @EnableTransactionManagement
 @ComponentScan(basePackages = Array("com.omega.service", "com.omega.repository"))
 class OmegaCoreConfig extends ApplicationContextAware {
     
-    @Autowired
-    private var dataSource: DataSource = _
-    
-    @Autowired
-    private var entityManagerFactory: EntityManagerFactory = _
+    //@Autowired
+    //private var entityManagerFactory: EntityManagerFactory = _
     
     override def setApplicationContext(applicationContext: ApplicationContext): Unit = {
         OmegaCoreConfig.setApplicationContext(applicationContext)
@@ -37,6 +36,10 @@ class OmegaCoreConfig extends ApplicationContextAware {
     
     @Bean
     def theDataSource: DataSource = {
+        debug(on) {
+            println("Constructing DataSource")
+        }
+        
         val builder: EmbeddedDatabaseBuilder = new EmbeddedDatabaseBuilder
         builder.setType(EmbeddedDatabaseType.H2)
         builder.addScript("classpath:com/omega/database/schema.sql")
@@ -49,8 +52,13 @@ class OmegaCoreConfig extends ApplicationContextAware {
     
     @Bean
     def theEntityManagerFactory: FactoryBean[EntityManagerFactory] = {
+        debug(on) {
+            println("Constructing EntityManagerFactory")
+        }
+        
         val emfb: LocalContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean
-        emfb.setDataSource(this.dataSource)
+        //emfb.setDataSource(this.dataSource)
+        emfb.setDataSource(theDataSource)
         emfb.setJpaVendorAdapter(theJpaVendorAdapter)
         emfb.setPackagesToScan("com.omega.domain")
         emfb
@@ -58,16 +66,27 @@ class OmegaCoreConfig extends ApplicationContextAware {
     
     @Bean
     def theTransactionManager: PlatformTransactionManager = {
+        debug(on) {
+            println("Constructing PlatformTransactionManager")    
+        }
+        
         val txManager: JpaTransactionManager = new JpaTransactionManager
-        txManager.setDataSource(this.dataSource)
-        txManager.setEntityManagerFactory(this.entityManagerFactory)
+        //txManager.setDataSource(this.dataSource)
+        txManager.setDataSource(theDataSource)
+        //txManager.setEntityManagerFactory(this.entityManagerFactory)
+        txManager.setEntityManagerFactory(theEntityManagerFactory.getObject)
         txManager
     }
     
     @Bean
     def theJdbcTemplate: JdbcTemplate = {
+        debug(on) {
+            println("Constructing JdbcTemplate")
+        }
+        
         val jdbcTemplate: JdbcTemplate = new JdbcTemplate
-        jdbcTemplate.setDataSource(this.dataSource)
+        //jdbcTemplate.setDataSource(this.dataSource)
+        jdbcTemplate.setDataSource(theDataSource)
         jdbcTemplate
     }
 }

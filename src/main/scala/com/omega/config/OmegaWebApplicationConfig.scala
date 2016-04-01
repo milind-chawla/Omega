@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired
 
 @Configuration("OmegaWebApplicationConfig")
 @EnableWebMvc
-@Import(Array(classOf[OmegaCoreConfig]))
+@Import(Array(classOf[OmegaCoreConfig], classOf[OmegaServiceConfig]))
 @ComponentScan(basePackages = Array("com.omega.controllers"))
 class OmegaWebApplicationConfig extends WebMvcConfigurerAdapter {
     
