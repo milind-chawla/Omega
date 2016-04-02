@@ -10,8 +10,12 @@ object Debug {
     
     object debug {
         def apply(t: DebugFlag)(f: => Unit): Unit = t match {
-            case `on` => print("DEBUG: " + new java.util.Date + " -> "); f
+            case `on` => f
             case `off` =>
+        }
+        
+        def apply(s: String): Unit = {
+            println("DEBUG: " + new java.util.Date + " -> " + s)
         }
     }
 }

@@ -2,8 +2,6 @@ package com.omega.config
 
 import org.springframework.beans.factory.FactoryBean
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.ApplicationContext
-import org.springframework.context.ApplicationContextAware
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
@@ -17,34 +15,40 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.EnableTransactionManagement
 
+import com.omega.debug.Debug.debug
+import com.omega.debug.Debug.on
+
 import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
 
-import com.omega.debug.Debug._
-
 @Configuration("OmegaCoreConfig")
 @EnableTransactionManagement
-@ComponentScan(basePackages = Array("com.omega.service", "com.omega.repository"))
-class OmegaCoreConfig extends ApplicationContextAware {
+@ComponentScan(basePackages = Array("com.omega.repository"))
+class OmegaCoreConfig extends BeanLifeCycle {
     
-    //@Autowired
-    //private var entityManagerFactory: EntityManagerFactory = _
+    @Autowired
+    private var entityManagerFactory: EntityManagerFactory = _
     
-    override def setApplicationContext(applicationContext: ApplicationContext): Unit = {
-        OmegaCoreConfig.setApplicationContext(applicationContext)
-    }
+    @Autowired
+    private var jdbcTemplate: JdbcTemplate = _
+    
+    @Autowired
+    private var transactionManager: PlatformTransactionManager = _
     
     @Bean
     def theDataSource: DataSource = {
-        debug(on) {
-            println("Constructing DataSource")
-        }
-        
         val builder: EmbeddedDatabaseBuilder = new EmbeddedDatabaseBuilder
         builder.setType(EmbeddedDatabaseType.H2)
         builder.addScript("classpath:com/omega/database/schema.sql")
         builder.addScript("classpath:com/omega/database/data.sql")
-        builder.build
+        
+        val dataSource = builder.build
+        
+        debug(on) {
+            debug("Constructing DataSource: " + dataSource)
+        }
+        
+        dataSource
     }
     
     @Bean
@@ -52,51 +56,40 @@ class OmegaCoreConfig extends ApplicationContextAware {
     
     @Bean
     def theEntityManagerFactory: FactoryBean[EntityManagerFactory] = {
-        debug(on) {
-            println("Constructing EntityManagerFactory")
-        }
-        
         val emfb: LocalContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean
-        //emfb.setDataSource(this.dataSource)
         emfb.setDataSource(theDataSource)
         emfb.setJpaVendorAdapter(theJpaVendorAdapter)
         emfb.setPackagesToScan("com.omega.domain")
+        
+        debug(on) {
+            debug("Constructing FactoryBean[EntityManagerFactory]: " + emfb)
+        }
+        
         emfb
     }
     
     @Bean
     def theTransactionManager: PlatformTransactionManager = {
+        val txManager: JpaTransactionManager = new JpaTransactionManager
+        txManager.setDataSource(theDataSource)
+        txManager.setEntityManagerFactory(entityManagerFactory)
+        
         debug(on) {
-            println("Constructing PlatformTransactionManager")    
+            debug("Constructing PlatformTransactionManager: " + txManager + ", " + entityManagerFactory)    
         }
         
-        val txManager: JpaTransactionManager = new JpaTransactionManager
-        //txManager.setDataSource(this.dataSource)
-        txManager.setDataSource(theDataSource)
-        //txManager.setEntityManagerFactory(this.entityManagerFactory)
-        txManager.setEntityManagerFactory(theEntityManagerFactory.getObject)
         txManager
     }
     
     @Bean
     def theJdbcTemplate: JdbcTemplate = {
+        val jdbcTemplate: JdbcTemplate = new JdbcTemplate
+        jdbcTemplate.setDataSource(theDataSource)
+        
         debug(on) {
-            println("Constructing JdbcTemplate")
+            debug("Constructing JdbcTemplate: " + jdbcTemplate)
         }
         
-        val jdbcTemplate: JdbcTemplate = new JdbcTemplate
-        //jdbcTemplate.setDataSource(this.dataSource)
-        jdbcTemplate.setDataSource(theDataSource)
         jdbcTemplate
     }
-}
-
-object OmegaCoreConfig {
-    private var applicationContext: ApplicationContext = _
-    
-    def setApplicationContext(applicationContext: ApplicationContext): Unit = {
-        this.applicationContext = applicationContext
-    }
-    
-    def getApplicationContext: ApplicationContext = applicationContext 
 }

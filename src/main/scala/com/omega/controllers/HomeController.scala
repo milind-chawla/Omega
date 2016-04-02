@@ -1,15 +1,16 @@
 package com.omega.controllers
 
-import java.util.Date
 import org.springframework.stereotype.Controller
-import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
 import com.omega.service.BookService
+import org.springframework.web.bind.annotation.RequestMapping
+import com.omega.config.BeanLifeCycle
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.RequestMethod
+import java.util.Date
 
 @Controller
-class HomeController {
+class HomeController extends BeanLifeCycle {
     
     @Autowired
     private var bookService: BookService = _
