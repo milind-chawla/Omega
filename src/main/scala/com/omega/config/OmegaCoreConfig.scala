@@ -14,12 +14,11 @@ import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.EnableTransactionManagement
-
 import com.omega.debug.Debug.debug
 import com.omega.debug.Debug.on
-
 import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
+import com.omega.util.BeanLifeCycle
 
 @Configuration("OmegaCoreConfig")
 @EnableTransactionManagement

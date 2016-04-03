@@ -1,4 +1,4 @@
-package com.omega.config
+package com.omega.util
 
 import javax.annotation.PostConstruct
 import javax.annotation.PreDestroy

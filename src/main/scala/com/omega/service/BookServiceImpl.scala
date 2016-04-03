@@ -8,7 +8,7 @@ import com.omega.repository.BookDAO
 import javax.annotation.Resource
 import javax.persistence.Entity
 import javax.persistence.Table
-import com.omega.config.BeanLifeCycle
+import com.omega.util.BeanLifeCycle
 
 @Service("BookService")
 @DependsOn(Array("BookDAO", "OmegaServiceConfig"))

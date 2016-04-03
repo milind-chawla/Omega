@@ -11,6 +11,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver
 import org.springframework.web.servlet.view.JstlView
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.filter.CharacterEncodingFilter
+import org.sitemesh.webapp.SiteMeshFilter
+import org.sitemesh.config.ConfigurableSiteMeshFilter
+import org.sitemesh.builder.SiteMeshFilterBuilder
 
 @Configuration("OmegaWebApplicationConfig")
 @EnableWebMvc
@@ -37,5 +41,21 @@ class OmegaWebApplicationConfig extends WebMvcConfigurerAdapter {
         viewResolver.setSuffix(".jsp")
         viewResolver.setOrder(1)
         viewResolver
+    }
+    
+    @Bean
+    def theCharacterEncodingFilter: CharacterEncodingFilter = {
+        val characterEncodingFilter = new CharacterEncodingFilter
+        characterEncodingFilter.setEncoding("UTF-8")
+        characterEncodingFilter
+    }
+    
+    @Bean
+    def theSiteMeshFilter: ConfigurableSiteMeshFilter = {
+        new ConfigurableSiteMeshFilter {
+            override def applyCustomConfiguration(builder: SiteMeshFilterBuilder): Unit = {
+                builder.addDecoratorPath("/*", "/WEB-INF/views/jsp/0/main.jsp")
+            }
+        }
     }
 }

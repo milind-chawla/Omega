@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 import com.omega.domain.Book
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
-import com.omega.config.BeanLifeCycle
+import com.omega.util.BeanLifeCycle
 
 @Repository("BookDAO")
 @Transactional
