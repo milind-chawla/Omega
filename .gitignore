@@ -4,4 +4,6 @@
 /project/project/
 /project/target/
 /target/
+/WebContent/resources/jquery/
+/WebContent/resources/bootstrap/
 .cache-*
