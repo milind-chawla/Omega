@@ -11,12 +11,11 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "WebContent/resources",
     "test",
     "tests"
   ],
-  "dependencies": {
-    "jquery": "1.12.2",
-    "bootstrap": "3.3.6"
+  "devDependencies": {
+    "jquery": "^1.12.2",
+    "bootstrap": "^3.3.6"
   }
 }

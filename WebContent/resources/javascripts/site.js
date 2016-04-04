@@ -1,3 +1,3 @@
 (function($) {
-	console.log($ + ' is installed.');
+	console.log('jQuery is installed.');
 })(jQuery);

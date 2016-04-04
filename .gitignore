@@ -6,4 +6,6 @@
 /target/
 /WebContent/resources/jquery/
 /WebContent/resources/bootstrap/
+/bower_components/
+/node_modules/
 .cache-*
