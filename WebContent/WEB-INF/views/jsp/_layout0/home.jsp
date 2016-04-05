@@ -19,6 +19,6 @@
     <div class='disclaimer'>Site disclaimer. This is an example.</div>
 	
 	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/jquery/dist/jquery.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/javascripts/site.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/javascript/site.min.js"></script>
   </body>
 </html>

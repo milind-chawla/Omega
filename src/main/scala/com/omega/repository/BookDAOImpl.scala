@@ -1,20 +1,22 @@
 package com.omega.repository
 
 import java.util.{ List => JList }
+
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.DependsOn
-import org.springframework.jdbc.core.BeanPropertyRowMapper
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+
 import com.omega.domain.Book
+import com.omega.util.BeanLifeCycle
+
+import javax.persistence.Entity
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
-import com.omega.util.BeanLifeCycle
+import javax.persistence.Table
 
 @Repository("BookDAO")
 @Transactional
-@DependsOn(Array("OmegaCoreConfig"))
 class BookDAOImpl extends BookDAO with BeanLifeCycle {
     
     @Autowired
@@ -25,7 +27,14 @@ class BookDAOImpl extends BookDAO with BeanLifeCycle {
     
     @Transactional
     def getBooks: JList[Book] = {
-        jdbcTemplate.query("SELECT ID, NAME FROM BOOK", new BeanPropertyRowMapper(classOf[Book]))
-        entityManager.createQuery("SELECT b FROM Book b").getResultList.asInstanceOf[JList[Book]]
+        println(jdbcTemplate.getExceptionTranslator)
+        
+        jdbcTemplate.execute("INSERT INTO BOOK(ID, NAME) VALUES(1, 'Book 1')")
+        
+        /*val b = Book(1, "Book " + scala.util.Random.nextInt(100))
+        entityManager.persist(b)*/
+        
+        val books = entityManager.createQuery("SELECT b FROM Book b").getResultList.asInstanceOf[JList[Book]]
+        books
     }
 }

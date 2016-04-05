@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Import
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType
@@ -14,16 +16,21 @@ import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.EnableTransactionManagement
+
 import com.omega.debug.Debug.debug
-import com.omega.debug.Debug.on
+import com.omega.util.BeanLifeCycle
+
 import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
-import com.omega.util.BeanLifeCycle
 
 @Configuration("OmegaCoreConfig")
 @EnableTransactionManagement
-@ComponentScan(basePackages = Array("com.omega.repository"))
+@Import(Array(classOf[OmegaServiceConfig]))
+@ComponentScan(basePackages = Array("com.omega.repository")) 
 class OmegaCoreConfig extends BeanLifeCycle {
+    
+    /*@Bean
+    def thePersistenceAnnotationBeanPostProcessor: PersistenceAnnotationBeanPostProcessor = new PersistenceAnnotationBeanPostProcessor*/
     
     @Autowired
     private var entityManagerFactory: EntityManagerFactory = _
@@ -35,6 +42,9 @@ class OmegaCoreConfig extends BeanLifeCycle {
     private var transactionManager: PlatformTransactionManager = _
     
     @Bean
+    def thePersistenceExceptionTranslationPostProcessor: PersistenceExceptionTranslationPostProcessor = new PersistenceExceptionTranslationPostProcessor
+    
+    @Bean
     def theDataSource: DataSource = {
         val builder: EmbeddedDatabaseBuilder = new EmbeddedDatabaseBuilder
         builder.setType(EmbeddedDatabaseType.H2)
@@ -43,9 +53,7 @@ class OmegaCoreConfig extends BeanLifeCycle {
         
         val dataSource = builder.build
         
-        debug(on) {
-            debug("Constructing DataSource: " + dataSource)
-        }
+        debug.on("Constructing DataSource: " + dataSource)
         
         dataSource
     }
@@ -60,9 +68,7 @@ class OmegaCoreConfig extends BeanLifeCycle {
         emfb.setJpaVendorAdapter(theJpaVendorAdapter)
         emfb.setPackagesToScan("com.omega.domain")
         
-        debug(on) {
-            debug("Constructing FactoryBean[EntityManagerFactory]: " + emfb)
-        }
+        debug.on("Constructing FactoryBean[EntityManagerFactory]: " + emfb)
         
         emfb
     }
@@ -70,12 +76,10 @@ class OmegaCoreConfig extends BeanLifeCycle {
     @Bean
     def theTransactionManager: PlatformTransactionManager = {
         val txManager: JpaTransactionManager = new JpaTransactionManager
-        txManager.setDataSource(theDataSource)
+        // txManager.setDataSource(theDataSource)
         txManager.setEntityManagerFactory(entityManagerFactory)
         
-        debug(on) {
-            debug("Constructing PlatformTransactionManager: " + txManager + ", " + entityManagerFactory)    
-        }
+        debug.on("Constructing PlatformTransactionManager: " + txManager + ", " + entityManagerFactory)    
         
         txManager
     }
@@ -85,9 +89,7 @@ class OmegaCoreConfig extends BeanLifeCycle {
         val jdbcTemplate: JdbcTemplate = new JdbcTemplate
         jdbcTemplate.setDataSource(theDataSource)
         
-        debug(on) {
-            debug("Constructing JdbcTemplate: " + jdbcTemplate)
-        }
+        debug.on("Constructing JdbcTemplate: " + jdbcTemplate)
         
         jdbcTemplate
     }

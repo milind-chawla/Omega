@@ -18,7 +18,7 @@ class Book(_id: Long, _name: String) {
     def this() = this(-1, null)
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = _id
     
     @NotEmpty
@@ -29,6 +29,8 @@ class Book(_id: Long, _name: String) {
     
     def setName(_name: String): Unit = this.name = _name
     def getName(): String = this.name
+    
+    override def toString: String = "Book[id=" + id + ", name=" + name + "]"
 }
 
 object Book {
