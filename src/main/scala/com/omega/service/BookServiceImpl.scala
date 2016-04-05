@@ -8,7 +8,6 @@ import com.omega.domain.Book
 import com.omega.repository.BookDao
 import com.omega.util.BeanLifeCycle
 
-// @Service("BookService")
 @Transactional
 class BookServiceImpl(val bookDao: BookDao) extends BookService with BeanLifeCycle {
     

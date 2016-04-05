@@ -3,9 +3,7 @@ package com.omega.config
 import org.springframework.beans.factory.FactoryBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Import
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder
@@ -16,19 +14,20 @@ import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.EnableTransactionManagement
+import org.springframework.transaction.annotation.Transactional
+
 import com.omega.debug.Debug.debug
+import com.omega.repository.BookDao
+import com.omega.repository.BookDaoJpaImpl
+import com.omega.service.BookService
+import com.omega.service.BookServiceImpl
 import com.omega.util.BeanLifeCycle
+
 import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
-import com.omega.service.BookServiceImpl
-import com.omega.service.BookService
-import com.omega.repository.BookDaoJpaImpl
-import com.omega.repository.BookDao
 
 @Configuration("OmegaCoreConfig")
-@EnableTransactionManagement
-// @Import(Array(classOf[OmegaServiceConfig]))
-// @ComponentScan(basePackages = Array("com.omega.service")) 
+@EnableTransactionManagement 
 class OmegaCoreConfig extends BeanLifeCycle {
     
     /*@Bean
@@ -50,16 +49,14 @@ class OmegaCoreConfig extends BeanLifeCycle {
     
     @Bean
     def theDataSource: DataSource = {
+        debug.on("Constructing DataSource")
+        
         val builder: EmbeddedDatabaseBuilder = new EmbeddedDatabaseBuilder
         builder.setType(EmbeddedDatabaseType.H2)
         builder.addScript("classpath:com/omega/database/schema.sql")
         builder.addScript("classpath:com/omega/database/data.sql")
         
-        val dataSource = builder.build
-        
-        debug.on("Constructing DataSource: " + dataSource)
-        
-        dataSource
+        builder.build
     }
     
     @Bean
@@ -67,33 +64,32 @@ class OmegaCoreConfig extends BeanLifeCycle {
     
     @Bean
     def theEntityManagerFactory: FactoryBean[EntityManagerFactory] = {
+        debug.on("Constructing FactoryBean[EntityManagerFactory]")
+        
         val emfb: LocalContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean
         emfb.setDataSource(theDataSource)
         emfb.setJpaVendorAdapter(theJpaVendorAdapter)
         emfb.setPackagesToScan("com.omega.domain")
-        
-        debug.on("Constructing FactoryBean[EntityManagerFactory]: " + emfb)
         
         emfb
     }
     
     @Bean
     def theTransactionManager: PlatformTransactionManager = {
-        val txManager: JpaTransactionManager = new JpaTransactionManager
-        // txManager.setDataSource(theDataSource)
-        txManager.setEntityManagerFactory(entityManagerFactory)
+        debug.on("Constructing PlatformTransactionManager")
         
-        debug.on("Constructing PlatformTransactionManager: " + txManager + ", " + entityManagerFactory)    
+        val txManager: JpaTransactionManager = new JpaTransactionManager
+        txManager.setEntityManagerFactory(entityManagerFactory)
         
         txManager
     }
     
     @Bean
     def theJdbcTemplate: JdbcTemplate = {
+        debug.on("Constructing JdbcTemplate")
+        
         val jdbcTemplate: JdbcTemplate = new JdbcTemplate
         jdbcTemplate.setDataSource(theDataSource)
-        
-        debug.on("Constructing JdbcTemplate: " + jdbcTemplate)
         
         jdbcTemplate
     }
@@ -103,12 +99,14 @@ class OmegaCoreConfig extends BeanLifeCycle {
     @Bean
     def theBookDao: BookDao = {
         debug.on("Constructing BookDao")
+        
         new BookDaoJpaImpl
     }
     
     @Bean
     def theBookService: BookService = {
         debug.on("Constructing BookService")
+        
         new BookServiceImpl(theBookDao)
     }
 }

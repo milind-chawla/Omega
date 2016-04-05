@@ -8,6 +8,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMethod
 import java.util.Date
 import com.omega.util.BeanLifeCycle
+import scala.util.control.NonFatal
 
 @Controller
 class HomeController extends BeanLifeCycle {
@@ -23,7 +24,15 @@ class HomeController extends BeanLifeCycle {
     @RequestMapping(value = Array("/home/index"), method = Array(RequestMethod.GET))
 	def index(model: Model) = {
     	model.addAttribute("date", new Date)
-    	model.addAttribute("books", bookService.getBooks)
+    	
+    	try {
+            model.addAttribute("books", bookService.getBooks)    
+        } catch {
+            case NonFatal(ex) => {
+                println(ex)
+            }
+        }
+    	
     	"home/index"
     }
 }
