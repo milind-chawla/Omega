@@ -16,21 +16,25 @@ import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.EnableTransactionManagement
-
 import com.omega.debug.Debug.debug
 import com.omega.util.BeanLifeCycle
-
 import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
+import com.omega.service.BookServiceImpl
+import com.omega.service.BookService
+import com.omega.repository.BookDaoJpaImpl
+import com.omega.repository.BookDao
 
 @Configuration("OmegaCoreConfig")
 @EnableTransactionManagement
-@Import(Array(classOf[OmegaServiceConfig]))
-@ComponentScan(basePackages = Array("com.omega.repository")) 
+// @Import(Array(classOf[OmegaServiceConfig]))
+// @ComponentScan(basePackages = Array("com.omega.service")) 
 class OmegaCoreConfig extends BeanLifeCycle {
     
     /*@Bean
     def thePersistenceAnnotationBeanPostProcessor: PersistenceAnnotationBeanPostProcessor = new PersistenceAnnotationBeanPostProcessor*/
+    
+    /************************************************************USELESS BEANS**********************************************************/
     
     @Autowired
     private var entityManagerFactory: EntityManagerFactory = _
@@ -92,5 +96,19 @@ class OmegaCoreConfig extends BeanLifeCycle {
         debug.on("Constructing JdbcTemplate: " + jdbcTemplate)
         
         jdbcTemplate
+    }
+    
+    /************************************************************USEFULL BEANS**********************************************************/
+    
+    @Bean
+    def theBookDao: BookDao = {
+        debug.on("Constructing BookDao")
+        new BookDaoJpaImpl
+    }
+    
+    @Bean
+    def theBookService: BookService = {
+        debug.on("Constructing BookService")
+        new BookServiceImpl(theBookDao)
     }
 }

@@ -1,9 +1,9 @@
 package com.omega.repository
 
-import java.util.{List => JList}
+import java.util.{ List => JList }
 
 import com.omega.domain.Book
 
-trait BookDAO {
+trait BookDao {
     def getBooks: JList[Book]
 }
