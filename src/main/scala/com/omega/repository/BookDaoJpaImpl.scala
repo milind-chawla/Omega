@@ -10,14 +10,16 @@ import javax.persistence.PersistenceContext
 
 class BookDaoJpaImpl extends BookDao with BeanLifeCycle {
     
-    @PersistenceContext
+    @PersistenceContext(unitName = "OmegaUnit1")
     private var entityManager: EntityManager = _
     
-    def getBooks: JList[Book] = {
-        entityManager.createNativeQuery("INSERT INTO BOOK(ID, NAME) VALUES(10, 'Book 10')").executeUpdate()
-        entityManager.createNativeQuery("INSERT INTO BOOK(ID, NAME) VALUES(11, 'Book 11')").executeUpdate()
-        entityManager.createNativeQuery("INSERT INTO BOOK(ID, NAME) VALUES(1, 'Book 1')").executeUpdate()    
-        
+    override def save(book: Book): Book = {
+        entityManager.persist(book)
+        book
+    }
+    
+    override def getBooks: JList[Book] = {
+        // entityManager.createNativeQuery("INSERT INTO BOOK(NAME) VALUES('Book N')").executeUpdate()
         val books = entityManager.createQuery("SELECT b FROM Book b").getResultList.asInstanceOf[JList[Book]]
         books
     }

@@ -24,6 +24,7 @@ import com.omega.service.BookServiceImpl
 import com.omega.util.BeanLifeCycle
 
 import javax.persistence.EntityManagerFactory
+import javax.persistence.PersistenceUnit
 import javax.sql.DataSource
 
 @Configuration("OmegaCoreConfig")
@@ -35,8 +36,8 @@ class OmegaCoreConfig extends BeanLifeCycle {
     
     /************************************************************USELESS BEANS**********************************************************/
     
-    @Autowired
-    private var entityManagerFactory: EntityManagerFactory = _
+    /*@PersistenceUnit
+    private var entityManagerFactory: EntityManagerFactory = _*/
     
     @Autowired
     private var jdbcTemplate: JdbcTemplate = _
@@ -49,12 +50,14 @@ class OmegaCoreConfig extends BeanLifeCycle {
     
     @Bean
     def theDataSource: DataSource = {
-        debug.on("Constructing DataSource")
+        debug.on("Start Constructing DataSource")
         
         val builder: EmbeddedDatabaseBuilder = new EmbeddedDatabaseBuilder
         builder.setType(EmbeddedDatabaseType.H2)
         builder.addScript("classpath:com/omega/database/schema.sql")
         builder.addScript("classpath:com/omega/database/data.sql")
+        
+        debug.on("End Constructing DataSource")
         
         builder.build
     }
@@ -64,32 +67,39 @@ class OmegaCoreConfig extends BeanLifeCycle {
     
     @Bean
     def theEntityManagerFactory: FactoryBean[EntityManagerFactory] = {
-        debug.on("Constructing FactoryBean[EntityManagerFactory]")
+        debug.on("Start Constructing FactoryBean[EntityManagerFactory]")
         
         val emfb: LocalContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean
+        emfb.setPersistenceUnitName("OmegaUnit1")
         emfb.setDataSource(theDataSource)
         emfb.setJpaVendorAdapter(theJpaVendorAdapter)
         emfb.setPackagesToScan("com.omega.domain")
         
+        debug.on("End Constructing FactoryBean[EntityManagerFactory]")
+        
         emfb
     }
     
-    @Bean
+    @Bean(name = Array("OmegaTM1"))
     def theTransactionManager: PlatformTransactionManager = {
-        debug.on("Constructing PlatformTransactionManager")
+        debug.on("Start Constructing PlatformTransactionManager")
         
         val txManager: JpaTransactionManager = new JpaTransactionManager
-        txManager.setEntityManagerFactory(entityManagerFactory)
+        txManager.setEntityManagerFactory(theEntityManagerFactory.getObject)
+        
+        debug.on("End Constructing PlatformTransactionManager")
         
         txManager
     }
     
     @Bean
     def theJdbcTemplate: JdbcTemplate = {
-        debug.on("Constructing JdbcTemplate")
+        debug.on("Start Constructing JdbcTemplate")
         
         val jdbcTemplate: JdbcTemplate = new JdbcTemplate
         jdbcTemplate.setDataSource(theDataSource)
+        
+        debug.on("End Constructing JdbcTemplate")
         
         jdbcTemplate
     }

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod
 import java.util.Date
 import com.omega.util.BeanLifeCycle
 import scala.util.control.NonFatal
+import com.omega.domain.Book
+import com.omega.debug.Debug.debug
 
 @Controller
 class HomeController extends BeanLifeCycle {
@@ -25,11 +27,29 @@ class HomeController extends BeanLifeCycle {
 	def index(model: Model) = {
     	model.addAttribute("date", new Date)
     	
-    	try {
-            model.addAttribute("books", bookService.getBooks)    
-        } catch {
-            case NonFatal(ex) => {
-                println(ex)
+    	val book = Book("Book " + (95 + scala.util.Random.nextInt(26)).toChar)
+    	
+    	debug.noexec {
+    	    debug.on("before saving: " + book)
+    	    
+        	try {
+                bookService.save(book)    
+            } catch {
+                case NonFatal(ex) => {
+                    println(ex)
+                }
+            }
+            
+            debug.on("after saving: " + book)
+    	}
+    	
+        debug.exec {
+        	try {
+                model.addAttribute("books", bookService.getBooks)    
+            } catch {
+                case NonFatal(ex) => {
+                    println(ex)
+                }
             }
         }
     	
