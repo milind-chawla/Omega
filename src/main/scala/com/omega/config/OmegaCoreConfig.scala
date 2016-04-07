@@ -15,17 +15,16 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.EnableTransactionManagement
 import org.springframework.transaction.annotation.Transactional
-
 import com.omega.debug.Debug.debug
 import com.omega.repository.BookDao
 import com.omega.repository.BookDaoJpaImpl
 import com.omega.service.BookService
 import com.omega.service.BookServiceImpl
 import com.omega.util.BeanLifeCycle
-
 import javax.persistence.EntityManagerFactory
 import javax.persistence.PersistenceUnit
 import javax.sql.DataSource
+import com.zaxxer.hikari.HikariDataSource
 
 @Configuration("OmegaCoreConfig")
 @EnableTransactionManagement 
@@ -48,7 +47,7 @@ class OmegaCoreConfig extends BeanLifeCycle {
     @Bean
     def thePersistenceExceptionTranslationPostProcessor: PersistenceExceptionTranslationPostProcessor = new PersistenceExceptionTranslationPostProcessor
     
-    @Bean
+    /*@Bean
     def theDataSource: DataSource = {
         debug.on("Start Constructing DataSource")
         
@@ -60,6 +59,23 @@ class OmegaCoreConfig extends BeanLifeCycle {
         debug.on("End Constructing DataSource")
         
         builder.build
+    }*/
+    
+    @Bean
+    def theDataSource: DataSource = {
+        debug.on("Start Constructing DataSource")
+        
+        val dataSource: HikariDataSource = new HikariDataSource
+        val builder: EmbeddedDatabaseBuilder = new EmbeddedDatabaseBuilder
+        
+        builder.setType(EmbeddedDatabaseType.H2)
+        builder.addScript("classpath:com/omega/database/schema.sql")
+        builder.addScript("classpath:com/omega/database/data.sql")
+        dataSource.setDataSource(builder.build)
+        
+        debug.on("End Constructing DataSource")
+        
+        dataSource
     }
     
     @Bean
