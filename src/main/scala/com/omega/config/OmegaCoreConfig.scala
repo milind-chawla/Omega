@@ -1,7 +1,6 @@
 package com.omega.config
 
 import org.springframework.beans.factory.FactoryBean
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor
@@ -14,35 +13,22 @@ import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.EnableTransactionManagement
-import org.springframework.transaction.annotation.Transactional
+
 import com.omega.debug.Debug.debug
 import com.omega.repository.BookDao
 import com.omega.repository.BookDaoJpaImpl
 import com.omega.service.BookService
 import com.omega.service.BookServiceImpl
 import com.omega.util.BeanLifeCycle
-import javax.persistence.EntityManagerFactory
-import javax.persistence.PersistenceUnit
-import javax.sql.DataSource
 import com.zaxxer.hikari.HikariDataSource
+
+import javax.persistence.EntityManagerFactory
+import javax.sql.DataSource
 
 @Configuration("OmegaCoreConfig")
 @EnableTransactionManagement 
 class OmegaCoreConfig extends BeanLifeCycle {
-    
-    /*@Bean
-    def thePersistenceAnnotationBeanPostProcessor: PersistenceAnnotationBeanPostProcessor = new PersistenceAnnotationBeanPostProcessor*/
-    
     /************************************************************USELESS BEANS**********************************************************/
-    
-    /*@PersistenceUnit
-    private var entityManagerFactory: EntityManagerFactory = _*/
-    
-    @Autowired
-    private var jdbcTemplate: JdbcTemplate = _
-    
-    @Autowired
-    private var transactionManager: PlatformTransactionManager = _
     
     @Bean
     def thePersistenceExceptionTranslationPostProcessor: PersistenceExceptionTranslationPostProcessor = new PersistenceExceptionTranslationPostProcessor
