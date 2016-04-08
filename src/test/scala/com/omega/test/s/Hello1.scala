@@ -11,7 +11,7 @@ object Hello1 {
         
         println( groupNumbersSz(list, (i, j) => j - i == 2) )
         
-        println("*" * 30)
+        println("*" * 31)
         
         val d1 = List(1, 2, 3, 4, 5)
         val d2 = List(11, 22, 33, 44, 55)
