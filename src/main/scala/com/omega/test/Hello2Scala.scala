@@ -4,7 +4,7 @@ object Hello2Scala {
     import HelloHelpers._
     
     def main(args: Array[String]): Unit = {
-        noexec {
+        exec {
             val m = List(Some("on"), None, Some("us"), None)
             
             for {
@@ -14,7 +14,7 @@ object Hello2Scala {
             println( m.flatten )
         }
         
-        noexec {
+        exec {
             def m(n: Option[Int]): Option[Int] = n.map(1+)
             
             val c1 = Some(10)
