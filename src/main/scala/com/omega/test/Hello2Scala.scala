@@ -20,11 +20,17 @@ object Hello2Scala {
             val c1 = Some(10)
             val c2 = None
             
-            println( m(c1) )
-            println( m(c2) )
+            //println( m(c1) )
+            //println( m(c2) )
+            
+            val d1 = c1.map { x => x }
+            val d2 = c1.flatMap { x => Some(x*x) }
+            
+            println( d1 )
+            println( d2 )
         }
         
-        exec {
+        noexec {
             case class TreeNode(v: Int, left: Option[TreeNode] = None, right: Option[TreeNode] = None) {
                 
                 def add(av: Int): TreeNode = {
@@ -60,6 +66,16 @@ object Hello2Scala {
             for {
                 q <- p.traverseInOrder() // 5
             } println(q.v)
+        }
+        
+        noexec {
+            val scores = List(100, 200, 300)
+            
+            println( (0 /: scores)(_ + _) )
+        }
+        
+        exec {
+            println("Hello world !!!")
         }
     }
 }
