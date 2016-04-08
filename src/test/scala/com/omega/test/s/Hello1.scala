@@ -1,4 +1,4 @@
-package com.omega.test
+package com.omega.test.s
 
 object Hello1 {
     def main(args: Array[String]): Unit = {

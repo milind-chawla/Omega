@@ -1,11 +1,11 @@
-package com.omega.test;
+package com.omega.test.j;
 
 import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-public class TestGroupJava {
+public class Hello1 {
 	
 	public static void main(String[] args) {
 		List<Integer> list = Lists.newArrayList(1, 2, 3, 4, 5, 9, 11, 20, 21, 22);
