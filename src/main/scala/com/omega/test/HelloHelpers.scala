@@ -9,15 +9,11 @@ object HelloHelpers {
         println("-" * 30)
     }
     
-    def exec[T](t: => T)(implicit fn: () => Unit, mrk: HelloHelpersMarker): T = {
-        def exe(s: T, f: () => Unit): T = {
-            f(); s
-        }
-        
-        exe(t, fn)
+    def exec[T](t: => T)(implicit fn: () => Unit): T = {
+        fn(); t
     }
     
-    def noexec[T](r: => T)(implicit fn: () => Unit, mrk: HelloHelpersMarker): T = {
+    def noexec[T](r: => T)(implicit fn: () => Unit): T = {
         null.asInstanceOf[T]
     }
 }

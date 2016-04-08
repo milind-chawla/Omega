@@ -14,7 +14,7 @@ object Hello2Scala {
             println( m.flatten )
         }
         
-        exec {
+        noexec {
             def m(n: Option[Int]): Option[Int] = n.map(1+)
             
             val c1 = Some(10)
@@ -24,5 +24,10 @@ object Hello2Scala {
             println( m(c2) )
         }
         
+        exec {
+            case class TreeNode()
+            
+            println(new TreeNode)
+        }
     }
 }
