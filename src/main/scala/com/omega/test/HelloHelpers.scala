@@ -10,7 +10,7 @@ object HelloHelpers {
     }
     
     def exec[T](t: => T)(implicit fn: (HelloHelpersMarker) => Unit): T = {
-        val exe: T => T = (s: T) => { fn(hh); s }
+        val exe: T => T = (s: T) => { fn(implicitly[HelloHelpersMarker]); s }
         exe(t)
     }
     
