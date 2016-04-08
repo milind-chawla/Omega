@@ -1,6 +1,6 @@
-package com.omega.test.s
+package com.omega.test
 
-object Hello1 {
+object Hello1Scala {
     def main(args: Array[String]): Unit = {
         var list = List(1, 2, 3, 4, 5, 9, 11, 20, 21, 22)
         
