@@ -7,7 +7,7 @@ module.exports = function(grunt) {
 		    },
 		    my_target: {
 		    	files: {
-		    		'WebContent/resources/javascript/site.min.js':['omega_sdk/javascript/site.js']
+		    		'WebContent/resources/javascript/site.min.js':['omega_sdk/web/javascript/site.js']
 		    	}
 		    }
 		}
