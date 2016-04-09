@@ -22,5 +22,11 @@
   	</body>
   	
   	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/jquery/dist/jquery.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/javascript/site.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/javascript/javascript-opt.js"></script>
+	
+	<script type="text/javascript">
+		var i = new omega.OmegaJS().factorial(10);
+		
+		console.log(i);
+	</script>
 </html>
