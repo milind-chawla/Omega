@@ -9,12 +9,12 @@ object HelloHelpers {
         println("-" * 30)
     }
     
-    def exec[T](t: => T)(implicit fn: (HelloHelpersMarker) => Unit): T = {
+    def exec[T](t: => T)(implicit fn: (HelloHelpersMarker) => Unit): Option[T] = {
         val exe: T => T = (s: T) => { fn(implicitly[HelloHelpersMarker]); s }
-        exe(t)
+        Option(exe(t))
     }
     
-    def noexec[T](t: => T)(implicit fn: (HelloHelpersMarker) => Unit): T = {
-        null.asInstanceOf[T]
+    def noexec[T](t: => T)(implicit fn: (HelloHelpersMarker) => Unit): Option[T] = {
+        None
     }
 }
