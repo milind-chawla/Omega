@@ -25,8 +25,6 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/javascript/javascript-opt.js"></script>
 	
 	<script type="text/javascript">
-		var i = new omega.OmegaJS().factorial(10);
-		
-		console.log(i);
+		$("body").append("Factorial of 10 = " + new omega.OmegaJS().factorial(10));
 	</script>
 </html>

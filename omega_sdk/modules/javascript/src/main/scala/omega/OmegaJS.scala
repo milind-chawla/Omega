@@ -1,12 +1,12 @@
 package omega
 
-import scala.scalajs.js
+// import scala.scalajs.js
 import scala.scalajs.js.annotation._
 
-@ScalaJSDefined
 @JSExport
-class OmegaJS extends js.Object {
+object OmegaJS {
 
+	@JSExport
 	def factorial(i: Int): Int = {
 
 		@scala.annotation.tailrec

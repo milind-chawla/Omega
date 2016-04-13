@@ -58,7 +58,7 @@ object Hello5Scala {
             println(r)
         }
         
-        exec {
+        noexec {
             var k = 3
             def f() = {
                 println("prevouys value = " + k)
@@ -69,6 +69,26 @@ object Hello5Scala {
             
             p take 3 foreach println
             p take 3 foreach println
+        }
+        
+        exec {
+            def fib(m: Int, n: Int): Stream[Int] = (m + n) #:: fib(n, m + n)
+            
+            val f = fib(0, 1)
+            
+            println(f)
+            
+            f take 7 foreach println
+            
+            println(f)
+            
+            lazy val fibz: Stream[BigInt] = BigInt(0) #:: BigInt(1) #:: fibz.zip(fibz.tail).map{n => n._1 + n._2}
+            
+            println(fibz)
+        }
+        
+        exec {
+            
         }
     }
 }
