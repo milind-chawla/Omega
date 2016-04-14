@@ -14,6 +14,8 @@
   	<body>
 		<h1 class='title'>SiteMesh example site: <sitemesh:write property='title'/></h1>
 		
+		<p><a href="<c:url value="/logout" />" > Logout</a></p>
+		
     	<div class='mainBody'>
       		<sitemesh:write property='body'/>
     	</div>

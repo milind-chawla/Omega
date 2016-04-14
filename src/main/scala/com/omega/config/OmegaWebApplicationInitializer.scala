@@ -36,14 +36,14 @@ class OmegaWebApplicationInitializer extends WebApplicationInitializer {
     }
     
     private def registerContextLoaderListener(servletContext: ServletContext): Unit = {
-        val rootContext: AnnotationConfigWebApplicationContext = createOmegaCoreConfigContext
+        val rootContext = createOmegaCoreConfigContext
 		servletContext.addListener(new ContextLoaderListener(rootContext))
 		servletContext.addListener(new RequestContextListener())
 	}
 
 	private def registerDispatcherServlet(servletContext: ServletContext): Unit = {
-	    val rootContext: AnnotationConfigWebApplicationContext = createOmegaWebApplicationConfigContext
-		val dispatcherServlet: DispatcherServlet = new DispatcherServlet(rootContext)
+	    val dispatcherServletContext = createOmegaWebApplicationConfigContext
+		val dispatcherServlet: DispatcherServlet = new DispatcherServlet(dispatcherServletContext)
 		val dispatcher: ServletRegistration.Dynamic = servletContext.addServlet("dispatcher", dispatcherServlet)
 
 		dispatcher.setLoadOnStartup(1)
