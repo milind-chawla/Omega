@@ -47,9 +47,9 @@ class OmegaCoreConfig extends BeanLifeCycle {
         builder.build
     }*/
     
-    @Bean
+    /*@Bean
     def theDataSource: DataSource = {
-        debug.on("Start Constructing DataSource")
+        debug.on("Start Constructing H2 DataSource")
         
         val dataSource: HikariDataSource = new HikariDataSource
         val builder: EmbeddedDatabaseBuilder = new EmbeddedDatabaseBuilder
@@ -59,7 +59,38 @@ class OmegaCoreConfig extends BeanLifeCycle {
         builder.addScript("classpath:com/omega/database/data.sql")
         dataSource.setDataSource(builder.build)
         
-        debug.on("End Constructing DataSource")
+        debug.on("End Constructing H2 DataSource")
+        
+        dataSource
+    }*/
+    
+    @Bean
+    def theDataSource: DataSource = {
+        debug.on("Start Constructing MySQL DataSource")
+        
+        val dataSource: HikariDataSource = new HikariDataSource
+        
+        dataSource.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource")
+        dataSource.setUsername("user1")
+        dataSource.setPassword("password")
+        dataSource.setAutoCommit(false)
+        dataSource.setConnectionTimeout(30000)
+        dataSource.setIdleTimeout(600000)
+        dataSource.setMaxLifetime(1800000)
+        dataSource.setConnectionTestQuery("SELECT 1")
+        dataSource.setMaximumPoolSize(10)
+        dataSource.setInitializationFailFast(false)
+        //dataSource.setIsolateInternalQueries(false)
+        //dataSource.setAllowPoolSuspension(false)
+        //dataSource.setReadOnly(false)
+        //dataSource.setRegisterMbeans(false)
+        dataSource.setCatalog("user1")
+        //dataSource.setConnectionInitSql(null)
+        //dataSource.setDriverClassName("com.mysql.jdbc.Driver")
+        dataSource.setValidationTimeout(10000)
+        dataSource.setLeakDetectionThreshold(5000)
+        
+        debug.on("End Constructing MySQL DataSource")
         
         dataSource
     }

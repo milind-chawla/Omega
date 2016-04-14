@@ -46,6 +46,5 @@ class OmegaSecurityConfig extends WebSecurityConfigurerAdapter with BeanLifeCycl
 		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 			.and()
         .httpBasic()
-        
     }
 }
