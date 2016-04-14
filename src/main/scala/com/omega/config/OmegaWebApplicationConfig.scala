@@ -9,11 +9,12 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver
 import org.springframework.web.servlet.view.JstlView
+import com.omega.util.BeanLifeCycle
 
 @Configuration("OmegaWebApplicationConfig")
 @EnableWebMvc
 @ComponentScan(basePackages = Array("com.omega.controllers"))
-class OmegaWebApplicationConfig extends WebMvcConfigurerAdapter {
+class OmegaWebApplicationConfig extends WebMvcConfigurerAdapter with BeanLifeCycle {
     
     override def addResourceHandlers(registry: ResourceHandlerRegistry): Unit = {
         // registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/META-INF/resources/webjars/").setCachePeriod(31556926)

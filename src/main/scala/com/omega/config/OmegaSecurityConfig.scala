@@ -6,10 +6,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import com.omega.util.BeanLifeCycle
 
 @Configuration
 @EnableWebSecurity
-class OmegaSecurityConfig extends WebSecurityConfigurerAdapter {
+class OmegaSecurityConfig extends WebSecurityConfigurerAdapter with BeanLifeCycle {
     
     @Autowired
     @throws(classOf[Exception])
@@ -22,6 +23,13 @@ class OmegaSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @throws(classOf[Exception])
     override def configure(http: HttpSecurity): Unit = {
-        
+        http
+        .authorizeRequests()
+            .antMatchers("/resources/**").permitAll()
+            .anyRequest().authenticated() 
+            .and()
+        .formLogin()                      
+            .and()
+        .httpBasic()
     }
 }
