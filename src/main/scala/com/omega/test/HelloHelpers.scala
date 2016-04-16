@@ -17,4 +17,22 @@ object HelloHelpers {
     def noexec[T](t: => T)(implicit fn: (HelloHelpersMarker) => Unit): Option[T] = {
         None
     }
+    
+    implicit class FunctionCombiner[T](fn: T => Boolean) {
+        def and(f: T => Boolean): T => Boolean = {
+            (v: T) => (fn(v) && f(v))
+        }
+        
+        def or(f: T => Boolean): T => Boolean = {
+            (v: T) => (fn(v) || f(v))
+        }
+    }
+    
+    implicit class FunctionCombiner2[T, U](fn: T => U) {
+        def &&&(f: T => U): T => U = {
+            (t: T) => {
+                fn(t); f(t)
+            }
+        }
+    }
 }
