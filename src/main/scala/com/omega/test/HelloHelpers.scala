@@ -9,30 +9,28 @@ object HelloHelpers {
         println("-" * 30)
     }
     
-    def exec[T](t: => T)(implicit fn: (HelloHelpersMarker) => Unit): Option[T] = {
+    def exec[T](t: => T)(implicit fn: (HelloHelpersMarker) => Unit): T = {
         val exe: T => T = (s: T) => { fn(implicitly[HelloHelpersMarker]); s }
-        Option(exe(t))
+        exe(t)
     }
     
-    def noexec[T](t: => T)(implicit fn: (HelloHelpersMarker) => Unit): Option[T] = {
-        None
+    def noexec[T](t: => T)(implicit fn: (HelloHelpersMarker) => Unit): T = {
+        null.asInstanceOf[T]
     }
     
     implicit class FunctionCombiner[T](fn: T => Boolean) {
-        def and(f: T => Boolean): T => Boolean = {
+        def <&&&>(f: T => Boolean): T => Boolean = {
             (v: T) => (fn(v) && f(v))
         }
         
-        def or(f: T => Boolean): T => Boolean = {
+        def <|||>(f: T => Boolean): T => Boolean = {
             (v: T) => (fn(v) || f(v))
         }
     }
     
     implicit class FunctionCombiner2[T, U](fn: T => U) {
         def &&&(f: T => U): T => U = {
-            (t: T) => {
-                fn(t); f(t)
-            }
+            (t: T) => fn(t); f(t)
         }
     }
 }
