@@ -1,16 +1,17 @@
 package com.omega.controllers
 
-import org.springframework.stereotype.Controller
-import com.omega.service.BookService
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.RequestMethod
 import java.util.Date
-import com.omega.util.BeanLifeCycle
 import scala.util.control.NonFatal
-import com.omega.domain.Book
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.RequestMapping
 import com.omega.debug.Debug.debug
+import com.omega.domain.Book
+import com.omega.service.BookService
+import com.omega.util.BeanLifeCycle
+import com.omega.util.OmegaHelpers._
+import org.springframework.web.bind.annotation.RequestMethod
 
 @Controller
 class HomeController extends BeanLifeCycle {
@@ -29,7 +30,7 @@ class HomeController extends BeanLifeCycle {
     	
     	val book = Book("Book " + (95 + scala.util.Random.nextInt(26)).toChar)
     	
-    	debug.noexec {
+    	noexec {
     	    debug.on("before saving: " + book)
     	    
         	try {
@@ -43,7 +44,7 @@ class HomeController extends BeanLifeCycle {
             debug.on("after saving: " + book)
     	}
     	
-        debug.exec {
+        exec {
         	try {
                 model.addAttribute("books", bookService.getBooks)    
             } catch {
