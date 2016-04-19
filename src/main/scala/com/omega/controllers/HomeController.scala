@@ -30,6 +30,8 @@ class HomeController extends BeanLifeCycle {
     	
     	val book = Book("Book " + (95 + scala.util.Random.nextInt(26)).toChar)
     	
+    	implicit def imp_gx(om: OM): Unit = imp_g(om)
+    	
     	noexec {
     	    debug.on("before saving: " + book)
     	    

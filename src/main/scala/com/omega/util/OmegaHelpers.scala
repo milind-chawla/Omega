@@ -4,7 +4,7 @@ object OmegaHelpers {
     sealed trait OM
     implicit val om = new OM { }
     
-    implicit def imp_g(om: OM): Unit = {
+    def imp_g(om: OM): Unit = {
     }
     
     def noexec[T](f: => T)(implicit g: OM => Unit): T = {
@@ -15,11 +15,4 @@ object OmegaHelpers {
         val exe: T => T = (t: T) => { g(implicitly[OM]); t }
         exe(f)
     }
-    
-    /*def main(args: Array[String]): Unit = {
-        exec {
-            println("Hi")
-            123
-        }
-    }*/
 }
