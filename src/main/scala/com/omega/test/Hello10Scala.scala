@@ -66,8 +66,87 @@ object Hello10Scala {
             println(f2(p))
         }
         
-        exec {
+        noexec {
+            import scala.collection.generic.CanBuildFrom
+            import scala.collection.mutable.ListBuffer
             
+            object MyMap {
+                def myMap[X, Y, Container[X] <: Traversable[X]]
+                    (collection: Container[X])
+                    (f: X => Y)
+                    (implicit builderSpec: (CanBuildFrom[Container[Y], Y, Container[Y]])): Container[Y] = {
+                    
+                    val buildIt = builderSpec()
+                    collection foreach { x =>
+                        buildIt += f(x)
+                    }
+                    
+                    buildIt.result
+                }
+            }
+            
+            import MyMap._
+            
+            println(myMap(Seq(1,2)) { _ > 1 })
+            println(myMap(List(1,2)) { _ < 1 })
+            println(myMap(Vector(7, 8, 9)) { _ * 2 })
+            println(myMap(ListBuffer(11, 12, 13)) { _ + 1 })
+            println(myMap(Set(11, 12, 13)) { _ + 1 })
+        }
+        
+        noexec {
+            object Monad {
+                def monad[X, Y](f: X => List[Y]): List[X] => List[Y] = {
+                    def fun: List[X] => List[Y] = (lx: List[X]) => lx match {
+                        case Nil => Nil
+                        case x :: xs => f(x) ::: fun(xs)
+                    }
+                    
+                    def funRec: List[X] => List[Y] = (lx: List[X]) => {
+                        @tailrec
+                        def fn(lx: List[X], ly: List[Y]): List[Y] = lx match {
+                            case Nil => ly
+                            case x :: xs => fn(xs, f(x) ::: ly)    
+                        }
+                        
+                        fn(lx, List()).reverse
+                    }
+                    
+                    funRec//negi.vivek@gm
+                }
+            }
+            
+            import Monad._
+            
+            def f1(n: Int) = (1 to n).toList
+            val f = monad(f1)
+            
+            println(f(List(7, 8, 9)))
+        }
+        
+        noexec {
+            val f1 = (n: Int) => (1 to n).toList map { _ % 2 == 0 }
+            
+            println(List(2, 3) map f1)
+            println(List(2, 3) flatMap f1)
+            
+            def f(x: Int) = if(x%2 == 0) Some(x) else None
+            
+            println( f(10) flatMap { x => Some(x + 1) } )
+            println( f(11) flatMap { x => Some(x + 1) } )
+        }
+        
+        exec {
+            class MyMonoid {
+                def iden = ""
+                def f(x: String, y: String) = x.concat(y)
+            }
+            
+            val p = new MyMonoid
+            
+            val list = List("Singing", " In", " The", " Rain")
+            
+            println( list.foldLeft(p.iden)(p.f) )
         }
     }
 }
