@@ -7,16 +7,16 @@ module.exports = function(grunt) {
 		    },
 		    my_target: {
 		    	files: {
-		    		'WebContent/resources/javascript/site.min.js':['omega_sdk/web/javascript/site.js']
+		    		'omega_sdk/modules/javascript/omega.min.js':['omega_sdk/modules/javascript/omega.js']
 		    	}
 		    }
-		},
-		copy: {
+		}
+		,copy: {
 			main: {
 				files: [
 					{ 
 						expand: true, 
-						src: ['omega_sdk/modules/javascript/target/scala-2.11/*'], 
+						src: ['omega_sdk/modules/javascript/*.min.js'], 
 						dest: 'WebContent/resources/javascript/',
 						filter: 'isFile',
 						flatten: true
