@@ -19,8 +19,10 @@ class BookDaoJpaImpl extends BookDao with BeanLifeCycle {
     }
     
     override def getBooks: JList[Book] = {
-        // entityManager.createNativeQuery("INSERT INTO BOOK(NAME) VALUES('Book N')").executeUpdate()
-        val books = entityManager.createQuery("SELECT b FROM Book b").getResultList.asInstanceOf[JList[Book]]
-        books
+        entityManager.createQuery("SELECT b FROM Book b").getResultList.asInstanceOf[JList[Book]]
+    }
+    
+    override def getBook(id: Long): Option[Book] = {
+        Option(entityManager.find(classOf[Book], id))
     }
 }

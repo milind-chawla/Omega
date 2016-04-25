@@ -1,5 +1,7 @@
 package com.omega.util
 
+import scala.util.control.NonFatal
+
 object OmegaHelpers {
     sealed trait OM
     implicit val om = new OM { }
@@ -23,6 +25,44 @@ object OmegaHelpers {
         
         def printerr: Unit = {
             System.err.println(t)
+        }
+    }
+    
+    implicit class StringHelper(s: String) {
+        def intValue: Int = {
+            try {
+                s.toInt
+            } catch {
+                case NonFatal(ex) =>
+                    Int.MinValue
+            }
+        }
+        
+        def longValue: Long = {
+            try {
+                s.toLong
+            } catch {
+                case NonFatal(ex) =>
+                    Long.MinValue
+            }
+        }
+        
+        def doubleValue: Double = {
+            try {
+                s.toDouble
+            } catch {
+                case NonFatal(ex) =>
+                    Double.MinValue
+            }
+        }
+        
+        def floatValue: Float = {
+            try {
+                s.toFloat
+            } catch {
+                case NonFatal(ex) =>
+                    Float.MinValue
+            }
         }
     }
 }

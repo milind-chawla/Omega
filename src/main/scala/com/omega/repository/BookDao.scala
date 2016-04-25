@@ -5,6 +5,8 @@ import java.util.{ List => JList }
 import com.omega.domain.Book
 
 trait BookDao {
-    def save(book: Book): Book
+    def getBook(id: Long): Option[Book]
     def getBooks: JList[Book]
+    
+    def save(book: Book): Book
 }

@@ -12,12 +12,17 @@ import com.omega.util.BeanLifeCycle
 class BookServiceImpl(val bookDao: BookDao) extends BookService with BeanLifeCycle {
     
     @Transactional
-    override def save(book: Book): Book = {
-        bookDao.save(book)
+    override def getBooks: JList[Book] = {
+        bookDao.getBooks
     }
     
     @Transactional
-    override def getBooks: JList[Book] = {
-        bookDao.getBooks
+    override def getBook(id: Long): Option[Book] = {
+        bookDao.getBook(id)
+    }
+    
+    @Transactional
+    override def save(book: Book): Book = {
+        bookDao.save(book)
     }
 }
