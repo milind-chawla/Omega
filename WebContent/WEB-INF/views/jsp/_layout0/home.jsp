@@ -8,12 +8,10 @@
     	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
 		
-    	<title>SiteMesh example: <sitemesh:write property='title'/></title>
-    	
+    	<title>Omega: <sitemesh:write property='title'/></title>
     	<link href="<%=request.getContextPath()%>/resources/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     	
     	<sitemesh:write property='head'/>
-    	
     	<!-- <p><a href="<c:url value="/logout" />" > Logout</a></p> -->
   	</head>
   	<body>
@@ -35,7 +33,7 @@
         		</ul>
         		
         		<ul class="nav navbar-nav navbar-right">
-			        <li><a href="#">Link</a></li>
+			        <li><a href="#">RHS</a></li>
 		    	</ul>
 		    </div>
   		</nav>

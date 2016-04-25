@@ -26,7 +26,7 @@ class OmegaWebApplicationInitializer extends WebApplicationInitializer {
         
         registerContextLoaderListener(servletContext)
         registerDispatcherServlet(servletContext)
-        registerSpringSecurityFilterChain(servletContext)
+        // registerSpringSecurityFilterChain(servletContext)
 		registerSiteMeshFilter(servletContext)
 	}
     
@@ -77,7 +77,8 @@ class OmegaWebApplicationInitializer extends WebApplicationInitializer {
 	
 	private def createOmegaCoreConfigContext: AnnotationConfigWebApplicationContext = {
 		val context: AnnotationConfigWebApplicationContext = new AnnotationConfigWebApplicationContext()
-		context.register(classOf[OmegaCoreConfig], classOf[OmegaSecurityConfig])
+		// context.register(classOf[OmegaCoreConfig], classOf[OmegaSecurityConfig])
+		context.register(classOf[OmegaCoreConfig])
 		context
 	}
 }
