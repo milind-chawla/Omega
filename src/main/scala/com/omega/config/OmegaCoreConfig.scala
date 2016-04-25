@@ -72,7 +72,7 @@ class OmegaCoreConfig extends BeanLifeCycle {
         
         dataSource.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource")
         dataSource.setUsername("user1")
-        dataSource.setPassword("password")
+        dataSource.setPassword("user1")
         dataSource.setAutoCommit(false)
         dataSource.setConnectionTimeout(30000)
         dataSource.setIdleTimeout(600000)
