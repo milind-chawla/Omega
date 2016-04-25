@@ -15,4 +15,14 @@ object OmegaHelpers {
         val exe: T => T = (t: T) => { g(implicitly[OM]); t }
         exe(f)
     }
+    
+    implicit class PrintHelper[T](t: T) {
+        def printout: Unit = {
+            System.out.println(t)
+        }
+        
+        def printerr: Unit = {
+            System.err.println(t)
+        }
+    }
 }

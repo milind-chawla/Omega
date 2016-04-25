@@ -5,21 +5,16 @@
     <meta name='description' content='A simple page'>
   </head>
   <body>
-    <table class="table">
-    	<thead>
-  			<tr>
-     			<th>Id</th>
-     			<th>Name</th>
-  			</tr>
- 		</thead>
- 		<tbody>
- 			<c:forEach var="book" items="${books}" >
-	 			<tr>
-	 				<td><c:out value="${book.id}" /></td>
-	 				<td><c:out value="${book.name}" /></td>
-	 			</tr>
-			</c:forEach>
- 		</tbody>
-    </table>
+    <div class="row">
+	  <div class="col-md-4">
+	  	<div class="alert alert-success text-center" role="alert">[Books]</div>
+	  </div>
+	  <div class="col-md-4">
+	  	<div class="alert alert-info text-center" role="alert">[...]</div>
+	  </div>
+	  <div class="col-md-4">
+	  	<div class="alert alert-warning text-center" role="alert">[...]</div>
+	  </div>
+	</div>
   </body>
 </html>
