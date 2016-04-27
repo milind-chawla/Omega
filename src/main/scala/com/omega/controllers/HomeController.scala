@@ -22,17 +22,7 @@ class HomeController extends BeanLifeCycle {
     
     @RequestMapping(value = Array("/index"), method = Array(RequestMethod.GET))
 	def index(model: Model) = {
-    	implicit def imp_gx(om: OM): Unit = imp_g(om)
-    	
-        exec {
-        	try {
-                bookService.getBooks.printout    
-            } catch {
-                case NonFatal(ex) => {
-                    println(ex)
-                }
-            }
-        }
+    	// implicit def imp_gx(om: OM): Unit = imp_g(om)
     	
     	"home/index"
     }

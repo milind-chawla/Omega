@@ -1,0 +1,7 @@
+body {
+    margin: 0;
+    background: url('../images/omegastation.jpeg');
+    background-size: 1920px 1080px;
+    background-repeat:no-repeat;
+	display: compact;
+}

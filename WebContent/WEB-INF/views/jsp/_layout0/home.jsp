@@ -10,6 +10,7 @@
 		
     	<title>Omega: <sitemesh:write property='title'/></title>
     	<link href="<%=request.getContextPath()%>/resources/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    	<link href="<%=request.getContextPath()%>/resources/stylesheet/omega.css" rel="stylesheet" />
     	
     	<sitemesh:write property='head'/>
     	<!-- <p><a href="<c:url value="/logout" />" > Logout</a></p> -->
@@ -24,8 +25,8 @@
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
 		      </button>
-		      <a class="navbar-brand" href="#">
-		      	<img alt="Omega" src ="...">
+		      <a class="navbar-brand" href="<%=request.getContextPath()%>">
+		      	<img alt="Omega" src ="<%=request.getContextPath()%>/resources/images/Omega.png" height="100%">
 		      </a>
 		    </div>
 		    
@@ -35,7 +36,7 @@
         		</ul>
         		
         		<ul class="nav navbar-nav navbar-right">
-			        <li><a href="#">RHS</a></li>
+			        <li><a href="#">Sign In</a></li>
 		    	</ul>
 		    </div>
   		</nav>
