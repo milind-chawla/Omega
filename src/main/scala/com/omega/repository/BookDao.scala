@@ -6,7 +6,7 @@ import com.omega.domain.Book
 
 trait BookDao {
     def getBook(id: Long): Option[Book]
-    def getBooks: JList[Book]
+    def getBooks: Option[JList[Book]]
     
-    def save(book: Book): Book
+    def save(book: Book): Option[Book]
 }

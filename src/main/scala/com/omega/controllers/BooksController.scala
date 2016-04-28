@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable
 import scala.util.control.NonFatal
 import com.omega.domain.Book
 
+import java.util.{ ArrayList => JArrayList }
+
 @Controller
 @RequestMapping(value = Array("/books"))
 class BooksController {
@@ -29,10 +31,13 @@ class BooksController {
     @RequestMapping(value = Array("/json", "/json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
 	def indexJ = {
-    	bookService.getBooks
+    	bookService.getBooks match {
+    	    case Some(books) => books
+    	    case None => new JArrayList[Book] 
+    	}
     }
     
-    @RequestMapping(value = Array("/{id}", "/{id}/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
+    @RequestMapping(value = Array("/{id}", "/{id}/"), method = Array(RequestMethod.GET))
 	def show(@PathVariable("id") id: String) = {
         bookService.getBook(id.longValue) match {
             case Some(book) => "books/show"
