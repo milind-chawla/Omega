@@ -23,6 +23,10 @@ class HomeController extends BeanLifeCycle {
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
 	def index(model: Model) = {
     	// implicit def imp_gx(om: OM): Unit = imp_g(om)
+        
+        model {
+            
+        }
     	
     	"home/index"
     }

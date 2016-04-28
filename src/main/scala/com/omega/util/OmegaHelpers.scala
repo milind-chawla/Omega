@@ -1,6 +1,7 @@
 package com.omega.util
 
 import scala.util.control.NonFatal
+import org.springframework.ui.Model
 
 object OmegaHelpers {
     sealed trait OM
@@ -63,6 +64,13 @@ object OmegaHelpers {
                 case NonFatal(ex) =>
                     Float.MinValue
             }
+        }
+    }
+    
+    implicit class ModelMaker[A, B](model: Model) {
+        
+        def apply(a: A): B = {
+            null.asInstanceOf[B]
         }
     }
 }
