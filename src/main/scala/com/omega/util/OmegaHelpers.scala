@@ -71,8 +71,8 @@ object OmegaHelpers {
         
         def apply(a: => A): Unit = a match {
             case map: Map[_, _] => {
-                map.map { f =>
-                    model.addAttribute(f._1.toString, f._2)
+                map.map { case(k, v) =>
+                    model.addAttribute(k.toString, v)
                 }
             }
             case _ => ()

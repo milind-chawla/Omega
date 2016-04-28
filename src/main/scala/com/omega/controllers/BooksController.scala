@@ -24,7 +24,17 @@ class BooksController {
     private var bookService: BookService = _
     
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
-	def index = {
+	def index(model: Model) = {
+        model {
+            Map[Any, Any]() + 
+            ("books" -> {
+                bookService.getBooks match {
+            	    case Some(books) => books
+            	    case None => new JArrayList[Book] 
+            	}
+            })
+        }
+        
     	"books/index"
     }
     
@@ -38,9 +48,16 @@ class BooksController {
     }
     
     @RequestMapping(value = Array("/{id}", "/{id}/"), method = Array(RequestMethod.GET))
-	def show(@PathVariable("id") id: String) = {
+	def show(@PathVariable("id") id: String, model: Model) = {
         bookService.getBook(id.longValue) match {
-            case Some(book) => "books/show"
+            case Some(book) => {
+                model {
+                    Map[Any, Any]() + 
+                    ("book" -> book)
+                }
+                
+                "books/show"
+            }
             case None => "books/404"
         }
     }
