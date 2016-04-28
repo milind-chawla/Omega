@@ -21,15 +21,28 @@ class BooksController {
     @Autowired
     private var bookService: BookService = _
     
-    @RequestMapping(value = Array("/books.json"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
+    @RequestMapping(value = Array("/", ""), method = Array(RequestMethod.GET))
+	def index = {
+    	"books/index"
+    }
+    
+    @RequestMapping(value = Array("/json"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
-	def books = {
+	def indexJ = {
     	bookService.getBooks
     }
     
-    @RequestMapping(value = Array("/{id}.json"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
+    @RequestMapping(value = Array("/{id}"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
+	def show(@PathVariable("id") id: String) = {
+        bookService.getBook(id.longValue) match {
+            case Some(book) => "books/show"
+            case None => "books/404"
+        }
+    }
+    
+    @RequestMapping(value = Array("/{id}/json"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
-	def book(@PathVariable("id") id: String): Book = {
+	def showJ(@PathVariable("id") id: String): Book = {
         bookService.getBook(id.longValue) match {
             case Some(book) => book
             case None => Book()
