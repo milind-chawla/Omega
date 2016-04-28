@@ -40,5 +40,28 @@
 	  	</div>
 	  </div>
 	</div>
+	
+	<!-- Test -->
+	<div class="row">
+		<div class="col-md-12">
+	  		<div class="alert alert-info text-center" role="alert">
+	  			<a href="#" class="alert-link">${date1}</a>
+	  		</div>
+	  	</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+	  		<div class="alert alert-info text-center" role="alert">
+	  			<a href="#" class="alert-link">${date2}</a>
+	  		</div>
+	  	</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+	  		<div class="alert alert-info text-center" role="alert">
+	  			<a href="#" class="alert-link">${date3}</a>
+	  		</div>
+	  	</div>
+	</div>
   </body>
 </html>

@@ -69,7 +69,7 @@ object OmegaHelpers {
     
     implicit class ModelMaker[A](model: Model) {
         
-        def apply(a: A): Unit = a match {
+        def apply(a: => A): Unit = a match {
             case map: Map[_, _] => {
                 map.map { f =>
                     model.addAttribute(f._1.toString, f._2)

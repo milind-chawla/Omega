@@ -27,7 +27,8 @@ class HomeController extends BeanLifeCycle {
         model {
             Map (
                 "date1" -> new java.util.Date,
-                "date2" -> new java.util.Date
+                "date2" -> new java.util.Date,
+                "date3" -> "new java.util.Date"
             )
         }
     	
