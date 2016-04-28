@@ -29,6 +29,11 @@ module.exports = function(grunt) {
 						cwd: 'bower_components/bootstrap/',
 						src: ['**'], 
 						dest: 'WebContent/resources/bootstrap/'
+					},
+					{   expand: true,
+						cwd: 'bower_components/angular/',
+						src: ['**'], 
+						dest: 'WebContent/resources/angular/'
 					}
 				]
 			}
