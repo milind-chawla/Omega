@@ -9,22 +9,22 @@ object OmegaHelpers {
     def imp_g(om: OM): Unit = {
     }
     
-    def noexec[T](f: => T)(implicit g: OM => Unit): T = {
-        null.asInstanceOf[T]
+    def noexec[A](a: => A)(implicit g: OM => Unit): A = {
+        null.asInstanceOf[A]
     }
     
-    def exec[T](f: => T)(implicit g: OM => Unit): T = {
-        val exe: T => T = (t: T) => { g(implicitly[OM]); t }
-        exe(f)
+    def exec[A](a: => A)(implicit g: OM => Unit): A = {
+        val exe: A => A = (a2: A) => { g(implicitly[OM]); a2 }
+        exe(a)
     }
     
-    implicit class PrintHelper[T](t: T) {
+    implicit class PrintHelper[A](a: A) {
         def printout: Unit = {
-            System.out.println(t)
+            System.out.println(a)
         }
         
         def printerr: Unit = {
-            System.err.println(t)
+            System.err.println(a)
         }
     }
     
