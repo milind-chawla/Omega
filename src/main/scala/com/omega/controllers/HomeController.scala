@@ -20,7 +20,7 @@ class HomeController extends BeanLifeCycle {
     @Autowired
     private var bookService: BookService = _
     
-    @RequestMapping(value = Array("/index"), method = Array(RequestMethod.GET))
+    @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
 	def index(model: Model) = {
     	// implicit def imp_gx(om: OM): Unit = imp_g(om)
     	

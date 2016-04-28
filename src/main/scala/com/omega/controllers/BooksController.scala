@@ -21,18 +21,18 @@ class BooksController {
     @Autowired
     private var bookService: BookService = _
     
-    @RequestMapping(value = Array("/", ""), method = Array(RequestMethod.GET))
+    @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
 	def index = {
     	"books/index"
     }
     
-    @RequestMapping(value = Array("/json"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
+    @RequestMapping(value = Array("/json", "/json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
 	def indexJ = {
     	bookService.getBooks
     }
     
-    @RequestMapping(value = Array("/{id}"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
+    @RequestMapping(value = Array("/{id}", "/{id}/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
 	def show(@PathVariable("id") id: String) = {
         bookService.getBook(id.longValue) match {
             case Some(book) => "books/show"
@@ -40,7 +40,7 @@ class BooksController {
         }
     }
     
-    @RequestMapping(value = Array("/{id}/json"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
+    @RequestMapping(value = Array("/{id}/json", "/{id}/json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
 	def showJ(@PathVariable("id") id: String): Book = {
         bookService.getBook(id.longValue) match {
