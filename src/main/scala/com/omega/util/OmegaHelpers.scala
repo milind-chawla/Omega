@@ -67,10 +67,15 @@ object OmegaHelpers {
         }
     }
     
-    implicit class ModelMaker[A, B](model: Model) {
+    implicit class ModelMaker[A](model: Model) {
         
-        def apply(a: A): B = {
-            null.asInstanceOf[B]
+        def apply(a: A): Unit = a match {
+            case map: Map[_, _] => {
+                map.map { f =>
+                    model.addAttribute(f._1.toString, f._2)
+                }
+            }
+            case _ => ()
         }
     }
 }

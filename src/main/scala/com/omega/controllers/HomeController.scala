@@ -25,7 +25,9 @@ class HomeController extends BeanLifeCycle {
     	// implicit def imp_gx(om: OM): Unit = imp_g(om)
         
         model {
-            
+            Map (
+                "date" -> new java.util.Date
+            )
         }
     	
     	"home/index"
