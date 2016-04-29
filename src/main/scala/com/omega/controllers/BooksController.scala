@@ -14,8 +14,10 @@ import scala.util.control.NonFatal
 import com.omega.domain.Book
 
 import java.util.{ ArrayList => JArrayList }
+import java.util.{ List => JList }
 import com.omega.util.BeanLifeCycle
 import com.omega.util.reflect.CController
+import org.springframework.web.bind.annotation.ModelAttribute
 
 @Controller
 @RequestMapping(value = Array("/books"))
@@ -26,12 +28,12 @@ class BooksController extends CController with BeanLifeCycle {
     private var bookService: BookService = _
     
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
-	def root(model: Model)(implicit req: HttpServletRequest) = {
+	def root(model: Model)(implicit req: HttpServletRequest): String = {
         "redirect:/books/index"
     }
     
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
-	def index(model: Model)(implicit req: HttpServletRequest) = {
+	def index(model: Model)(implicit req: HttpServletRequest): String = {
         model {
             Map[Any, Any]() + 
             ("books" -> {
@@ -47,15 +49,37 @@ class BooksController extends CController with BeanLifeCycle {
     
     @RequestMapping(value = Array("/index.json", "/index.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
-	def indexJ(implicit req: HttpServletRequest) = {
+	def indexJ(implicit req: HttpServletRequest): JList[Book] = {
     	bookService.getBooks match {
     	    case Some(books) => books
     	    case None => new JArrayList[Book] 
     	}
     }
     
+    @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.GET))
+    @ResponseBody
+	def `new`(model: Model)(implicit req: HttpServletRequest): String = {
+        model {
+            Map[Any, Any]() + 
+            ("book" -> Book())
+        }
+        
+    	"books/new"
+    }
+    
+    @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.POST))
+    @ResponseBody
+	def create(@ModelAttribute book: Book, model: Model)(implicit req: HttpServletRequest): String = {
+        model {
+            Map[Any, Any]() + 
+            ("book" -> book)
+        }
+        
+    	"books/new"
+    }
+    
     @RequestMapping(value = Array("/{id}", "/{id}/"), method = Array(RequestMethod.GET))
-	def show(@PathVariable("id") id: String, model: Model)(implicit req: HttpServletRequest) = {
+	def show(@PathVariable("id") id: String, model: Model)(implicit req: HttpServletRequest): String = {
         bookService.getBook(id.longValue) match {
             case Some(book) => {
                 model {
