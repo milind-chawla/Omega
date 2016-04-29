@@ -3,6 +3,7 @@ package com.omega.util
 import scala.util.control.NonFatal
 import org.springframework.ui.Model
 import javax.servlet.http.HttpServletRequest
+import com.omega.util.reflect.CController
 
 object OmegaHelpers {
     sealed trait OM
@@ -70,13 +71,23 @@ object OmegaHelpers {
     
     implicit class ModelMaker[A](model: Model) {
         
-        def apply(a: => A): Unit = a match {
+        def apply(a: => A): Model = a match {
             case map: Map[_, _] => {
                 map.map { case(k, v) =>
                     model.addAttribute(k.toString, v)
                 }
+                
+                model
             }
-            case _ => ()
+            case _ => model
+        }
+        
+        def activate[C <: CController](controller: C): Unit = {
+            model {
+                Map {
+                    "activate" -> controller.name
+                }
+            }
         }
     }
     

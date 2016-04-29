@@ -1,10 +1,10 @@
 package com.omega.util.reflect
 
-import scala.language.experimental.macros
-import scala.reflect.macros.whitebox.Context
-import scala.annotation.StaticAnnotation
-import scala.reflect.runtime.{ universe => ru }
-
 trait CController {
-    
+    def name: String = {
+        val n = this.getClass.getCanonicalName.split("\\.").last
+        val i = n.indexOf("Controller")
+        
+        n.substring(0, i).toLowerCase
+    }
 }

@@ -31,9 +31,6 @@ class Book(_id: Long, _name: String) {
     def setName(_name: String): Unit = this.name = _name
     def getName(): String = this.name
     
-    def path(implicit req: HttpServletRequest) = req.getContextPath + "/books/" + id
-    def pathJ(implicit req: HttpServletRequest) = req.getContextPath + "/books/" + id + ".json"
-    
     override def toString: String = "Book(id=" + id + ", name=" + name + ")"
 }
 

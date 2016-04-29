@@ -43,7 +43,7 @@ class BooksController extends CController with BeanLifeCycle {
             	}
             }) + 
             ("path" -> (contextPath + "/books"))
-        }
+        } activate(this)
         
     	"books/index"
     }
@@ -63,7 +63,7 @@ class BooksController extends CController with BeanLifeCycle {
         model {
             Map[Any, Any]() + 
             ("book" -> Book())
-        }
+        } activate(this)
         
     	"books/new"
     }
@@ -74,13 +74,15 @@ class BooksController extends CController with BeanLifeCycle {
         model {
             Map[Any, Any]() + 
             ("book" -> book)
-        }
+        } activate(this)
         
     	"books/new"
     }
     
     @RequestMapping(value = Array("/{id}", "/{id}/"), method = Array(RequestMethod.GET))
 	def show(@PathVariable("id") id: String, model: Model)(implicit req: HttpServletRequest): String = {
+        model activate(this)
+        
         bookService.getBook(id.longValue) match {
             case Some(book) => {
                 model {

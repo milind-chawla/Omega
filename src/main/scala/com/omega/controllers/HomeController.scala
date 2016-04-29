@@ -35,7 +35,7 @@ class HomeController extends CController with BeanLifeCycle {
             Map[Any, Any]() +
             ("booksLink" -> (contextPath + "/books/index")) +
             ("booksLinkText" -> "Books")
-        }
+        } activate(this)
         
     	"home/index"
     }

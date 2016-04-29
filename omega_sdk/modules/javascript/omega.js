@@ -1,4 +1,3 @@
 (function($) {
-	var hello = "Hello world !!!";
-	console.log(hello);
+	$("#" + activate).addClass("active");
 })(jQuery);

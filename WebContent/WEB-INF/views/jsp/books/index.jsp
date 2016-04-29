@@ -15,7 +15,7 @@
 	    			<tr>
 	    				<td>Id</td>
 	    				<td>Name</td>
-	    				<td>View</td>
+	    				<td>Action</td>
 	    			</tr>
 	    		</thead>
 	    		<tbody>
