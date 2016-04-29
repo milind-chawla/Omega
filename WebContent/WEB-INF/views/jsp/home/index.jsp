@@ -8,17 +8,17 @@
     <div class="row">
 	  <div class="col-md-4">
 	  	<div class="alert alert-success text-center" role="alert">
-	  		<a href="#" class="alert-link">Mail</a>
+	  		<a href="${mailLinkText}" class="alert-link">${mailLinkText}</a>
 	  	</div>
 	  </div>
 	  <div class="col-md-4">
 	  	<div class="alert alert-info text-center" role="alert">
-	  		<a href="#" class="alert-link">Drive</a>
+	  		<a href="${driveLinkText}" class="alert-link">${driveLinkText}</a>
 	  	</div>
 	  </div>
 	  <div class="col-md-4">
 	  	<div class="alert alert-warning text-center" role="alert">
-	  		<a href="#" class="alert-link">Books</a>
+	  		<a href="${booksLink}" class="alert-link" target="_blank">${booksLinkText}</a>
 	  	</div>
 	  </div>
 	</div>
@@ -26,42 +26,19 @@
 	<div class="row">
 	  <div class="col-md-4">
 	  	<div class="alert alert-danger text-center" role="alert">
-	  		<a href="#" class="alert-link">Blogs</a>
+	  		<a href="${blogsLinkText}" class="alert-link">${blogsLinkText}</a>
 	  	</div>
 	  </div>
 	  <div class="col-md-4">
 	  	<div class="alert alert-success text-center" role="alert">
-	  		<a href="#" class="alert-link">Social</a>
+	  		<a href="${socialLink}" class="alert-link">${socialLinkText}</a>
 	  	</div>
 	  </div>
 	  <div class="col-md-4">
 	  	<div class="alert alert-info text-center" role="alert">
-	  		<a href="#" class="alert-link">Economic</a>
+	  		<a href="${economicLink}" class="alert-link">${economicLinkText}</a>
 	  	</div>
 	  </div>
-	</div>
-	
-	<!-- Test -->
-	<div class="row">
-		<div class="col-md-12">
-	  		<div class="alert alert-info text-center" role="alert">
-	  			<a href="#" class="alert-link">${date1}</a>
-	  		</div>
-	  	</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12">
-	  		<div class="alert alert-info text-center" role="alert">
-	  			<a href="#" class="alert-link">${date2}</a>
-	  		</div>
-	  	</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12">
-	  		<div class="alert alert-info text-center" role="alert">
-	  			<a href="#" class="alert-link">${date3}</a>
-	  		</div>
-	  	</div>
 	</div>
   </body>
 </html>

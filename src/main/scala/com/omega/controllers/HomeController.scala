@@ -11,31 +11,32 @@ import com.omega.service.BookService
 import com.omega.util.BeanLifeCycle
 
 import org.springframework.web.bind.annotation.RequestMethod
+import com.omega.util.reflect.CController
+import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping(value = Array("/home"))
-class HomeController extends BeanLifeCycle {
+class HomeController extends CController with BeanLifeCycle {
     import com.omega.util.OmegaHelpers._
     
     @Autowired
     private var bookService: BookService = _
     
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
-	def root(model: Model) = {
+	def root(model: Model)(implicit req: HttpServletRequest) = {
     	"redirect:/home/index"
     }
     
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
-	def index(model: Model) = {
+	def index(model: Model)(implicit req: HttpServletRequest) = {
     	// implicit def imp_gx(om: OM): Unit = imp_g(om)
         
         model {
             Map[Any, Any]() +
-            ("date1" -> new java.util.Date) +
-            ("date2" -> new java.util.Date) +
-            ("date3" -> "new java.util.Date")
+            ("booksLink" -> (contextPath + "/books/index")) +
+            ("booksLinkText" -> "Books")
         }
-    	
+        
     	"home/index"
     }
 }

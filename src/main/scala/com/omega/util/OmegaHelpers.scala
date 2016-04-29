@@ -2,6 +2,7 @@ package com.omega.util
 
 import scala.util.control.NonFatal
 import org.springframework.ui.Model
+import javax.servlet.http.HttpServletRequest
 
 object OmegaHelpers {
     sealed trait OM
@@ -78,4 +79,6 @@ object OmegaHelpers {
             case _ => ()
         }
     }
+    
+    def contextPath(implicit req: HttpServletRequest) = req.getContextPath
 }

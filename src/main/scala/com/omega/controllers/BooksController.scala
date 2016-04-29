@@ -14,22 +14,24 @@ import scala.util.control.NonFatal
 import com.omega.domain.Book
 
 import java.util.{ ArrayList => JArrayList }
+import com.omega.util.BeanLifeCycle
+import com.omega.util.reflect.CController
 
 @Controller
 @RequestMapping(value = Array("/books"))
-class BooksController {
+class BooksController extends CController with BeanLifeCycle {
     import com.omega.util.OmegaHelpers._
     
     @Autowired
     private var bookService: BookService = _
     
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
-	def root(model: Model) = {
+	def root(model: Model)(implicit req: HttpServletRequest) = {
         "redirect:/books/index"
     }
     
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
-	def index(model: Model) = {
+	def index(model: Model)(implicit req: HttpServletRequest) = {
         model {
             Map[Any, Any]() + 
             ("books" -> {
@@ -45,7 +47,7 @@ class BooksController {
     
     @RequestMapping(value = Array("/index.json", "/index.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
-	def indexJ = {
+	def indexJ(implicit req: HttpServletRequest) = {
     	bookService.getBooks match {
     	    case Some(books) => books
     	    case None => new JArrayList[Book] 
@@ -53,7 +55,7 @@ class BooksController {
     }
     
     @RequestMapping(value = Array("/{id}", "/{id}/"), method = Array(RequestMethod.GET))
-	def show(@PathVariable("id") id: String, model: Model) = {
+	def show(@PathVariable("id") id: String, model: Model)(implicit req: HttpServletRequest) = {
         bookService.getBook(id.longValue) match {
             case Some(book) => {
                 model {
@@ -69,7 +71,7 @@ class BooksController {
     
     @RequestMapping(value = Array("/{id}.json", "/{id}.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
-	def showJ(@PathVariable("id") id: String): Book = {
+	def showJ(@PathVariable("id") id: String)(implicit req: HttpServletRequest): Book = {
         bookService.getBook(id.longValue) match {
             case Some(book) => book
             case None => Book()
