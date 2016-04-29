@@ -24,7 +24,7 @@ class HomeController extends CController with BeanLifeCycle {
     
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
 	def root(model: Model)(implicit req: HttpServletRequest) = {
-    	"redirect:/home/index"
+    	s"redirect:/$name/index"
     }
     
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
@@ -37,6 +37,6 @@ class HomeController extends CController with BeanLifeCycle {
             ("booksLinkText" -> "Books")
         } activate(this)
         
-    	"home/index"
+    	s"$name/index"
     }
 }
