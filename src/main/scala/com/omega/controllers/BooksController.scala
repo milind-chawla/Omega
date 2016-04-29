@@ -24,6 +24,11 @@ class BooksController {
     private var bookService: BookService = _
     
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
+	def root(model: Model) = {
+        "redirect:/books/index"
+    }
+    
+    @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
 	def index(model: Model) = {
         model {
             Map[Any, Any]() + 
@@ -38,7 +43,7 @@ class BooksController {
     	"books/index"
     }
     
-    @RequestMapping(value = Array("/json", "/json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
+    @RequestMapping(value = Array("/index.json", "/index.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
 	def indexJ = {
     	bookService.getBooks match {
@@ -62,7 +67,7 @@ class BooksController {
         }
     }
     
-    @RequestMapping(value = Array("/{id}/json", "/{id}/json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
+    @RequestMapping(value = Array("/{id}.json", "/{id}.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
 	def showJ(@PathVariable("id") id: String): Book = {
         bookService.getBook(id.longValue) match {
