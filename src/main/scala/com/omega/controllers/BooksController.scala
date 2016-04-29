@@ -41,7 +41,8 @@ class BooksController extends CController with BeanLifeCycle {
             	    case Some(books) => books
             	    case None => new JArrayList[Book] 
             	}
-            })
+            }) + 
+            ("path" -> (contextPath + "/books"))
         }
         
     	"books/index"
