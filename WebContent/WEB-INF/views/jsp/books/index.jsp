@@ -7,7 +7,7 @@
   <body>
     <div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">Book Listing</h3>
+			<h3 class="panel-title">Book Listing <a href="" role="button" class="btn btn-default">+</a></h3>
 	  	</div>
 	  	<div class="panel-body">
 	    	<table class="table">

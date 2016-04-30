@@ -1,10 +1,20 @@
 package com.omega.util.reflect
 
+import javax.servlet.http.HttpServletRequest
+
 trait CController {
-    def name: String = {
+    def uname: String = {
         val n = this.getClass.getCanonicalName.split("\\.").last
         val i = n.indexOf("Controller")
         
-        n.substring(0, i).toLowerCase
+        n.substring(0, i)
+    }
+    
+    def lname: String = {
+        uname.toLowerCase
+    }
+    
+    def contextPath(implicit req: HttpServletRequest): String = {
+        req.getContextPath
     }
 }

@@ -85,11 +85,9 @@ object OmegaHelpers {
         def activate[C <: CController](controller: C): Unit = {
             model {
                 Map {
-                    "activate" -> controller.name
+                    "activate" -> controller.lname
                 }
             }
         }
     }
-    
-    def contextPath(implicit req: HttpServletRequest) = req.getContextPath
 }

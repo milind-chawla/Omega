@@ -29,7 +29,7 @@ class BooksController extends CController with BeanLifeCycle {
     
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
 	def root(model: Model)(implicit req: HttpServletRequest): String = {
-        s"redirect:/$name/index"
+        s"redirect:/$lname/index"
     }
     
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
@@ -42,10 +42,10 @@ class BooksController extends CController with BeanLifeCycle {
             	    case None => new JArrayList[Book] 
             	}
             }) + 
-            ("path" -> (contextPath + s"/$name"))
+            ("path" -> s"$contextPath/$lname")
         } activate(this)
         
-    	s"$name/index"
+    	s"$lname/index"
     }
     
     @RequestMapping(value = Array("/index.json", "/index.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
@@ -65,7 +65,7 @@ class BooksController extends CController with BeanLifeCycle {
             ("book" -> Book())
         } activate(this)
         
-    	s"$name/new"
+    	s"$lname/new"
     }
     
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.POST))
@@ -76,7 +76,7 @@ class BooksController extends CController with BeanLifeCycle {
             ("book" -> book)
         } activate(this)
         
-    	s"$name/new"
+    	s"$lname/new"
     }
     
     @RequestMapping(value = Array("/{id}", "/{id}/"), method = Array(RequestMethod.GET))
@@ -90,9 +90,9 @@ class BooksController extends CController with BeanLifeCycle {
                     ("book" -> book)
                 }
                 
-                s"$name/show"
+                s"$lname/show"
             }
-            case None => s"$name/404"
+            case None => s"$lname/404"
         }
     }
     
