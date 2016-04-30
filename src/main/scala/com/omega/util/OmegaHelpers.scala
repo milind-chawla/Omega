@@ -69,9 +69,9 @@ object OmegaHelpers {
         }
     }
     
-    implicit class ModelMaker[A](model: Model) {
+    implicit class ModelMaker(model: Model) {
         
-        def apply(a: => A): Model = a match {
+        def apply[A](a: => A): Model = a match {
             case map: Map[_, _] => {
                 map.map { case(k, v) =>
                     model.addAttribute(k.toString, v)
@@ -82,13 +82,37 @@ object OmegaHelpers {
             case _ => model
         }
         
-        def activate[C <: CController](controller: C)(implicit req: HttpServletRequest): Unit = {
+        def init(implicit req: HttpServletRequest): Model = {
             model {
                 Map[Any, Any]() +
+                ("homePath" -> "com.omega.controllers.HomeController".controllerPath) +
+                ("homeName" -> "com.omega.controllers.HomeController".controllerName) +
+                ("booksPath" -> "com.omega.controllers.BooksController".controllerPath) +
+                ("booksName" -> "com.omega.controllers.BooksController".controllerName)
+            }
+        }
+        
+        def activate[C <: CController](controller: C)(implicit req: HttpServletRequest): Model = {
+            model {
+                Map[Any, Any]() + 
                 ("activate" -> s"${controller.lname}") + 
                 ("path" -> s"${controller.path}") + 
                 ("path_new" -> s"${controller.path_new}")
-            }
+            }.init
+        }
+    }
+    
+    implicit class ControllerClassNameHelper(controllerClassName: String) {
+        
+        def controllerName: String = {
+            val n = controllerClassName.split("\\.").last
+            val i = n.indexOf("Controller")
+            n.substring(0, i)
+        }
+        
+        def controllerPath(implicit req: HttpServletRequest): String = {
+            val n = controllerName.toLowerCase
+            s"${req.getContextPath}/${n}/index"
         }
     }
 }

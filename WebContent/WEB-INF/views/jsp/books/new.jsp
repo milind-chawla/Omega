@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="mvc" %>
 <html>
   <head>
-    <title>Book Details</title>
+    <title>Create Book</title>
     <meta name='description' content='book details page'>
   </head>
   <body>
@@ -21,6 +21,8 @@
 			  </div>
 			  <mvc:button class="btn btn-default">Submit</mvc:button>
 			</mvc:form>
+			
+			<h4>${message}</h4>
 	  	</div>
 	</div>
   </body>

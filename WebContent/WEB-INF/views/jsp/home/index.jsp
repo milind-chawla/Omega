@@ -18,7 +18,7 @@
 	  </div>
 	  <div class="col-md-4">
 	  	<div class="alert alert-warning text-center" role="alert">
-	  		<a href="${booksLink}" class="alert-link" target="_blank">${booksLinkText}</a>
+	  		<a href="${booksPath}" class="alert-link" target="_blank">${booksName}</a>
 	  	</div>
 	  </div>
 	</div>

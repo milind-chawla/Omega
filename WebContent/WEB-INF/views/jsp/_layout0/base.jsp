@@ -32,8 +32,8 @@
 		    
 		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		    	<ul class="nav navbar-nav">
-        			<li id="home"><a href="#">Home</a></li>
-        			<li id="books"><a href="#">Books</a></li>
+        			<li id="home"><a href="${homePath}">${homeName}</a></li>
+        			<li id="books"><a href="${booksPath}">${booksName}</a></li>
         		</ul>
         		
         		<ul class="nav navbar-nav navbar-right">

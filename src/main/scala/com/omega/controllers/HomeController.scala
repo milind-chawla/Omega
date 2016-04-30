@@ -30,12 +30,7 @@ class HomeController extends CController with BeanLifeCycle {
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
 	def index(model: Model)(implicit req: HttpServletRequest) = {
     	// implicit def imp_gx(om: OM): Unit = imp_g(om)
-        
-        model {
-            Map[Any, Any]() +
-            ("booksLink" -> (contextPath + "/books/index")) +
-            ("booksLinkText" -> "Books")
-        } activate(this)
+        model activate(this)
         
     	s"$lname/index"
     }

@@ -18,6 +18,7 @@ import java.util.{ List => JList }
 import com.omega.util.BeanLifeCycle
 import com.omega.util.reflect.CController
 import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 @RequestMapping(value = Array("/books"))
@@ -67,13 +68,23 @@ class BooksController extends CController with BeanLifeCycle {
     }
     
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.POST))
-	def create(@ModelAttribute book: Book, model: Model)(implicit req: HttpServletRequest): String = {
-        model {
-            Map[Any, Any]() + 
-            ("book" -> book)
-        } activate(this)
-        
-    	s"$lname/new"
+	def create(@ModelAttribute book: Book, model: Model, redirectAttributes: RedirectAttributes)
+        (implicit req: HttpServletRequest): String = {
+        bookService.save(book) match {
+            case Some(bk) if bk.id != -1 => {
+                redirectAttributes.addFlashAttribute("message", s"Successfully created book: `${bk.name}`")
+                s"redirect:/$lname/new"
+            }
+            case _ => {
+                model {
+                    Map[Any, Any]() + 
+                    ("book" -> book) +
+                    ("message" -> s"Error saving book: `${book.name}`")
+                } activate(this)
+                
+            	s"$lname/new"        
+            }
+        }
     }
     
     @RequestMapping(value = Array("/{id}", "/{id}/"), method = Array(RequestMethod.GET))
@@ -85,7 +96,7 @@ class BooksController extends CController with BeanLifeCycle {
                 model {
                     Map[Any, Any]() + 
                     ("book" -> book)
-                }
+                } activate(this)
                 
                 s"$lname/show"
             }
