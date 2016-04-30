@@ -41,9 +41,7 @@ class BooksController extends CController with BeanLifeCycle {
             	    case Some(books) => books
             	    case None => new JArrayList[Book] 
             	}
-            }) + 
-            ("path" -> s"$path") + 
-            ("path_new" -> s"$path_new")
+            })
         } activate(this)
         
     	s"$lname/index"

@@ -82,11 +82,12 @@ object OmegaHelpers {
             case _ => model
         }
         
-        def activate[C <: CController](controller: C): Unit = {
+        def activate[C <: CController](controller: C)(implicit req: HttpServletRequest): Unit = {
             model {
-                Map {
-                    "activate" -> controller.lname
-                }
+                Map[Any, Any]() +
+                ("activate" -> s"${controller.lname}") + 
+                ("path" -> s"${controller.path}") + 
+                ("path_new" -> s"${controller.path_new}")
             }
         }
     }
