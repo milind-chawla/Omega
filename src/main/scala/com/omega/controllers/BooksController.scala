@@ -42,7 +42,8 @@ class BooksController extends CController with BeanLifeCycle {
             	    case None => new JArrayList[Book] 
             	}
             }) + 
-            ("path" -> s"$contextPath/$lname")
+            ("path" -> s"$path") + 
+            ("path_new" -> s"$path_new")
         } activate(this)
         
     	s"$lname/index"
@@ -58,7 +59,6 @@ class BooksController extends CController with BeanLifeCycle {
     }
     
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.GET))
-    @ResponseBody
 	def `new`(model: Model)(implicit req: HttpServletRequest): String = {
         model {
             Map[Any, Any]() + 
@@ -69,7 +69,6 @@ class BooksController extends CController with BeanLifeCycle {
     }
     
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.POST))
-    @ResponseBody
 	def create(@ModelAttribute book: Book, model: Model)(implicit req: HttpServletRequest): String = {
         model {
             Map[Any, Any]() + 

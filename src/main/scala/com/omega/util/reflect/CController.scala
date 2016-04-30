@@ -17,4 +17,12 @@ trait CController {
     def contextPath(implicit req: HttpServletRequest): String = {
         req.getContextPath
     }
+    
+    def path(implicit req: HttpServletRequest): String = {
+        s"$contextPath/$lname"
+    }
+    
+    def path_new(implicit req: HttpServletRequest): String = {
+        s"$contextPath/$lname/new"
+    }
 }
