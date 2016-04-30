@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Books</title>
-    <meta name='description' content='A simple page'>
+    <meta name='description' content='books index page'>
   </head>
   <body>
     <div class="panel panel-default">
