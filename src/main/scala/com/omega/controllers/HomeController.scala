@@ -11,7 +11,6 @@ import com.omega.service.BookService
 import com.omega.util.BeanLifeCycle
 
 import org.springframework.web.bind.annotation.RequestMethod
-import com.omega.util.reflect.CController
 import javax.servlet.http.HttpServletRequest
 
 @Controller

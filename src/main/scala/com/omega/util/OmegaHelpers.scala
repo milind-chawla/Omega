@@ -3,7 +3,7 @@ package com.omega.util
 import scala.util.control.NonFatal
 import org.springframework.ui.Model
 import javax.servlet.http.HttpServletRequest
-import com.omega.util.reflect.CController
+import com.omega.controllers.CController
 
 object OmegaHelpers {
     sealed trait OM

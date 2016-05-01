@@ -16,7 +16,6 @@ import com.omega.domain.Book
 import java.util.{ ArrayList => JArrayList }
 import java.util.{ List => JList }
 import com.omega.util.BeanLifeCycle
-import com.omega.util.reflect.CController
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
@@ -27,6 +26,8 @@ class BooksController extends CController with BeanLifeCycle {
     
     @Autowired
     private var bookService: BookService = _
+    
+    println("Hello World")
     
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
 	def root(model: Model)(implicit req: HttpServletRequest): String = {
@@ -94,7 +95,7 @@ class BooksController extends CController with BeanLifeCycle {
                 model {
                     Map[Any, Any]() + 
                     ("book" -> book)
-                } activate(this)
+                }
                 
                 s"$lname/show"
             }
