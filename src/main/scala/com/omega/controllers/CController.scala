@@ -3,6 +3,7 @@ package com.omega.controllers
 import javax.servlet.http.HttpServletRequest
 
 trait CController {
+    
     def uname: String = {
         val n = this.getClass.getCanonicalName.split("\\.").last
         val i = n.indexOf("Controller")
