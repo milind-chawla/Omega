@@ -70,21 +70,19 @@ class BooksController extends CController with BeanLifeCycle {
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.POST))
 	def create(@ModelAttribute book: Book, model: Model, redirectAttributes: RedirectAttributes)
         (implicit req: HttpServletRequest): String = {
+        model activate(this)
+        
         bookService.save(book) match {
             case Some(bk) if bk.id != -1 => {
                 redirectAttributes.addFlashAttribute("message", s"Successfully created book: `${bk.name}`")
-                s"redirect:/$lname/new"
             }
             case _ => {
-                model {
-                    Map[Any, Any]() + 
-                    ("book" -> book) +
-                    ("message" -> s"Error saving book: `${book.name}`")
-                } activate(this)
-                
-            	s"$lname/new"        
+                redirectAttributes.addFlashAttribute("message", s"Error saving book: `${book.name}`")
+                redirectAttributes.addFlashAttribute("book", book)
             }
         }
+        
+        s"redirect:/$lname/new"
     }
     
     @RequestMapping(value = Array("/{id}", "/{id}/"), method = Array(RequestMethod.GET))

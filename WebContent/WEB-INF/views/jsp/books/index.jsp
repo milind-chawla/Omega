@@ -8,7 +8,7 @@
     <div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">
-				Book Listing <a href="${path_new}" role="button" class="btn btn-default" target="_blank">+</a>
+				Book Listing <a href="${path_new}" role="button" class="btn btn-default">+</a>
 			</h3>
 	  	</div>
 	  	<div class="panel-body">
