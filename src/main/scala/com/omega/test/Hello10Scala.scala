@@ -148,5 +148,35 @@ object Hello10Scala {
             
             println( list.foldLeft(p.iden)(p.f) )
         }
+        
+        exec {
+            type AType = {
+                def x: Int
+                def y: Double
+            }
+            
+            type BType = {
+                def x: Double
+                def y: Int
+            }
+            
+            class A {
+                def x: Int = 1
+                def y: Double = 1.1
+            }
+            
+            class B {
+                def x: Double = 2.2
+                def y: Int = 2
+            }
+            
+            def call(i: AType): Unit = {
+                println(i.x)
+                println(i.y)
+            }
+            
+            call(new A)    // OK
+            // call(new B) // Error
+        }
     }
 }
