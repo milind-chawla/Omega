@@ -7,19 +7,13 @@ module.exports = function(grunt) {
 		    },
 		    my_target: {
 		    	files: {
-		    		'omega_sdk/modules/javascript/omega.min.js': ['omega_sdk/modules/javascript/omega.js']
+		    		'WebContent/resources/javascript/omega.min.js': ['WebContent/resources/javascript/omega.js']
 		    	}
 		    }
 		}
 		,copy: {
 			main: {
 				files: [
-					{ 
-						expand: true,
-						cwd: 'omega_sdk/modules/javascript/',
-						src: ['*.min.js'], 
-						dest: 'WebContent/resources/javascript/'
-					},
 					{   expand: true,
 						cwd: 'bower_components/jquery/',
 						src: ['**'], 

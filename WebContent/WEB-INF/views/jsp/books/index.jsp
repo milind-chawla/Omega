@@ -26,8 +26,8 @@
 	    					<td>${book.id}</td>
 	    					<td>${book.name}</td>
 	    					<td>
-	    						<a href="${path}/${book.id}" target="_blank">View</a> |
-	    						<a href="${path}/${book.id}.json" target="_blank">View Json</a>
+	    						<a href="${path}/${book.id}">View</a> |
+	    						<a href="${path}/${book.id}.json">View Json</a>
 	    					</td>
 	    				</tr>
 	    			</c:forEach>
