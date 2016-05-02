@@ -1,4 +1,4 @@
-package com.omega.test;
+package com.omega.zhello;
 
 public class Hello8Java {
 	public static abstract class FamilyMember {

@@ -1,4 +1,4 @@
-package com.omega.test;
+package com.omega.zhello;
 
 import org.apache.commons.lang3.Validate;
 

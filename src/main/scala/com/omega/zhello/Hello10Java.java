@@ -1,4 +1,4 @@
-package com.omega.test;
+package com.omega.zhello;
 
 public class Hello10Java {
 	public static interface MovieGenre {

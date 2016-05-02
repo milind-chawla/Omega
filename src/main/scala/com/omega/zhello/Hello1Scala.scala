@@ -1,4 +1,4 @@
-package com.omega.test
+package com.omega.zhello
 
 object Hello1Scala {
     def main(args: Array[String]): Unit = {

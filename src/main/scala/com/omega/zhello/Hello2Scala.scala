@@ -1,4 +1,4 @@
-package com.omega.test
+package com.omega.zhello
 
 object Hello2Scala {
     import HelloHelpers._

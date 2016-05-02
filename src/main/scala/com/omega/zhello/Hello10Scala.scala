@@ -1,4 +1,4 @@
-package com.omega.test
+package com.omega.zhello
 
 object Hello10Scala {
     import scala.annotation._
