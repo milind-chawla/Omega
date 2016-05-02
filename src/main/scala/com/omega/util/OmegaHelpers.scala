@@ -71,18 +71,22 @@ object OmegaHelpers {
     
     implicit class ModelMaker(model: Model) {
         
-        def apply[A](a: => A): Model = a match {
-            case map: Map[_, _] => {
-                map.map { case(k, v) =>
-                    model.addAttribute(k.toString, v)
-                }
-                
-                model
+        def apply(m: => Map[_, _]): Model = {
+            m.map { case(k, v) =>
+                model.addAttribute(k.toString, v)
             }
-            case _ => model
+            
+            model
         }
         
-        def init(implicit req: HttpServletRequest): Model = {
+        def apply[C <: CController](c: C)(implicit req: HttpServletRequest): Model = {
+            model {
+                Map[Any, Any]() + 
+                ("activate" -> s"${c.lname}") + 
+                ("path" -> s"${c.path}") + 
+                ("path_new" -> s"${c.path_new}")
+            }
+            
             model {
                 Map[Any, Any]() +
                 ("homePath" -> "com.omega.controllers.HomeController".controllerPath) +
@@ -90,15 +94,6 @@ object OmegaHelpers {
                 ("booksPath" -> "com.omega.controllers.BooksController".controllerPath) +
                 ("booksName" -> "com.omega.controllers.BooksController".controllerName)
             }
-        }
-        
-        def activate[C <: CController](controller: C)(implicit req: HttpServletRequest): Model = {
-            model {
-                Map[Any, Any]() + 
-                ("activate" -> s"${controller.lname}") + 
-                ("path" -> s"${controller.path}") + 
-                ("path_new" -> s"${controller.path_new}")
-            }.init
         }
     }
     

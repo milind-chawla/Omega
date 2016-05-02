@@ -29,7 +29,7 @@ class HomeController extends CController with BeanLifeCycle {
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
 	def index(model: Model)(implicit req: HttpServletRequest) = {
     	// implicit def imp_gx(om: OM): Unit = imp_g(om)
-        model activate(this)
+        model(this)
         
     	s"$lname/index"
     }

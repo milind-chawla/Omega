@@ -33,6 +33,8 @@
 	    			</c:forEach>
 	    		</tbody>
 	    	</table>
+	    	
+	    	<div id="testDiv">${msg}</div>
 	  	</div>
 	</div>
   </body>

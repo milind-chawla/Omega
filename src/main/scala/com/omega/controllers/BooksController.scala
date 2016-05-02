@@ -34,6 +34,8 @@ class BooksController extends CController with BeanLifeCycle {
     
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
 	def index(model: Model)(implicit req: HttpServletRequest): String = {
+        model(this)
+        
         model {
             Map[Any, Any]() + 
             ("books" -> {
@@ -42,7 +44,7 @@ class BooksController extends CController with BeanLifeCycle {
             	    case None => new JArrayList[Book] 
             	}
             })
-        } activate(this)
+        }
         
     	s"$lname/index"
     }
@@ -58,10 +60,12 @@ class BooksController extends CController with BeanLifeCycle {
     
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.GET))
 	def `new`(model: Model)(implicit req: HttpServletRequest): String = {
+        model(this)
+        
         model {
             Map[Any, Any]() + 
             ("book" -> Book())
-        } activate(this)
+        }
         
     	s"$lname/new"
     }
@@ -69,7 +73,7 @@ class BooksController extends CController with BeanLifeCycle {
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.POST))
 	def create(@ModelAttribute book: Book, model: Model, redirectAttributes: RedirectAttributes)
         (implicit req: HttpServletRequest): String = {
-        model activate(this)
+        model(this)
         
         bookService.save(book) match {
             case Some(bk) if bk.id != -1 => {
@@ -86,7 +90,7 @@ class BooksController extends CController with BeanLifeCycle {
     
     @RequestMapping(value = Array("/{id}", "/{id}/"), method = Array(RequestMethod.GET))
 	def show(@PathVariable("id") id: String, model: Model)(implicit req: HttpServletRequest): String = {
-        model activate(this)
+        model(this)
         
         bookService.getBook(id.longValue) match {
             case Some(book) => {

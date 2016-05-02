@@ -149,7 +149,7 @@ object Hello10Scala {
             println( list.foldLeft(p.iden)(p.f) )
         }
         
-        exec {
+        noexec {
             type AType = {
                 def x: Int
                 def y: Double
@@ -177,6 +177,19 @@ object Hello10Scala {
             
             call(new A)    // OK
             // call(new B) // Error
+        }
+        
+        exec {
+            class X
+            class Y
+            
+            class App {
+                def apply[A](a: A)(implicit evidence: A <:< X): Unit = {
+                }
+                
+                def apply[B](b: B): Unit = {
+                }
+            }
         }
     }
 }
