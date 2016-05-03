@@ -67,6 +67,14 @@ object OmegaHelpers {
                     Float.MinValue
             }
         }
+        
+        def compact: String = {
+            if(s == null) "" else s.trim()
+        }
+        
+        def isEmpty: Boolean = {
+            if(s == null || s.compact == "") true else false
+        }
     }
     
     implicit class ModelMaker(model: Model) {

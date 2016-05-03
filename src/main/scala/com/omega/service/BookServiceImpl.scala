@@ -32,10 +32,14 @@ class BookServiceImpl(val bookDao: BookDao) extends BookService with BeanLifeCyc
     }
     
     @Transactional
-    override def save(book: Book): Option[Book] = {
-        Try(bookDao.save(book)) match {
-            case Success(savedBook) => savedBook
-            case Failure(fail) => println(fail); Option(book)
+    override def save(book: Book): (Option[Book], Map[String, List[String]]) = {
+        if(book.hasErrors) {
+            (Option(book), Map("errors" -> book.errors, "messages" -> List()))
+        } else {
+            Try(bookDao.save(book)) match {
+                case Success(savedBook) => (savedBook, Map("errors" -> List(), "messages" -> List(s"Book ${savedBook.get.name} saved successfully")))
+                case Failure(fail) => println(fail); (Option(book), Map("errors" -> List(fail.toString), "messages" -> List()))
+            }    
         }
     }
 }

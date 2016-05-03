@@ -18,6 +18,8 @@ import java.util.{ List => JList }
 import com.omega.util.BeanLifeCycle
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import org.springframework.validation.BindingResult
+import javax.validation.Valid
 
 @Controller
 @RequestMapping(value = Array("/books"))
@@ -76,14 +78,25 @@ class BooksController extends CController with BeanLifeCycle {
         model(this)
         
         bookService.save(book) match {
-            case Some(bk) if bk.id != -1 => {
-                redirectAttributes.addFlashAttribute("message", s"Successfully created book: `${bk.name}`")
+            case (Some(bk), map) => {
+                val messages = new JArrayList[String]
+                val errors = new JArrayList[String]
+                
+                map("messages") foreach { message =>
+                    messages.add(message)
+                }
+                
+                map("errors") foreach { error =>
+                    errors.add(error)
+                }
+                
+                redirectAttributes.addFlashAttribute("messages", messages)
+                redirectAttributes.addFlashAttribute("errors", errors)
             }
             case _ => {
-                redirectAttributes.addFlashAttribute("message", s"Error saving book: `${book.name}`")
-                redirectAttributes.addFlashAttribute("book", book)
+                println("*** Wierd ***")
             }
-        }
+        }    
         
         s"redirect:/$lname/new"
     }

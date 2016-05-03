@@ -1,15 +1,15 @@
 package com.omega.domain
 
-import java.util.{ List => JList }
-
-import org.hibernate.validator.constraints.NotEmpty
+import org.hibernate.validator.constraints.NotBlank
 
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Table
 import javax.persistence.GenerationType
-import javax.servlet.http.HttpServletRequest
+
+import com.omega.util.OmegaHelpers.StringHelper
+import javax.persistence.Column
 
 @Entity
 @Table(name = "BOOK")
@@ -22,7 +22,7 @@ class Book(_id: Long, _name: String) {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = _id
     
-    @NotEmpty
+    @Column
     var name: String = _name
     
     def setId(_id: Long): Unit = this.id = _id
@@ -32,6 +32,18 @@ class Book(_id: Long, _name: String) {
     def getName(): String = this.name
     
     override def toString: String = "Book(id=" + id + ", name=" + name + ")"
+    
+    def hasErrors = errors.length > 0
+    
+    def errors = {
+        var err = List.empty[String]
+        
+        if(getName().isEmpty()) {
+            err = err :+ "Name is empty"
+        }
+        
+        err
+    }
 }
 
 object Book {
