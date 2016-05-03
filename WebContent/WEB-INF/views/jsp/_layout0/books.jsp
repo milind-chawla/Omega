@@ -59,5 +59,7 @@
   	
   	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/jquery/dist/jquery.js"></script>
   	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/bootstrap/dist/js/bootstrap.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/javascript/omega.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/angular/angular.js"></script>
+	
+	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/javascript/omega.js"></script>
 </html>
