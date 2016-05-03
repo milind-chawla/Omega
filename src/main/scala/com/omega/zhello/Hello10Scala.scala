@@ -136,7 +136,7 @@ object Hello10Scala {
             println( f(11) flatMap { x => Some(x + 1) } )
         }
         
-        exec {
+        noexec {
             class MyMonoid {
                 def iden = ""
                 def f(x: String, y: String) = x.concat(y)
@@ -180,16 +180,40 @@ object Hello10Scala {
         }
         
         exec {
-            class X
-            class Y
+            class Animal
+            class Mammal extends Animal
+            class Dog extends Mammal
             
-            class App {
-                def apply[A](a: A)(implicit evidence: A <:< X): Unit = {
-                }
-                
-                def apply[B](b: B): Unit = {
-                }
+            class Box1[+T]
+            class Box2[-T]
+            class Box3[T]
+            
+            def method1(box: Box1[Mammal]): Unit = {
+                println(box)
             }
+            
+            def method2(box: Box2[Mammal]): Unit = {
+                println(box)
+            }
+            
+            def method3(box: Box3[Mammal]): Unit = {
+                println(box)
+            }
+            
+            /*covariance*/
+           // method1(new Box1[Animal]) //compile fails
+           method1(new Box1[Mammal])
+           method1(new Box1[Dog])
+
+           /*contravariance*/
+           method2(new Box2[Animal])
+           method2(new Box2[Mammal])
+           // method2(new Box2[Dog]) //compile fails
+
+           /*invariance*/
+           // method3(new Box3[Animal]) //compile fails
+           method3(new Box3[Mammal])
+           // method3(new Box3[Dog]) //compile fails
         }
     }
 }
