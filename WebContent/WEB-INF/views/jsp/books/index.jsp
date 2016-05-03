@@ -8,16 +8,16 @@
     <div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">
-				Book Listing <a href="${path_new}" role="button" class="btn btn-default">+</a>
+				<strong>Book Listing</strong> <a href="${path_new}" role="button" class="btn btn-default">+</a>
 			</h3>
 	  	</div>
 	  	<div class="panel-body">
 	    	<table class="table">
 	    		<thead>
 	    			<tr>
-	    				<td>Id</td>
-	    				<td>Name</td>
-	    				<td>Action</td>
+	    				<td><b>Id</b></td>
+	    				<td><b>Name</b></td>
+	    				<td><b>Action</b></td>
 	    			</tr>
 	    		</thead>
 	    		<tbody>
@@ -26,8 +26,15 @@
 	    					<td>${book.id}</td>
 	    					<td>${book.name}</td>
 	    					<td>
-	    						<a href="${path}/${book.id}">View</a> |
-	    						<a href="${path}/${book.id}.json">View Json</a>
+	    						<button id="button_show_${book.id}" class="btn btn-default" type="button" onclick="showBook(${book.id});">
+	    							<span class="glyphicon glyphicon-search"></span> Show
+	    						</button>
+	    						<button id="button_edit_${book.id}" class="btn btn-default" type="button" onclick="editBook(${book.id});">
+	    							<span class="glyphicon glyphicon-edit"></span> Edit
+	    						</button>
+	    						<button id="button_delete_${book.id}" class="btn btn-default" type="button" onclick="deleteBook(${book.id});">
+	    							<span class="glyphicon glyphicon-remove"></span> Delete
+	    						</button>
 	    					</td>
 	    				</tr>
 	    			</c:forEach>
