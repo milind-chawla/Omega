@@ -13,17 +13,19 @@
 	  	</div>
 	  	
 	  	<div class="panel-body">
-	  		<div ng-app>
-	  			<div ng-init="salary=0;percentage=0">
+	  		<div ng-app="myApp">
+	  			<div ng-controller="FinanceController">
 	  				Your Salary ? <input type="text" ng-model="salary"> <br>
 	  				How much should you invest in gadgets? <input type="text" ng-model="percentage"> % <br>
-	  				The amount to be spent in shopping will be: <span>{{salary*percentage*0.01}}</span>
+	  				The amount to be spent in shopping will be: <span>{{result()}}</span>
 	  			</div>
 	  		</div>
 	  	</div>
 	  	
 	  	<content tag="javascripts">
 	  		<script type="text/javascript" src="<%=request.getContextPath()%>/resources/angular/angular.js"></script>
+	  		<script type="text/javascript" src="<%=request.getContextPath()%>/resources/javascript/angularseed/apps.js"></script>
+	  		<script type="text/javascript" src="<%=request.getContextPath()%>/resources/javascript/angularseed/controllers.js"></script>
 	  	</content>
 	</div>
   </body>
