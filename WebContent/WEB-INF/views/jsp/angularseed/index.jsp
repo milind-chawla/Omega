@@ -11,6 +11,7 @@
 				<strong>AngularSeed</strong>
 			</h3>
 	  	</div>
+	  	
 	  	<div class="panel-body">
 	  		<div ng-app>
 	  			<div ng-init="salary=0;percentage=0">
