@@ -100,7 +100,9 @@ object OmegaHelpers {
                 ("homePath" -> "com.omega.controllers.HomeController".controllerPath) +
                 ("homeName" -> "com.omega.controllers.HomeController".controllerName) +
                 ("booksPath" -> "com.omega.controllers.BooksController".controllerPath) +
-                ("booksName" -> "com.omega.controllers.BooksController".controllerName)
+                ("booksName" -> "com.omega.controllers.BooksController".controllerName) +
+                ("7minWorkoutPath" -> "com.omega.controllers.S7minWorkoutController".controllerPath) +
+                ("7minWorkoutName" -> "com.omega.controllers.S7minWorkoutController".controllerName)
             }
         }
     }
