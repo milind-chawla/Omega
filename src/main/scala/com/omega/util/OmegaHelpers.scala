@@ -97,12 +97,15 @@ object OmegaHelpers {
             
             model {
                 Map[Any, Any]() +
-                ("homePath" -> "com.omega.controllers.HomeController".controllerPath) +
+                ("homeId" -> "com.omega.controllers.HomeController".controllerName.toLowerCase) +
                 ("homeName" -> "com.omega.controllers.HomeController".controllerName) +
-                ("booksPath" -> "com.omega.controllers.BooksController".controllerPath) +
+                ("homePath" -> "com.omega.controllers.HomeController".controllerPath) +
+                ("booksId" -> "com.omega.controllers.BooksController".controllerName.toLowerCase) +
                 ("booksName" -> "com.omega.controllers.BooksController".controllerName) +
-                ("7minWorkoutPath" -> "com.omega.controllers.S7minWorkoutController".controllerPath) +
-                ("7minWorkoutName" -> "com.omega.controllers.S7minWorkoutController".controllerName)
+                ("booksPath" -> "com.omega.controllers.BooksController".controllerPath) +
+                ("angularSeedId" -> "com.omega.controllers.AngularSeedController".controllerName.toLowerCase) +
+                ("angularSeedName" -> "com.omega.controllers.AngularSeedController".controllerName) +
+                ("angularSeedPath" -> "com.omega.controllers.AngularSeedController".controllerPath)
             }
         }
     }
@@ -117,7 +120,7 @@ object OmegaHelpers {
         
         def controllerPath(implicit req: HttpServletRequest): String = {
             val n = controllerName.toLowerCase
-            s"${req.getContextPath}/${n}/index"
+            s"${req.getContextPath}/${n}"
         }
     }
 }

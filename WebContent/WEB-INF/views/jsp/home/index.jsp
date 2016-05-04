@@ -13,7 +13,7 @@
 	  </div>
 	  <div class="col-md-4">
 	  	<div class="alert alert-info text-center" role="alert">
-	  		<a href="#" class="alert-link">NULL</a>
+	  		<a href="${angularSeedPath}" class="alert-link">${angularSeedName}</a>
 	  	</div>
 	  </div>
 	  <div class="col-md-4">
