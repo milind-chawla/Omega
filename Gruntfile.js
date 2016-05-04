@@ -5,25 +5,33 @@ module.exports = function(grunt) {
 			options: {
 				banner: '/*\n <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> \n*/\n'
 		    },
-		    my_target: {
+		    omega: {
 		    	files: {
 		    		'WebContent/resources/javascript/omega.min.js': ['WebContent/resources/javascript/omega.js']
 		    	}
 		    }
 		}
 		,copy: {
-			main: {
+			jquery: {
 				files: [
 					{   expand: true,
 						cwd: 'bower_components/jquery/',
 						src: ['**'], 
 						dest: 'WebContent/resources/jquery/'
-					},
+					}
+				]
+			},
+			bootstrap: {
+				files: [
 					{   expand: true,
 						cwd: 'bower_components/bootstrap/',
 						src: ['**'], 
 						dest: 'WebContent/resources/bootstrap/'
-					},
+					}
+				]
+			},
+			angular: {
+				files: [
 					{   expand: true,
 						cwd: 'bower_components/angular/',
 						src: ['**'], 
