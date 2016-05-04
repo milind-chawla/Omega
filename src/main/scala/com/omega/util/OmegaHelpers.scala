@@ -68,6 +68,13 @@ object OmegaHelpers {
             }
         }
         
+        def printSpecial: Unit = {
+            val len = s.length
+            println("-" * (len + 8))
+            println("|   " + s + "   |")
+            println("-" * (len + 8))
+        }
+        
         def compact: String = {
             if(s == null) "" else s.trim()
         }

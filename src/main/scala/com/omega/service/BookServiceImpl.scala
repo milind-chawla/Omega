@@ -13,7 +13,8 @@ import scala.util.Failure
 import scala.util.Success
 
 @Transactional
-class BookServiceImpl(val bookDao: BookDao) extends BookService with BeanLifeCycle {
+class BookServiceImpl(val actorService: ActorService, val bookDao: BookDao) extends BookService with BeanLifeCycle {
+    import com.omega.actor.BookSaveActor._
     
     @Transactional
     override def getBooks: Option[JList[Book]] = {
@@ -33,12 +34,25 @@ class BookServiceImpl(val bookDao: BookDao) extends BookService with BeanLifeCyc
     
     @Transactional
     override def save(book: Book): (Option[Book], Map[String, List[String]]) = {
+        val id = book.id
+        
         if(book.hasErrors) {
             (Option(book), Map("errors" -> book.errors, "messages" -> List()))
         } else {
             Try(bookDao.save(book)) match {
-                case Success(savedBook) => (savedBook, Map("errors" -> List(), "messages" -> List(s"Book ${savedBook.get.name} saved successfully")))
-                case Failure(fail) => println(fail); (Option(book), Map("errors" -> List(fail.toString), "messages" -> List()))
+                case Success(savedBook) => id match {
+                    case -1 => {
+                        actorService.bookAction(BookCreated(savedBook.get.id, savedBook.get.name))
+                        (savedBook, Map("errors" -> List(), "messages" -> List(s"Book ${savedBook.get.name} created successfully")))
+                    }
+                    case _ => {
+                        actorService.bookAction(BookUpdated(savedBook.get.id, savedBook.get.name))
+                        (savedBook, Map("errors" -> List(), "messages" -> List(s"Book ${savedBook.get.name} updated successfully")))
+                    }
+                }
+                case Failure(fail) => {
+                    println(fail); (Option(book), Map("errors" -> List(fail.toString), "messages" -> List()))
+                }
             }    
         }
     }

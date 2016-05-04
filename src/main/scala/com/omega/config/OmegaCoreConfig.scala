@@ -160,6 +160,6 @@ class OmegaCoreConfig extends BeanLifeCycle {
     def theBookService: BookService = {
         debug.on("Constructing BookService")
         
-        new BookServiceImpl(theBookDao)
+        new BookServiceImpl(theActorService, theBookDao)
     }
 }
