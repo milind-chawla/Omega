@@ -9,6 +9,7 @@ import javax.persistence.Entity
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 import javax.persistence.Table
+import scala.util.control.NonFatal
 
 class BookDaoJpaImpl extends BookDao with BeanLifeCycle {
     
@@ -26,5 +27,11 @@ class BookDaoJpaImpl extends BookDao with BeanLifeCycle {
     override def save(book: Book): Option[Book] = {
         entityManager.persist(book)
         Option(book)
+    }
+    
+    def update(book: Book): Option[Book] = {
+        val id = book.id
+        
+        None
     }
 }

@@ -73,7 +73,7 @@ class BooksController extends CController with BeanLifeCycle {
     }
     
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.POST))
-	def create(@ModelAttribute book: Book, model: Model, redirectAttributes: RedirectAttributes)
+	def `new_post`(@ModelAttribute book: Book, model: Model, redirectAttributes: RedirectAttributes)
         (implicit req: HttpServletRequest): String = {
         model(this)
         
@@ -101,11 +101,11 @@ class BooksController extends CController with BeanLifeCycle {
         s"redirect:/$lname/new"
     }
     
-    @RequestMapping(value = Array("/{id}", "/{id}/"), method = Array(RequestMethod.GET))
-	def show(@PathVariable("id") id: String, model: Model)(implicit req: HttpServletRequest): String = {
+    @RequestMapping(value = Array("/{bid}", "/{bid}/"), method = Array(RequestMethod.GET))
+	def show(@PathVariable("bid") bid: String, model: Model)(implicit req: HttpServletRequest): String = {
         model(this)
         
-        bookService.getBook(id.longValue) match {
+        bookService.getBook(bid.longValue) match {
             case Some(book) => {
                 model {
                     Map[Any, Any]() + 
@@ -118,12 +118,68 @@ class BooksController extends CController with BeanLifeCycle {
         }
     }
     
-    @RequestMapping(value = Array("/{id}.json", "/{id}.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
+    @RequestMapping(value = Array("/{bid}.json", "/{bid}.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
-	def showJ(@PathVariable("id") id: String)(implicit req: HttpServletRequest): Book = {
-        bookService.getBook(id.longValue) match {
+	def showJ(@PathVariable("bid") bid: String)(implicit req: HttpServletRequest): Book = {
+        bookService.getBook(bid.longValue) match {
             case Some(book) => book
             case None => Book()
+        }
+    }
+    
+    @RequestMapping(value = Array("/{bid}/edit", "/{bid}/edit/"), method = Array(RequestMethod.GET))
+	def edit(@PathVariable("bid") bid: String, model: Model)(implicit req: HttpServletRequest): String = {
+        model(this)
+        
+        bookService.getBook(bid.longValue) match {
+            case Some(book) => {
+                model {
+                    Map[Any, Any]() + 
+                    ("book" -> book)
+                }
+                
+                s"$lname/edit"
+            }
+            case None => s"$lname/404"
+        }
+    }
+    
+    @RequestMapping(value = Array("/{bid}/edit", "/{bid}/edit/"), method = Array(RequestMethod.POST))
+	def edit_post(@PathVariable("bid") bid: String, @ModelAttribute book: Book, model: Model, redirectAttributes: RedirectAttributes)
+        (implicit req: HttpServletRequest): String = {
+        model(this)
+        
+        bookService.save(book) match {
+            case (Some(bk), map) => {
+                val messages = new JArrayList[String]
+                val errors = new JArrayList[String]
+                
+                map("messages") foreach { message =>
+                    messages.add(message)
+                }
+                
+                map("errors") foreach { error =>
+                    errors.add(error)
+                }
+                
+                errors.size match {
+                    case x if x > 0 => {
+                        redirectAttributes.addFlashAttribute("errors", errors)
+                        
+                        s"redirect:/$lname/$bid/edit"
+                    }
+                    case _ => {
+                        redirectAttributes.addFlashAttribute("messages", messages)
+                        
+                        s"redirect:/$lname/$bid"                        
+                    }
+                }
+            }
+            case _ => {
+                ("*** Something Wierd ***").printSpecial
+                
+                s"redirect:/$lname/$bid/edit"
+            }
         }
     }
 }

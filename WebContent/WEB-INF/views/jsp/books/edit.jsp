@@ -4,7 +4,7 @@
 <html>
   <head>
   	<meta name='description' content='book details page'>
-    <title>Create Book</title>
+    <title>Edit Book</title>
     <style type="text/css">
     	.formFieldMessage { color: #8ec127; }
 		.formFieldError { color: #d41243; }
@@ -14,7 +14,7 @@
     <div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">
-				Create Book
+				Edit Book
 			</h3>
 	  	</div>
 	  	<div class="panel-body">
@@ -24,6 +24,7 @@
 			  <div class="form-group">
 			    <label for="name">Name</label>
 			    <mvc:input path="name" class="form-control" placeholder="Enter name here" />
+			    <mvc:hidden path="id" />
 			  </div>
 			  <mvc:button class="btn btn-default">Submit</mvc:button>
 			</mvc:form>

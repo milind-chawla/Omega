@@ -39,21 +39,20 @@ class BookServiceImpl(val actorService: ActorService, val bookDao: BookDao) exte
         if(book.hasErrors) {
             (Option(book), Map("errors" -> book.errors, "messages" -> List()))
         } else {
-            Try(bookDao.save(book)) match {
-                case Success(savedBook) => id match {
-                    case -1 => {
-                        actorService.bookAction(BookCreated(savedBook.get.id, savedBook.get.name))
-                        (savedBook, Map("errors" -> List(), "messages" -> List(s"Book ${savedBook.get.name} created successfully")))
-                    }
-                    case _ => {
-                        actorService.bookAction(BookUpdated(savedBook.get.id, savedBook.get.name))
-                        (savedBook, Map("errors" -> List(), "messages" -> List(s"Book ${savedBook.get.name} updated successfully")))
+            id match {
+                case -1 => {
+                    bookDao.save(book) match {
+                        case Some(savedBook) => {
+                            actorService.bookAction(BookCreated(savedBook.id, savedBook.name))
+                            (Some(savedBook), Map("errors" -> List(), "messages" -> List(s"Book ${savedBook.name} created successfully")))
+                        }
+                        case None => (Option(book), Map("errors" -> List(s"Book ${book.name} cannot be created"), "messages" -> List()))
                     }
                 }
-                case Failure(fail) => {
-                    println(fail); (Option(book), Map("errors" -> List(fail.toString), "messages" -> List()))
+                case _ => {
+                    (Option(book), Map("errors" -> List(s"Book ${book.name} cannot be created"), "messages" -> List()))
                 }
-            }    
+            }
         }
     }
 }

@@ -9,4 +9,5 @@ trait BookDao {
     def getBooks: Option[JList[Book]]
     
     def save(book: Book): Option[Book]
+    def update(book: Book): Option[Book]
 }
