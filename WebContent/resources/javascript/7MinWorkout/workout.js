@@ -1,3 +1,0 @@
-angular.module('7minWorkout').controller('WorkoutController', function($scope) {
-	
-});
