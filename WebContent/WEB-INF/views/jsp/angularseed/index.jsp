@@ -14,9 +14,11 @@
 	  	<div class="panel-body">
 	  		<div ng-app>
 	  			<div ng-init="salary=0;percentage=0">
+	  				Your Salary ? <input type="text" ng-model="salary"> <br>
+	  				How much should you invest in gadgets? <input type="text" ng-model="percentage"> % <br>
+	  				The amount to be spent in shopping will be: <span>{{salary*percentage*0.01}}</span>
 	  			</div>
 	  		</div>
-	    	AngularSeed Body
 	  	</div>
 	  	
 	  	<content tag="javascripts">
