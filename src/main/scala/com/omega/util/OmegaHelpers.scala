@@ -99,7 +99,9 @@ object OmegaHelpers {
                 Map[Any, Any]() + 
                 ("activate" -> s"${c.lname}") + 
                 ("path" -> s"${c.path}") + 
-                ("path_new" -> s"${c.path_new}")
+                ("path_new" -> s"${c.path_new}") +
+                ("uname" -> s"${c.uname}") + 
+                ("lname" -> s"${c.lname}")
             }
             
             model {

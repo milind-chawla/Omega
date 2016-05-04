@@ -94,7 +94,7 @@ class BooksController extends CController with BeanLifeCycle {
                 redirectAttributes.addFlashAttribute("errors", errors)
             }
             case _ => {
-                println("*** Wierd ***")
+                ("*** Something Wierd ***").printSpecial
             }
         }    
         

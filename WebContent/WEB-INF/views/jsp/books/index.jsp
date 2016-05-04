@@ -26,15 +26,15 @@
 	    					<td>${book.id}</td>
 	    					<td>${book.name}</td>
 	    					<td>
-	    						<button id="button_show_${book.id}" class="btn btn-default" type="button" onclick="showBook(${book.id});">
+	    						<a id="${lname}_show_${book.id}" class="btn btn-default" role="button" href="${path}/${book.id}">
 	    							<span class="glyphicon glyphicon-search"></span> Show
-	    						</button>
-	    						<button id="button_edit_${book.id}" class="btn btn-default" type="button" onclick="editBook(${book.id});">
+	    						</a>
+	    						<a id="${lname}_edit_${book.id}" class="btn btn-default" role="button" href="${path}/${book.id}/edit">
 	    							<span class="glyphicon glyphicon-edit"></span> Edit
-	    						</button>
-	    						<button id="button_delete_${book.id}" class="btn btn-default" type="button" onclick="deleteBook(${book.id});">
+	    						</a>
+	    						<a id="${lname}_delete_${book.id}" class="btn btn-default" role="button" href="${path}/${book.id}/delete">
 	    							<span class="glyphicon glyphicon-remove"></span> Delete
-	    						</button>
+	    						</a>
 	    					</td>
 	    				</tr>
 	    			</c:forEach>

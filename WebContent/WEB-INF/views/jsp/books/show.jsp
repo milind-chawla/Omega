@@ -8,15 +8,15 @@
     <div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">
-				Book Details
+				<strong>Book Details</strong>
 			</h3>
 	  	</div>
 	  	<div class="panel-body">
 	    	<table class="table">
 	    		<thead>
 	    			<tr>
-	    				<td>Id</td>
-	    				<td>Name</td>
+	    				<td><b>Id</b></td>
+	    				<td><b>Name</b></td>
 	    			</tr>
 	    		</thead>
 	    		<tbody>
@@ -26,6 +26,9 @@
     				</tr>
 	    		</tbody>
 	    	</table>
+	    	<a id="button_${lname}_back" class="btn btn-default" role="button" href="${path}">
+				<span class="glyphicon glyphicon-arrow-left"></span> Back
+			</a>
 	  	</div>
 	</div>
   </body>
