@@ -17,7 +17,7 @@
 	  			<div ng-controller="FinanceController">
 	  				Your Salary ? <input type="text" ng-model="salary"> <br>
 	  				How much should you invest in gadgets? <input type="text" ng-model="percentage"> % <br>
-	  				The amount to be spent in shopping will be: <span>{{result()}}</span>
+	  				The amount to be spent in shopping will be: <span>{{result() | currency}}</span>
 	  			</div>
 	  		</div>
 	  	</div>

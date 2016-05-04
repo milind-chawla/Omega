@@ -24,6 +24,9 @@ import com.zaxxer.hikari.HikariDataSource
 
 import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
+import com.omega.service.ActorService
+import akka.actor.ActorSystem
+import com.omega.service.ActorServiceImpl
 
 @Configuration("OmegaCoreConfig")
 @EnableTransactionManagement 
@@ -138,6 +141,13 @@ class OmegaCoreConfig extends BeanLifeCycle {
     }
     
     /************************************************************USEFULL BEANS**********************************************************/
+    
+    @Bean
+    def theActorService: ActorService = {
+        debug.on("Constructing ActorService")
+        
+        new ActorServiceImpl(ActorSystem("OmegaActorSystem"))
+    }
     
     @Bean
     def theBookDao: BookDao = {
