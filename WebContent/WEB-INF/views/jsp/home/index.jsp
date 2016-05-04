@@ -8,17 +8,17 @@
     <div class="row">
 	  <div class="col-md-4">
 	  	<div class="alert alert-success text-center" role="alert">
-	  		<a href="${mailLinkText}" class="alert-link">${mailLinkText}</a>
+	  		<a href="${booksPath}" class="alert-link">${booksName}</a>
 	  	</div>
 	  </div>
 	  <div class="col-md-4">
 	  	<div class="alert alert-info text-center" role="alert">
-	  		<a href="${driveLinkText}" class="alert-link">${driveLinkText}</a>
+	  		<a href="#" class="alert-link">NULL</a>
 	  	</div>
 	  </div>
 	  <div class="col-md-4">
 	  	<div class="alert alert-warning text-center" role="alert">
-	  		<a href="${booksPath}" class="alert-link">${booksName}</a>
+	  		<a href="#" class="alert-link">NULL</a>
 	  	</div>
 	  </div>
 	</div>
@@ -26,17 +26,17 @@
 	<div class="row">
 	  <div class="col-md-4">
 	  	<div class="alert alert-danger text-center" role="alert">
-	  		<a href="${blogsLinkText}" class="alert-link">${blogsLinkText}</a>
+	  		<a href="#" class="alert-link">NULL</a>
 	  	</div>
 	  </div>
 	  <div class="col-md-4">
 	  	<div class="alert alert-success text-center" role="alert">
-	  		<a href="${socialLink}" class="alert-link">${socialLinkText}</a>
+	  		<a href="#" class="alert-link">NULL</a>
 	  	</div>
 	  </div>
 	  <div class="col-md-4">
 	  	<div class="alert alert-info text-center" role="alert">
-	  		<a href="${economicLink}" class="alert-link">${economicLinkText}</a>
+	  		<a href="#" class="alert-link">NULL</a>
 	  	</div>
 	  </div>
 	</div>

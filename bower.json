@@ -15,10 +15,11 @@
     "tests"
   ],
   "devDependencies": {
-    "jquery": "^1.12.2",
-    "bootstrap": "^3.3.6",
-    "angular": "^1.5.5",
+    "jquery": "jquery#1.12.3",
+    "bootstrap": "bootstrap#3.3.6",
     "angular-old": "angular#1.2.16",
-    "angular-new": "angular#1.5.5"
+    "angular-new": "angular#1.5.5",
+    "angular-route-old": "angular-route#1.2.16",
+    "angular-route-new": "angular-route#1.5.5"
   }
 }
