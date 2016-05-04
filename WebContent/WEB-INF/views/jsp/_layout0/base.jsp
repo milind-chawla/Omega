@@ -32,8 +32,7 @@
 		    
 		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		    	<ul class="nav navbar-nav">
-        			<li id="home"><a href="${homePath}">${homeName}</a></li>
-        			<li id="books"><a href="${booksPath}">${booksName}</a></li>
+        			<%@include file="/WEB-INF/views/jsp/_common0/links.jsp" %>
         		</ul>
         		
         		<ul class="nav navbar-nav navbar-right">
@@ -59,5 +58,5 @@
   	
   	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/jquery/dist/jquery.js"></script>
   	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/bootstrap/dist/js/bootstrap.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/javascript/omega.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/javascript/omega.js"></script>
 </html>

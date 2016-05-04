@@ -18,7 +18,7 @@
 			</h3>
 	  	</div>
 	  	<div class="panel-body">
-	  		<%@include file="/WEB-INF/views/jsp/_layout0/msg.jsp" %>
+	  		<%@include file="/WEB-INF/views/jsp/_common0/msg.jsp" %>
 	  		
 	  		<mvc:form modelAttribute="book">
 			  <div class="form-group">
