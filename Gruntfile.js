@@ -10,6 +10,17 @@ module.exports = function(grunt) {
 		    		'WebContent/resources/javascript/omega.min.js': ['WebContent/resources/javascript/omega.js']
 		    	}
 		    }
+		},
+		clean: {
+		  jquery: {
+		    src: ['WebContent/resources/jquery']
+		  },
+		  bootstrap: {
+		    src: ['WebContent/resources/bootstrap']
+		  },
+		  angular: {
+		    src: ['WebContent/resources/angular']
+		  }
 		}
 		,copy: {
 			jquery: {
@@ -30,10 +41,19 @@ module.exports = function(grunt) {
 					}
 				]
 			},
-			angular: {
+			angular_old: {
 				files: [
 					{   expand: true,
-						cwd: 'bower_components/angular/',
+						cwd: 'bower_components/angular-old/',
+						src: ['**'], 
+						dest: 'WebContent/resources/angular/'
+					}
+				]
+			},
+			angular_new: {
+				files: [
+					{   expand: true,
+						cwd: 'bower_components/angular-new/',
 						src: ['**'], 
 						dest: 'WebContent/resources/angular/'
 					}
@@ -43,6 +63,7 @@ module.exports = function(grunt) {
 	});
 	
 	// grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 };
