@@ -36,33 +36,51 @@ class BooksController extends CController with BeanLifeCycle {
     }
     
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
-	def index(model: Model)(implicit req: HttpServletRequest): String = {
+	def index(model: Model, redirectAttributes: RedirectAttributes)(implicit req: HttpServletRequest): String = {
         model(this)
         
-        model {
-            Map[Any, Any]() + 
-            ("books" -> {
-                bookService.getBooks match {
-            	    case Some(books) => books
-            	    case None => new JArrayList[Book] 
-            	}
-            })
+        try {
+            model {
+                Map[Any, Any]() + 
+                ("books" -> {
+                    bookService.getBooks match {
+                	    case Some(books) => books
+                	    case None => new JArrayList[Book] 
+                	}
+                })
+            }
+            
+            s"$lname/index"
+        } catch {
+            case NonFatal(e) => {
+                model {
+                    Map[Any, Any]() +
+                    ("messages" -> List().toJavaList) + 
+                    ("errors" -> List("Unknown error").toJavaList)
+                }
+                
+                s"$lname/err"
+            }
         }
-        
-    	s"$lname/index"
     }
     
     @RequestMapping(value = Array("/index.json", "/index.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
 	def indexJ(implicit req: HttpServletRequest): JList[Book] = {
-    	bookService.getBooks match {
-    	    case Some(books) => books
-    	    case None => new JArrayList[Book] 
-    	}
+        try {
+            bookService.getBooks match {
+        	    case Some(books) => books
+        	    case None => new JArrayList[Book] 
+        	}    
+        } catch {
+            case NonFatal(e) => {
+                new JArrayList[Book]
+            }
+        }
     }
     
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.GET))
-	def `new`(model: Model)(implicit req: HttpServletRequest): String = {
+	def `new`(model: Model, redirectAttributes: RedirectAttributes)(implicit req: HttpServletRequest): String = {
         model(this)
         
         model {
@@ -70,7 +88,7 @@ class BooksController extends CController with BeanLifeCycle {
             ("book" -> Book())
         }
         
-    	s"$lname/new"
+        s"$lname/new"
     }
     
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.POST))
@@ -99,46 +117,77 @@ class BooksController extends CController with BeanLifeCycle {
     }
     
     @RequestMapping(value = Array("/{bid}", "/{bid}/"), method = Array(RequestMethod.GET))
-	def show(@PathVariable("bid") bid: String, model: Model)(implicit req: HttpServletRequest): String = {
+	def show(@PathVariable("bid") bid: String, model: Model, redirectAttributes: RedirectAttributes)(implicit req: HttpServletRequest): String = {
         model(this)
         
-        bookService.getBook(bid.longValue) match {
-            case Some(book) => {
+        try {
+            bookService.getBook(bid.longValue) match {
+                case Some(book) => {
+                    model {
+                        Map[Any, Any]() + 
+                        ("book" -> book)
+                    }
+                    
+                    s"$lname/show"
+                }
+                case None => s"$lname/404"
+            }    
+        } catch {
+            case NonFatal(e) => {
                 model {
-                    Map[Any, Any]() + 
-                    ("book" -> book)
+                    Map[Any, Any]() +
+                    ("messages" -> List().toJavaList) + 
+                    ("errors" -> List("Unknown error").toJavaList)
                 }
                 
-                s"$lname/show"
+                s"$lname/err"
             }
-            case None => s"$lname/404"
         }
     }
     
     @RequestMapping(value = Array("/{bid}.json", "/{bid}.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
 	def showJ(@PathVariable("bid") bid: String)(implicit req: HttpServletRequest): Book = {
-        bookService.getBook(bid.longValue) match {
-            case Some(book) => book
-            case None => Book()
+        try {
+            bookService.getBook(bid.longValue) match {
+                case Some(book) => book
+                case None => Book()
+            }    
+        } catch {
+            case NonFatal(e) => {
+                Book()
+            }
         }
     }
     
     @RequestMapping(value = Array("/{bid}/edit", "/{bid}/edit/"), method = Array(RequestMethod.GET))
-	def edit(@PathVariable("bid") bid: String, model: Model)(implicit req: HttpServletRequest): String = {
+	def edit(@PathVariable("bid") bid: String, model: Model, redirectAttributes: RedirectAttributes)(implicit req: HttpServletRequest): String = {
         model(this)
         
-        bookService.getBook(bid.longValue) match {
-            case Some(book) => {
+        try {
+            bookService.getBook(bid.longValue) match {
+                case Some(book) => {
+                    model {
+                        Map[Any, Any]() + 
+                        ("book" -> book)
+                    }
+                    
+                    s"$lname/edit"
+                }
+                case None => s"$lname/404"
+            } 
+        } catch {
+            case NonFatal(e) => {
                 model {
-                    Map[Any, Any]() + 
-                    ("book" -> book)
+                    Map[Any, Any]() +
+                    ("messages" -> List().toJavaList) + 
+                    ("errors" -> List("Unknown error").toJavaList)
                 }
                 
-                s"$lname/edit"
+                s"$lname/err"
             }
-            case None => s"$lname/404"
         }
+        
     }
     
     @RequestMapping(value = Array("/{bid}/edit", "/{bid}/edit/"), method = Array(RequestMethod.POST))
@@ -146,36 +195,30 @@ class BooksController extends CController with BeanLifeCycle {
         (implicit req: HttpServletRequest): String = {
         model(this)
         
-        bookService.save(book) match {
-            case (Some(bk), map) => {
-                val messages = new JArrayList[String]
-                val errors = new JArrayList[String]
-                
-                map("messages") foreach { message =>
-                    messages.add(message)
-                }
-                
-                map("errors") foreach { error =>
-                    errors.add(error)
-                }
-                
-                errors.size match {
-                    case x if x > 0 => {
-                        redirectAttributes.addFlashAttribute("errors", errors)
-                        
-                        s"redirect:/$lname/$bid/edit"
-                    }
-                    case _ => {
-                        redirectAttributes.addFlashAttribute("messages", messages)
-                        
-                        s"redirect:/$lname/$bid"                        
+        try {
+            val (Some(bk), map) = bookService.update(book)
+            
+            val messages = map("messages").toJavaList
+            val errors = map("errors").toJavaList
+            
+            redirectAttributes.addFlashAttribute("messages", messages)
+            redirectAttributes.addFlashAttribute("errors", errors)
+            
+            bk.id match {
+                case x if x > 0 => {
+                    errors.size match {
+                        case y if y > 0 => s"redirect:/$lname/${x}/edit"
+                        case _ => s"redirect:/$lname/${x}"
                     }
                 }
+                case _ => s"redirect:/$lname/404"
             }
-            case _ => {
-                ("*** Something Wierd ***").printSpecial
-                
-                s"redirect:/$lname/$bid/edit"
+        } catch {
+            case NonFatal(e) => {
+                redirectAttributes.addFlashAttribute("messages", List().toJavaList)
+                redirectAttributes.addFlashAttribute("errors", List("Unknown error").toJavaList)
+            
+                s"redirect:/$lname/${bid}/edit"
             }
         }
     }

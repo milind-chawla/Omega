@@ -28,4 +28,9 @@ class BookServiceImpl(val bookDao: BookDao) extends BookService with BeanLifeCyc
     override def save(book: Book): (Option[Book], Map[String, List[String]]) = {
         bookDao.save(book)
     }
+    
+    @Transactional
+    def update(book: Book): (Option[Book], Map[String, List[String]]) = {
+        bookDao.update(book)
+    }
 }

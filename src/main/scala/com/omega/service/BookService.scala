@@ -11,4 +11,5 @@ trait BookService {
     def getBooks: Option[JList[Book]]
     
     def save(book: Book): (Option[Book], Map[String, List[String]])
+    def update(book: Book): (Option[Book], Map[String, List[String]])
 }

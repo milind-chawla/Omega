@@ -44,9 +44,27 @@ class BookDaoJpaImpl(val actorService: ActorService) extends BookDao with BeanLi
         }
     }
     
-    def update(book: Book): Option[Book] = {
+    def update(book: Book): (Option[Book], Map[String, List[String]]) = {
         val id = book.id
         
-        None
+        if(book.hasErrors) {
+            (Option(book), Map("errors" -> book.errors, "messages" -> List()))
+        } else {
+            id match {
+                case -1 => {
+                    (Option(book), Map("errors" -> List(s"Book ${book.name} cannot be updated"), "messages" -> List()))
+                }
+                case _ => {
+                    val book2 = entityManager.find(classOf[Book], id)
+                    val book2Name = book2.name
+                    
+                    book2.setName(book.name)
+                    entityManager.persist(book2)
+                    
+                    actorService.bookAction(BookUpdated(book2.id, book2.name))
+                    (Some(book), Map("errors" -> List(), "messages" -> List(s"Book ${book2Name} updated successfully")))
+                }
+            }    
+        }
     }
 }

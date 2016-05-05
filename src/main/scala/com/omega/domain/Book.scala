@@ -39,7 +39,7 @@ class Book(_id: Long, _name: String) {
         var err = List.empty[String]
         
         if(getName().isEmpty()) {
-            err = err :+ "Name is empty"
+            err = err :+ "'Name' cannot be empty"
         }
         
         err
