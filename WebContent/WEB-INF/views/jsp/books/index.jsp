@@ -8,7 +8,9 @@
     <div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">
-				<strong>Book Listing</strong> <a href="${path_new}" role="button" class="btn btn-default">+</a>
+				<a href="${path_new}" role="button" class="btn btn-default">
+					<span class="glyphicon glyphicon-plus"></span> Add Book
+				</a>
 			</h3>
 	  	</div>
 	  	<div class="panel-body">
