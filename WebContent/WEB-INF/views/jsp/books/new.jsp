@@ -6,8 +6,7 @@
   	<meta name='description' content='book details page'>
     <title>Create Book</title>
     <style type="text/css">
-    	.formFieldMessage { color: #8ec127; }
-		.formFieldError { color: #d41243; }
+    	
 	</style>
   </head>
   <body>

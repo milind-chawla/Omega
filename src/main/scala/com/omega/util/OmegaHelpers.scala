@@ -132,4 +132,19 @@ object OmegaHelpers {
             s"${req.getContextPath}/${n}"
         }
     }
+    
+    implicit class CollectionHelper[A, Container[A] <: Traversable[A]](collection: Container[A]) {
+        import java.util.{ ArrayList => JArrayList }
+        import java.util.{ List => JList }
+        
+        def toJavaList: JList[A] = {
+            val list = new JArrayList[A]
+            
+            collection foreach { x =>
+                list.add(x)
+            }
+            
+            list
+        }
+    }
 }

@@ -12,6 +12,8 @@
 			</h3>
 	  	</div>
 	  	<div class="panel-body">
+	  		<%@include file="/WEB-INF/views/jsp/_common0/msg.jsp" %>
+	  		
 	    	<table class="table">
 	    		<thead>
 	    			<tr>

@@ -4,7 +4,7 @@
 	<h4>Messages</h4>
 	<ul>
 		<c:forEach items="${messages}" var="message">
-			<li class="formFieldMessage">
+			<li class="message">
 				<c:out value="${message}"></c:out>
 			</li>
 		</c:forEach>
@@ -15,7 +15,7 @@
 	<h4>Errors</h4>
 	<ul>
 		<c:forEach items="${errors}" var="error">
-			<li class="formFieldError">
+			<li class="error">
 				<c:out value="${error}"></c:out>
 			</li>
 		</c:forEach>

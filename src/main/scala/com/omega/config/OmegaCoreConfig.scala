@@ -77,7 +77,7 @@ class OmegaCoreConfig extends BeanLifeCycle {
         dataSource.setUsername("user1")
         dataSource.setPassword("user1")
         dataSource.setAutoCommit(false)
-        dataSource.setConnectionTimeout(30000)
+        dataSource.setConnectionTimeout(10000)
         dataSource.setIdleTimeout(600000)
         dataSource.setMaxLifetime(1800000)
         dataSource.setConnectionTestQuery("SELECT 1")
@@ -153,13 +153,13 @@ class OmegaCoreConfig extends BeanLifeCycle {
     def theBookDao: BookDao = {
         debug.on("Constructing BookDao")
         
-        new BookDaoJpaImpl
+        new BookDaoJpaImpl(theActorService)
     }
     
     @Bean
     def theBookService: BookService = {
         debug.on("Constructing BookService")
         
-        new BookServiceImpl(theActorService, theBookDao)
+        new BookServiceImpl(theBookDao)
     }
 }

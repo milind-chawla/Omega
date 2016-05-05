@@ -1,58 +1,31 @@
 package com.omega.service
 
 import java.util.{ List => JList }
-import java.util.{ ArrayList => JArrayList }
 
 import org.springframework.transaction.annotation.Transactional
 
 import com.omega.domain.Book
 import com.omega.repository.BookDao
 import com.omega.util.BeanLifeCycle
-import scala.util.Try
-import scala.util.Failure
-import scala.util.Success
+
+import javax.persistence.Entity
+import javax.persistence.Table
 
 @Transactional
-class BookServiceImpl(val actorService: ActorService, val bookDao: BookDao) extends BookService with BeanLifeCycle {
-    import com.omega.actor.BookSaveActor._
+class BookServiceImpl(val bookDao: BookDao) extends BookService with BeanLifeCycle {
     
     @Transactional
     override def getBooks: Option[JList[Book]] = {
-        Try(bookDao.getBooks) match {
-            case Success(books) => books
-            case Failure(fail) => println(fail); None
-        }
+        bookDao.getBooks
     }
     
     @Transactional
     override def getBook(id: Long): Option[Book] = {
-        Try(bookDao.getBook(id)) match {
-            case Success(book) => book
-            case Failure(fail) => println(fail); None
-        }
+        bookDao.getBook(id)
     }
     
     @Transactional
     override def save(book: Book): (Option[Book], Map[String, List[String]]) = {
-        val id = book.id
-        
-        if(book.hasErrors) {
-            (Option(book), Map("errors" -> book.errors, "messages" -> List()))
-        } else {
-            id match {
-                case -1 => {
-                    bookDao.save(book) match {
-                        case Some(savedBook) => {
-                            actorService.bookAction(BookCreated(savedBook.id, savedBook.name))
-                            (Some(savedBook), Map("errors" -> List(), "messages" -> List(s"Book ${savedBook.name} created successfully")))
-                        }
-                        case None => (Option(book), Map("errors" -> List(s"Book ${book.name} cannot be created"), "messages" -> List()))
-                    }
-                }
-                case _ => {
-                    (Option(book), Map("errors" -> List(s"Book ${book.name} cannot be created"), "messages" -> List()))
-                }
-            }
-        }
+        bookDao.save(book)
     }
 }

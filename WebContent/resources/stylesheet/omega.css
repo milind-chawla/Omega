@@ -5,3 +5,6 @@ body {
     background-repeat:no-repeat;
 	display: compact;
 }
+
+.message { color: #8ec127; }
+.error { color: #d41243; }
