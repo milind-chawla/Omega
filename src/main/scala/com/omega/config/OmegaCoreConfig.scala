@@ -77,7 +77,7 @@ class OmegaCoreConfig extends BeanLifeCycle {
         dataSource.setUsername("user1")
         dataSource.setPassword("user1")
         dataSource.setAutoCommit(false)
-        dataSource.setConnectionTimeout(10000)
+        dataSource.setConnectionTimeout(5000)
         dataSource.setIdleTimeout(600000)
         dataSource.setMaxLifetime(1800000)
         dataSource.setConnectionTestQuery("SELECT 1")

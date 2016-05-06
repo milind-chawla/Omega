@@ -26,45 +26,24 @@ class BookDaoJpaImpl(val actorService: ActorService) extends BookDao with BeanLi
         Option(entityManager.find(classOf[Book], id))
     }
     
-    override def save(book: Book): (Option[Book], Map[String, List[String]]) = {
-        val id = book.id
+    override def save(book: Book): Option[Book] = {
+        entityManager.persist(book)
         
-        if(book.hasErrors) {
-            (Option(book), Map("errors" -> book.errors, "messages" -> List()))
-        } else {
-            entityManager.persist(book)
-            
-            book.id match {
-                case x if x > 0 => {
-                    actorService.bookAction(BookCreated(book.id, book.name))
-                    (Some(book), Map("errors" -> List(), "messages" -> List(s"Book ${book.name} created successfully")))                    
-                }
-                case _ => (Option(book), Map("errors" -> List(s"Book ${book.name} cannot be created"), "messages" -> List()))
-            }
-        }
+        actorService.bookAction(BookCreated(book.id, book.name))
+        
+        Option(book)
     }
     
-    def update(book: Book): (Option[Book], Map[String, List[String]]) = {
+    override def update(book: Book): Option[Book] = {
         val id = book.id
         
-        if(book.hasErrors) {
-            (Option(book), Map("errors" -> book.errors, "messages" -> List()))
-        } else {
-            id match {
-                case -1 => {
-                    (Option(book), Map("errors" -> List(s"Book ${book.name} cannot be updated"), "messages" -> List()))
-                }
-                case _ => {
-                    val book2 = entityManager.find(classOf[Book], id)
-                    val book2Name = book2.name
-                    
-                    book2.setName(book.name)
-                    entityManager.persist(book2)
-                    
-                    actorService.bookAction(BookUpdated(book2.id, book2.name))
-                    (Some(book), Map("errors" -> List(), "messages" -> List(s"Book ${book2Name} updated successfully")))
-                }
-            }    
-        }
+        val book2 = entityManager.find(classOf[Book], id)
+        
+        book2.setName(book.name)
+        entityManager.persist(book2)
+        
+        actorService.bookAction(BookUpdated(book2.id, book2.name))
+        
+        Option(book2)
     }
 }

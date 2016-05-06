@@ -1,9 +1,12 @@
 package com.omega.util
 
 import scala.util.control.NonFatal
+
 import org.springframework.ui.Model
-import javax.servlet.http.HttpServletRequest
+
 import com.omega.controllers.CController
+
+import javax.servlet.http.HttpServletRequest
 
 object OmegaHelpers {
     sealed trait OM
@@ -130,21 +133,6 @@ object OmegaHelpers {
         def controllerPath(implicit req: HttpServletRequest): String = {
             val n = controllerName.toLowerCase
             s"${req.getContextPath}/${n}"
-        }
-    }
-    
-    implicit class CollectionHelper[A, Container[A] <: Traversable[A]](collection: Container[A]) {
-        import java.util.{ ArrayList => JArrayList }
-        import java.util.{ List => JList }
-        
-        def toJavaList: JList[A] = {
-            val list = new JArrayList[A]
-            
-            collection foreach { x =>
-                list.add(x)
-            }
-            
-            list
         }
     }
 }

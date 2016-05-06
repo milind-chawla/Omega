@@ -10,6 +10,7 @@ import javax.persistence.GenerationType
 
 import com.omega.util.OmegaHelpers.StringHelper
 import javax.persistence.Column
+import com.omega.util.JavaList
 
 @Entity
 @Table(name = "BOOK")
@@ -33,13 +34,13 @@ class Book(_id: Long, _name: String) {
     
     override def toString: String = "Book(id=" + id + ", name=" + name + ")"
     
-    def hasErrors = errors.length > 0
+    def hasErrors = errors.size > 0
     
     def errors = {
-        var err = List.empty[String]
+        var err = JavaList[String]()
         
         if(getName().isEmpty()) {
-            err = err :+ "'Name' cannot be empty"
+            err add "'Name' cannot be empty"
         }
         
         err

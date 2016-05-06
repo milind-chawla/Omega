@@ -20,6 +20,7 @@ import com.omega.util.BeanLifeCycle
 
 import javax.servlet.http.HttpServletRequest
 import org.springframework.web.bind.annotation.RequestMethod
+import com.omega.util.JavaList
 
 @Controller
 @RequestMapping(value = Array("/books"))
@@ -36,7 +37,7 @@ class BooksController extends CController with BeanLifeCycle {
     }
     
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
-	def index(model: Model, redirectAttributes: RedirectAttributes)(implicit req: HttpServletRequest): String = {
+	def index(model: Model)(implicit req: HttpServletRequest): String = {
         model(this)
         
         try {
@@ -45,7 +46,7 @@ class BooksController extends CController with BeanLifeCycle {
                 ("books" -> {
                     bookService.getBooks match {
                 	    case Some(books) => books
-                	    case None => new JArrayList[Book] 
+                	    case None => JavaList[Book]() 
                 	}
                 })
             }
@@ -55,8 +56,8 @@ class BooksController extends CController with BeanLifeCycle {
             case NonFatal(e) => {
                 model {
                     Map[Any, Any]() +
-                    ("messages" -> List().toJavaList) + 
-                    ("errors" -> List("Unknown error").toJavaList)
+                    ("messages" -> JavaList()) + 
+                    ("errors" -> JavaList(s"Error: $e"))
                 }
                 
                 s"$lname/err"
@@ -70,11 +71,11 @@ class BooksController extends CController with BeanLifeCycle {
         try {
             bookService.getBooks match {
         	    case Some(books) => books
-        	    case None => new JArrayList[Book] 
+        	    case None => JavaList[Book]() 
         	}    
         } catch {
             case NonFatal(e) => {
-                new JArrayList[Book]
+                JavaList[Book]()
             }
         }
     }
@@ -96,24 +97,34 @@ class BooksController extends CController with BeanLifeCycle {
         (implicit req: HttpServletRequest): String = {
         model(this)
         
-        try {
-            val (Some(bk), map) = bookService.save(book)
-            
-            redirectAttributes.addFlashAttribute("messages", map("messages").toJavaList)
-            redirectAttributes.addFlashAttribute("errors", map("errors").toJavaList)
-            
-            bk.id match {
-                case x if x > 0 => s"redirect:/$lname/${x}"
-                case _ => s"redirect:/$lname/new"
+        if(book.hasErrors) {
+            model {
+                Map[Any, Any]() +
+                ("messages" -> JavaList()) + 
+                ("errors" -> book.errors)
             }
-        } catch {
-            case NonFatal(e) => {
-                redirectAttributes.addFlashAttribute("messages", List().toJavaList)
-                redirectAttributes.addFlashAttribute("errors", List("Unknown error").toJavaList)
             
-                s"redirect:/$lname/new"
-            }
-        }
+            s"$lname/new"
+        } else {
+            try {
+                bookService.save(book) 
+                
+                redirectAttributes.addFlashAttribute("messages", JavaList(s"$book created successfully"))
+                redirectAttributes.addFlashAttribute("errors", JavaList())
+                
+                s"redirect:/$lname/${book.id}"
+            } catch {
+                case NonFatal(e) => {
+                    model {
+                        Map[Any, Any]() +
+                        ("messages" -> JavaList()) + 
+                        ("errors" -> JavaList(s"Error: $e"))
+                    }
+                
+                    s"$lname/new"
+                }
+            }    
+        }        
     }
     
     @RequestMapping(value = Array("/{bid}", "/{bid}/"), method = Array(RequestMethod.GET))
@@ -136,8 +147,8 @@ class BooksController extends CController with BeanLifeCycle {
             case NonFatal(e) => {
                 model {
                     Map[Any, Any]() +
-                    ("messages" -> List().toJavaList) + 
-                    ("errors" -> List("Unknown error").toJavaList)
+                    ("messages" -> JavaList()) + 
+                    ("errors" -> JavaList(s"Error: $e"))
                 }
                 
                 s"$lname/err"
@@ -180,8 +191,8 @@ class BooksController extends CController with BeanLifeCycle {
             case NonFatal(e) => {
                 model {
                     Map[Any, Any]() +
-                    ("messages" -> List().toJavaList) + 
-                    ("errors" -> List("Unknown error").toJavaList)
+                    ("messages" -> JavaList()) + 
+                    ("errors" -> JavaList(s"Error: $e"))
                 }
                 
                 s"$lname/err"
@@ -195,30 +206,28 @@ class BooksController extends CController with BeanLifeCycle {
         (implicit req: HttpServletRequest): String = {
         model(this)
         
-        try {
-            val (Some(bk), map) = bookService.update(book)
+        if(book.hasErrors) {
+            redirectAttributes.addFlashAttribute("book", book)
+            redirectAttributes.addFlashAttribute("messages", JavaList())
+            redirectAttributes.addFlashAttribute("errors", book.errors)
             
-            val messages = map("messages").toJavaList
-            val errors = map("errors").toJavaList
-            
-            redirectAttributes.addFlashAttribute("messages", messages)
-            redirectAttributes.addFlashAttribute("errors", errors)
-            
-            bk.id match {
-                case x if x > 0 => {
-                    errors.size match {
-                        case y if y > 0 => s"redirect:/$lname/${x}/edit"
-                        case _ => s"redirect:/$lname/${x}"
-                    }
+            s"redirect:/$lname/${book.id}/edit"
+        } else {
+            try {
+                bookService.update(book)
+                   
+                redirectAttributes.addFlashAttribute("messages", JavaList(s"$book updated successfully"))
+                redirectAttributes.addFlashAttribute("errors", JavaList())
+                
+                s"redirect:/$lname/${book.id}"
+            } catch {
+                case NonFatal(e) => {
+                    redirectAttributes.addFlashAttribute("book", book)
+                    redirectAttributes.addFlashAttribute("messages", JavaList())
+                    redirectAttributes.addFlashAttribute("errors", JavaList(s"Error: $e"))
+                
+                    s"redirect:/$lname/${book.id}/edit"
                 }
-                case _ => s"redirect:/$lname/404"
-            }
-        } catch {
-            case NonFatal(e) => {
-                redirectAttributes.addFlashAttribute("messages", List().toJavaList)
-                redirectAttributes.addFlashAttribute("errors", List("Unknown error").toJavaList)
-            
-                s"redirect:/$lname/${bid}/edit"
             }
         }
     }
