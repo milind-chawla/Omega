@@ -31,6 +31,8 @@ class BooksController extends CController with BeanLifeCycle {
     @Autowired
     private var bookService: BookService = _
     
+    this.register
+    
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
 	def root(model: Model)(implicit req: HttpServletRequest): String = {
         s"redirect:/$lname/index"

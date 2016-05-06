@@ -8,17 +8,17 @@
     <div class="row">
 	  <div class="col-md-4">
 	  	<div class="alert alert-success text-center" role="alert">
-	  		<a href="${booksPath}" class="alert-link">${booksName}</a>
+	  		<a href="${BooksPath}" class="alert-link">${BooksName}</a>
 	  	</div>
 	  </div>
 	  <div class="col-md-4">
 	  	<div class="alert alert-info text-center" role="alert">
-	  		<a href="${angularSeedPath}" class="alert-link">${angularSeedName}</a>
+	  		<a href="${AngularSeedPath}" class="alert-link">${AngularSeedName}</a>
 	  	</div>
 	  </div>
 	  <div class="col-md-4">
-	  	<div class="alert alert-warning text-center" role="alert">
-	  		<a href="#" class="alert-link">NULL</a>
+	  	<div class="alert alert-info text-center" role="alert">
+	  		<a href="${HomePath}" class="alert-link">${HomeName}</a>
 	  	</div>
 	  </div>
 	</div>

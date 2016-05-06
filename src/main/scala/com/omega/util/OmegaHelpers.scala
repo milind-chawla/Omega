@@ -7,6 +7,7 @@ import org.springframework.ui.Model
 import com.omega.controllers.CController
 
 import javax.servlet.http.HttpServletRequest
+import com.omega.controllers.ControllerSpace
 
 object OmegaHelpers {
     sealed trait OM
@@ -108,31 +109,15 @@ object OmegaHelpers {
             }
             
             model {
-                Map[Any, Any]() +
-                ("homeId" -> "com.omega.controllers.HomeController".controllerName.toLowerCase) +
-                ("homeName" -> "com.omega.controllers.HomeController".controllerName) +
-                ("homePath" -> "com.omega.controllers.HomeController".controllerPath) +
-                ("booksId" -> "com.omega.controllers.BooksController".controllerName.toLowerCase) +
-                ("booksName" -> "com.omega.controllers.BooksController".controllerName) +
-                ("booksPath" -> "com.omega.controllers.BooksController".controllerPath) +
-                ("angularSeedId" -> "com.omega.controllers.AngularSeedController".controllerName.toLowerCase) +
-                ("angularSeedName" -> "com.omega.controllers.AngularSeedController".controllerName) +
-                ("angularSeedPath" -> "com.omega.controllers.AngularSeedController".controllerPath)
+                ControllerSpace.getPublicSpace
             }
         }
     }
     
-    implicit class ControllerClassNameHelper(controllerClassName: String) {
+    implicit class ControllerRegistrationHelper[C <: CController](c: C) {
         
-        def controllerName: String = {
-            val n = controllerClassName.split("\\.").last
-            val i = n.indexOf("Controller")
-            n.substring(0, i)
-        }
-        
-        def controllerPath(implicit req: HttpServletRequest): String = {
-            val n = controllerName.toLowerCase
-            s"${req.getContextPath}/${n}"
+        def register: Unit = {
+            ControllerSpace.insert(c.getClass.getCanonicalName)
         }
     }
 }
