@@ -27,6 +27,7 @@ import javax.sql.DataSource
 import com.omega.service.ActorService
 import akka.actor.ActorSystem
 import com.omega.service.ActorServiceImpl
+import com.omega.context.ApplicationContextProvider
 
 @Configuration("OmegaCoreConfig")
 @EnableTransactionManagement 
@@ -141,6 +142,13 @@ class OmegaCoreConfig extends BeanLifeCycle {
     }
     
     /************************************************************USEFULL BEANS**********************************************************/
+    
+    @Bean
+    def theApplicationContextProvider = {
+        debug.on("Constructing ApplicationContextProvider")
+        
+        new ApplicationContextProvider
+    }
     
     @Bean
     def theActorService: ActorService = {
