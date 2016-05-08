@@ -11,6 +11,7 @@ import javax.persistence.Entity
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 import javax.persistence.Table
+import com.omega.util.JavaList
 
 class BookDaoJpaImpl(val actorService: ActorService) extends BookDao with BeanLifeCycle {
     import com.omega.actor.BookSaveActor._

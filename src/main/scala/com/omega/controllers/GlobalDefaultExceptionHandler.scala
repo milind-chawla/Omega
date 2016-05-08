@@ -5,21 +5,37 @@ import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.core.annotation.AnnotationUtils
+import com.omega.util.BeanLifeCycle
+import org.springframework.web.bind.annotation.ControllerAdvice
+import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.ResponseBody
+import com.omega.exceptions.JSONException
+import com.omega.util.JavaMap
 
-class GlobalDefaultExceptionHandler {
-    val DEFAULT_ERROR_VIEW = "error";
+@ControllerAdvice
+class GlobalDefaultExceptionHandler extends BeanLifeCycle {
+    import com.omega.util.OmegaHelpers._
+    
+    val DEFAULT_ERROR_VIEW = "_common0/exp";
     
     @throws(classOf[Exception])
     @ExceptionHandler(value = Array(classOf[Exception]))
-    def defaultErrorHandler(req: HttpServletRequest, e: Exception): ModelAndView = {
+    def defaultErrorHandler(req: HttpServletRequest, model: Model, e: Exception): ModelAndView = {
         if(AnnotationUtils.findAnnotation(e.getClass(), classOf[ResponseStatus]) != null) throw e
         
-        val mav = new ModelAndView
+        val mav = (new ModelAndView)()
         
-        mav.addObject("exception", e)
-        mav.addObject("url", req.getRequestURL())
+        mav.addAllObjects(JavaMap("exception" -> e, "url" -> req.getRequestURL(), "ste" -> e.getStackTrace))
+        
         mav.setViewName(DEFAULT_ERROR_VIEW)
         
         mav
+    }
+    
+    @throws(classOf[Exception])
+    @ExceptionHandler(value = Array(classOf[JSONException]))
+    @ResponseBody
+    def errorHandler(req: HttpServletRequest, model: Model, e: Exception): java.util.Map[String, _] = {
+        JavaMap("error" -> e.getMessage, "url" -> req.getRequestURL(), "ste" -> e.getStackTrace)
     }
 }

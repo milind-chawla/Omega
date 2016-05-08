@@ -21,11 +21,11 @@ import com.omega.util.BeanLifeCycle
 import javax.servlet.http.HttpServletRequest
 import org.springframework.web.bind.annotation.RequestMethod
 import com.omega.util.JavaList
+import com.omega.exceptions.JSONException
 
 @Controller
 @RequestMapping(value = Array("/books"))
 class BooksController extends CController with BeanLifeCycle {
-    import scala.collection.JavaConversions._
     import com.omega.util.OmegaHelpers._
     
     @Autowired
@@ -42,44 +42,26 @@ class BooksController extends CController with BeanLifeCycle {
 	def index(model: Model)(implicit req: HttpServletRequest): String = {
         model(this)
         
-        try {
-            model {
-                Map[Any, Any]() + 
-                ("books" -> {
-                    bookService.getBooks match {
-                	    case Some(books) => books
-                	    case None => JavaList[Book]() 
-                	}
-                })
-            }
-            
-            s"$lname/index"
-        } catch {
-            case NonFatal(e) => {
-                model {
-                    Map[Any, Any]() +
-                    ("messages" -> JavaList()) + 
-                    ("errors" -> JavaList(s"Error: $e"))
-                }
-                
-                s"$lname/err"
-            }
+        model {
+            Map[Any, Any]() + 
+            ("books" -> {
+                bookService.getBooks match {
+            	    case Some(books) => books
+            	    case None => JavaList[Book]() 
+            	}
+            })
         }
+        
+        s"$lname/index"
     }
     
     @RequestMapping(value = Array("/index.json", "/index.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
 	def indexJ(implicit req: HttpServletRequest): JList[Book] = {
-        try {
-            bookService.getBooks match {
-        	    case Some(books) => books
-        	    case None => JavaList[Book]() 
-        	}    
-        } catch {
-            case NonFatal(e) => {
-                JavaList[Book]()
-            }
-        }
+        bookService.getBooks match {
+    	    case Some(books) => books
+    	    case None => throw new JSONException("No Books available") 
+    	}
     }
     
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.GET))
@@ -108,24 +90,12 @@ class BooksController extends CController with BeanLifeCycle {
             
             s"$lname/new"
         } else {
-            try {
-                bookService.save(book) 
+            bookService.save(book) 
                 
-                redirectAttributes.addFlashAttribute("messages", JavaList(s"$book created successfully"))
-                redirectAttributes.addFlashAttribute("errors", JavaList())
-                
-                s"redirect:/$lname/${book.id}"
-            } catch {
-                case NonFatal(e) => {
-                    model {
-                        Map[Any, Any]() +
-                        ("messages" -> JavaList()) + 
-                        ("errors" -> JavaList(s"Error: $e"))
-                    }
-                
-                    s"$lname/new"
-                }
-            }    
+            redirectAttributes.addFlashAttribute("messages", JavaList(s"$book created successfully"))
+            redirectAttributes.addFlashAttribute("errors", JavaList())
+            
+            s"redirect:/$lname/${book.id}"
         }        
     }
     
@@ -133,51 +103,45 @@ class BooksController extends CController with BeanLifeCycle {
 	def show(@PathVariable("bid") bid: String, model: Model, redirectAttributes: RedirectAttributes)(implicit req: HttpServletRequest): String = {
         model(this)
         
-        try {
-            bookService.getBook(bid.longValue) match {
-                case Some(book) => {
-                    model {
-                        Map[Any, Any]() + 
-                        ("book" -> book)
-                    }
-                    
-                    s"$lname/show"
-                }
-                case None => s"$lname/404"
-            }    
-        } catch {
-            case NonFatal(e) => {
+        bookService.getBook(bid.longValue) match {
+            case Some(book) => {
                 model {
-                    Map[Any, Any]() +
-                    ("messages" -> JavaList()) + 
-                    ("errors" -> JavaList(s"Error: $e"))
+                    Map[Any, Any]() + 
+                    ("book" -> book)
                 }
                 
-                s"$lname/err"
+                s"$lname/show"
             }
+            case None => throw new Exception(s"Book with id $bid not found")
         }
     }
     
     @RequestMapping(value = Array("/{bid}.json", "/{bid}.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
 	def showJ(@PathVariable("bid") bid: String)(implicit req: HttpServletRequest): Book = {
-        try {
-            bookService.getBook(bid.longValue) match {
-                case Some(book) => book
-                case None => Book()
-            }    
-        } catch {
-            case NonFatal(e) => {
-                Book()
-            }
-        }
+        bookService.getBook(bid.longValue) match {
+            case Some(book) => book
+            case None => throw new JSONException(s"Book with id $bid not found")
+        }    
     }
     
     @RequestMapping(value = Array("/{bid}/edit", "/{bid}/edit/"), method = Array(RequestMethod.GET))
 	def edit(@PathVariable("bid") bid: String, model: Model, redirectAttributes: RedirectAttributes)(implicit req: HttpServletRequest): String = {
         model(this)
         
-        try {
+        bookService.getBook(bid.longValue) match {
+            case Some(book) => {
+                model {
+                    Map[Any, Any]() + 
+                    ("book" -> book)
+                }
+                
+                s"$lname/edit"
+            }
+            case None => throw new Exception(s"Book with id $bid not found")
+        }
+        
+        /*try {
             bookService.getBook(bid.longValue) match {
                 case Some(book) => {
                     model {
@@ -187,7 +151,7 @@ class BooksController extends CController with BeanLifeCycle {
                     
                     s"$lname/edit"
                 }
-                case None => s"$lname/404"
+                case None => throw new Exception(s"Book with id $bid not found")
             } 
         } catch {
             case NonFatal(e) => {
@@ -199,7 +163,7 @@ class BooksController extends CController with BeanLifeCycle {
                 
                 s"$lname/err"
             }
-        }
+        }*/
         
     }
     

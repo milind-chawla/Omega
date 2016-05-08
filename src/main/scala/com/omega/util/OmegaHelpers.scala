@@ -8,6 +8,7 @@ import com.omega.controllers.CController
 
 import javax.servlet.http.HttpServletRequest
 import com.omega.controllers.ControllerSpace
+import org.springframework.web.servlet.ModelAndView
 
 object OmegaHelpers {
     sealed trait OM
@@ -110,6 +111,38 @@ object OmegaHelpers {
             
             model {
                 ControllerSpace.getPublicSpace
+            }
+        }
+    }
+    
+    implicit class ModelAndViewMaker(mav: ModelAndView) {
+        
+        def apply(): ModelAndView = {
+            mav {
+                ControllerSpace.getPublicSpace
+            }
+            
+            mav
+        }
+        
+        def apply(m: => Map[_, _]): ModelAndView = {
+            m.map { case(k, v) =>
+                mav.addObject(k.toString, v)
+            }
+            
+            mav
+        }
+        
+        def apply[C <: CController](c: C)(implicit req: HttpServletRequest): ModelAndView = {
+            mav()
+            
+            mav {
+                Map[Any, Any]() + 
+                ("activate" -> s"${c.lname}") + 
+                ("path" -> s"${c.path}") + 
+                ("path_new" -> s"${c.path_new}") +
+                ("uname" -> s"${c.uname}") + 
+                ("lname" -> s"${c.lname}")
             }
         }
     }
