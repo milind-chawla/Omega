@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 @RequestMapping(value = Array("/home"))
 class HomeController extends CController with BeanLifeCycle {
+    import CControllerHelpers._
     import com.omega.util.OmegaHelpers._
     
     @Autowired

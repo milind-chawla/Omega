@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 @RequestMapping(value = Array("", "/"))
 class RootController extends CController with BeanLifeCycle {
+    import CControllerHelpers._
     import com.omega.util.OmegaHelpers._
     
     this.register

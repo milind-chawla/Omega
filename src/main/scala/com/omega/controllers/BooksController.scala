@@ -27,6 +27,7 @@ import com.omega.exceptions.BookNotFoundException
 @Controller
 @RequestMapping(value = Array("/books"))
 class BooksController extends CController with BeanLifeCycle {
+    import CControllerHelpers._
     import com.omega.util.OmegaHelpers._
     
     @Autowired

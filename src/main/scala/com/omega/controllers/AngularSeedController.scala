@@ -10,6 +10,7 @@ import org.springframework.ui.Model
 @Controller
 @RequestMapping(value = Array("/angularseed"))
 class AngularSeedController extends CController with BeanLifeCycle {
+    import CControllerHelpers._
     import com.omega.util.OmegaHelpers._
     
     this.register

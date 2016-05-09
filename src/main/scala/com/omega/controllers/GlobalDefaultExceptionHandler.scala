@@ -15,6 +15,7 @@ import com.omega.exceptions.BookNotFoundException
 
 @ControllerAdvice
 class GlobalDefaultExceptionHandler extends BeanLifeCycle {
+    import CControllerHelpers._
     import com.omega.util.OmegaHelpers._
     
     val DEFAULT_ERROR_VIEW = "_common0/exp";
