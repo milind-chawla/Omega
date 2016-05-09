@@ -18,9 +18,10 @@
 	  	<div class="panel-body">
 	  		<p>Application has encountered an error. Please contact support on ...</p>
 		    Failed URL: ${url} <br /> 
-		    Exception:  ${exception.message}
-		        <c:forEach items="${exception.stackTrace}" var="ste">    ${ste} 
-		    </c:forEach>
+		    Exception:  ${error.message}
+		        <c:forEach items="${error.stackTrace}" var="ste"> 
+		        	${ste} 
+		    	</c:forEach>
 	  	</div>
 	</div>
 </body>

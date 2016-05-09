@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest
 import org.springframework.web.bind.annotation.RequestMethod
 import com.omega.util.JavaList
 import com.omega.exceptions.JSONException
+import com.omega.exceptions.BookNotFoundException
 
 @Controller
 @RequestMapping(value = Array("/books"))
@@ -60,7 +61,7 @@ class BooksController extends CController with BeanLifeCycle {
 	def indexJ(implicit req: HttpServletRequest): JList[Book] = {
         bookService.getBooks match {
     	    case Some(books) => books
-    	    case None => throw new JSONException("No Books available") 
+    	    case None => JavaList[Book]() 
     	}
     }
     
@@ -93,7 +94,6 @@ class BooksController extends CController with BeanLifeCycle {
             bookService.save(book) 
                 
             redirectAttributes.addFlashAttribute("messages", JavaList(s"$book created successfully"))
-            redirectAttributes.addFlashAttribute("errors", JavaList())
             
             s"redirect:/$lname/${book.id}"
         }        
@@ -112,7 +112,7 @@ class BooksController extends CController with BeanLifeCycle {
                 
                 s"$lname/show"
             }
-            case None => throw new Exception(s"Book with id $bid not found")
+            case None => throw new BookNotFoundException(bid)
         }
     }
     

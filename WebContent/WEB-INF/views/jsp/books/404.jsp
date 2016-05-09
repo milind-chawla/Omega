@@ -8,11 +8,11 @@
     <div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">
-				Book Details
+				Book Not Found
 			</h3>
 	  	</div>
 	  	<div class="panel-body">
-	    	<h4>404: Book not found</h4>
+	    	<h4>404: Book with id: ${id} not found</h4>
 	  	</div>
 	</div>
   </body>
