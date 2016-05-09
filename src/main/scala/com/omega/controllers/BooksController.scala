@@ -138,33 +138,8 @@ class BooksController extends CController with BeanLifeCycle {
                 
                 s"$lname/edit"
             }
-            case None => throw new Exception(s"Book with id $bid not found")
+            case None => throw new BookNotFoundException(bid)
         }
-        
-        /*try {
-            bookService.getBook(bid.longValue) match {
-                case Some(book) => {
-                    model {
-                        Map[Any, Any]() + 
-                        ("book" -> book)
-                    }
-                    
-                    s"$lname/edit"
-                }
-                case None => throw new Exception(s"Book with id $bid not found")
-            } 
-        } catch {
-            case NonFatal(e) => {
-                model {
-                    Map[Any, Any]() +
-                    ("messages" -> JavaList()) + 
-                    ("errors" -> JavaList(s"Error: $e"))
-                }
-                
-                s"$lname/err"
-            }
-        }*/
-        
     }
     
     @RequestMapping(value = Array("/{bid}/edit", "/{bid}/edit/"), method = Array(RequestMethod.POST))
@@ -174,27 +149,15 @@ class BooksController extends CController with BeanLifeCycle {
         
         if(book.hasErrors) {
             redirectAttributes.addFlashAttribute("book", book)
-            redirectAttributes.addFlashAttribute("messages", JavaList())
             redirectAttributes.addFlashAttribute("errors", book.errors)
             
             s"redirect:/$lname/${book.id}/edit"
         } else {
-            try {
-                bookService.update(book)
+            bookService.update(book)
                    
-                redirectAttributes.addFlashAttribute("messages", JavaList(s"$book updated successfully"))
-                redirectAttributes.addFlashAttribute("errors", JavaList())
+            redirectAttributes.addFlashAttribute("messages", JavaList(s"$book updated successfully"))
                 
-                s"redirect:/$lname/${book.id}"
-            } catch {
-                case NonFatal(e) => {
-                    redirectAttributes.addFlashAttribute("book", book)
-                    redirectAttributes.addFlashAttribute("messages", JavaList())
-                    redirectAttributes.addFlashAttribute("errors", JavaList(s"Error: $e"))
-                
-                    s"redirect:/$lname/${book.id}/edit"
-                }
-            }
+            s"redirect:/$lname/${book.id}"
         }
     }
 }

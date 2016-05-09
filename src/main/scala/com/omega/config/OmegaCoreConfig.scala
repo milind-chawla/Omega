@@ -143,6 +143,8 @@ class OmegaCoreConfig extends BeanLifeCycle {
     
     /************************************************************USEFULL BEANS**********************************************************/
     
+    @Bean def booksDirectory  = "D:/OB"
+    
     @Bean
     def theApplicationContextProvider = {
         debug.on("Constructing ApplicationContextProvider")
