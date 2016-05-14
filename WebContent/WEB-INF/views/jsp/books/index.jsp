@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
   <head>
-  	<meta name='description' content='books index page'>
+  	<meta name='description' content=''>
     <title>Books</title>
   </head>
   <body>

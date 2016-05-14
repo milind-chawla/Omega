@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Book Error</title>
-    <meta name='description' content='book details page'>
+    <meta name='description' content=''>
   </head>
   <body>
     <div class="panel panel-default">

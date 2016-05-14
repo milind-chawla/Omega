@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="mvc" %>
 <html>
   <head>
-  	<meta name='description' content='book details page'>
+  	<meta name='description' content=''>
     <title>Edit Book</title>
     <style type="text/css">
     	.formFieldMessage { color: #8ec127; }
