@@ -28,6 +28,7 @@ import com.omega.service.ActorService
 import akka.actor.ActorSystem
 import com.omega.service.ActorServiceImpl
 import com.omega.context.ApplicationContextProvider
+import com.omega.db.DB
 
 @Configuration("OmegaCoreConfig")
 @EnableTransactionManagement 
@@ -72,11 +73,12 @@ class OmegaCoreConfig extends BeanLifeCycle {
     def theDataSource: DataSource = {
         debug.on("Start Constructing MySQL DataSource")
         
+        val props = DB.props
         val dataSource: HikariDataSource = new HikariDataSource
         
         dataSource.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource")
-        dataSource.setUsername("user1")
-        dataSource.setPassword("user1")
+        dataSource.setUsername(props("username"))
+        dataSource.setPassword(props("password"))
         dataSource.setAutoCommit(false)
         dataSource.setConnectionTimeout(5000)
         dataSource.setIdleTimeout(600000)
@@ -88,7 +90,7 @@ class OmegaCoreConfig extends BeanLifeCycle {
         //dataSource.setAllowPoolSuspension(false)
         //dataSource.setReadOnly(false)
         //dataSource.setRegisterMbeans(false)
-        dataSource.setCatalog("user1")
+        dataSource.setCatalog(props("catalog"))
         //dataSource.setConnectionInitSql(null)
         //dataSource.setDriverClassName("com.mysql.jdbc.Driver")
         dataSource.setValidationTimeout(10000)
