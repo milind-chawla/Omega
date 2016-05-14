@@ -15,6 +15,8 @@ class AngularSeedController extends CController with BeanLifeCycle {
     
     this.register
     
+    override def show: Boolean = false
+    
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
 	def root(model: Model)(implicit req: HttpServletRequest) = {
     	s"redirect:/$lname/index"

@@ -68,7 +68,7 @@ object CControllerHelpers {
     implicit class ControllerRegistrationHelper[C <: CController](c: C) {
         
         def register: Unit = {
-            ControllerSpace.insert(c.getClass.getCanonicalName)
+            ControllerSpace.insert(c)
         }
     }
 }

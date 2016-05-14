@@ -15,6 +15,8 @@ class RootController extends CController with BeanLifeCycle {
     
     this.register
     
+    override def show: Boolean = true
+    
     @RequestMapping(method = Array(RequestMethod.GET))
 	def root(implicit req: HttpServletRequest): String = {
     	"redirect:/home/index"
