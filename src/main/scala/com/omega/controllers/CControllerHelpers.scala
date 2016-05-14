@@ -3,13 +3,15 @@ package com.omega.controllers
 import javax.servlet.http.HttpServletRequest
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.ui.Model
+import com.omega.util.JavaList
 
 object CControllerHelpers {
     implicit class ModelMaker(model: Model) {
         
         def apply(): Model = {
             model {
-                ControllerSpace.getPublicSpace
+                Map[Any, Any]() +
+                ("links" -> JavaList(ControllerSpace.getPublicSpace: _*))
             }
         }
         
@@ -39,7 +41,8 @@ object CControllerHelpers {
         
         def apply(): ModelAndView = {
             mav {
-                ControllerSpace.getPublicSpace
+                Map[Any, Any]() +
+                ("links" -> JavaList(ControllerSpace.getPublicSpace: _*))
             }
         }
         

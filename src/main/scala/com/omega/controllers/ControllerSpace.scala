@@ -3,21 +3,29 @@ package com.omega.controllers
 import com.omega.context.ApplicationContextProvider
 
 object ControllerSpace {
-    private[this] var publicSpace = Map[Any, Any]()
+    private[this] var publicSpace = List[(String, String, String)]()
     
     def insert[C <: CController](c: C): Unit = {
         if(c.show) {
             this.synchronized {
                 val controllerClassName: String = c.getClass.getCanonicalName
                 
-                publicSpace = publicSpace + (s"${controllerName(controllerClassName)}Id" -> s"${controllerName(controllerClassName).toLowerCase}")
-                publicSpace = publicSpace + (s"${controllerName(controllerClassName)}Name" -> s"${controllerName(controllerClassName)}")
-                publicSpace = publicSpace + (s"${controllerName(controllerClassName)}Path" -> s"${controllerPath(controllerClassName)}")
+                val id = controllerName(controllerClassName).toLowerCase
+                val name = controllerName(controllerClassName)
+                val path = controllerPath(controllerClassName)
+                
+                publicSpace = publicSpace :+ (s"${id}", s"${name}", s"${path}")
             }
         }
     }
     
-    def getPublicSpace = (publicSpace + ("" -> ""))
+    def getPublicSpace: List[(String, String, String)] = {
+        val root = publicSpace.find(_._1 == "root").get
+        val home = publicSpace.find(_._1 == "home").get
+        
+        val subspace = publicSpace.filter(x => x._1 != "root" && x._1 != "home")
+        home +: subspace
+    }
     
     private def controllerName(controllerClassName: String): String = {
         val n = controllerClassName.split("\\.").last

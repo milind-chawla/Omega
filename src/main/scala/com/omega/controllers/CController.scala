@@ -1,8 +1,11 @@
 package com.omega.controllers
 
 import javax.servlet.http.HttpServletRequest
+import CControllerHelpers._
 
-trait CController {
+abstract class CController {
+    this.register
+    
     def show: Boolean = true
     
     def uname: String = {

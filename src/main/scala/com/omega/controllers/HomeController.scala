@@ -22,10 +22,6 @@ class HomeController extends CController with BeanLifeCycle {
     @Autowired
     private var bookService: BookService = _
     
-    this.register
-    
-    override def show: Boolean = true
-    
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
 	def root(model: Model)(implicit req: HttpServletRequest) = {
     	s"redirect:/$lname/index"
