@@ -26,7 +26,12 @@
 			    <mvc:input path="name" class="form-control" placeholder="Enter name here" />
 			    <mvc:hidden path="id" />
 			  </div>
-			  <mvc:button class="btn btn-default">Submit</mvc:button>
+			  <mvc:button id="${lname}_submit_${book.id}" class="btn btn-default">
+			  	<span class="glyphicon glyphicon-floppy-disk"></span> Submit
+			  </mvc:button>
+			  <a id="${lname}_cancel_${book.id}" class="btn btn-default" role="button" href="${path}">
+				<span class="glyphicon glyphicon-floppy-remove"></span> Cancel
+			  </a>
 			</mvc:form>
 			
 	  	</div>
