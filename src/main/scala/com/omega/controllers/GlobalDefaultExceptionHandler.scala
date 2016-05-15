@@ -18,8 +18,6 @@ class GlobalDefaultExceptionHandler extends BeanLifeCycle {
     import CControllerHelpers._
     import com.omega.util.OmegaHelpers._
     
-    val DEFAULT_ERROR_VIEW = "_common0/exp";
-    
     @throws(classOf[Exception])
     @ExceptionHandler(value = Array(classOf[Exception]))
     def exception(req: HttpServletRequest, e: Exception): ModelAndView = {

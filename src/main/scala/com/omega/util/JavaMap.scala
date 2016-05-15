@@ -2,10 +2,10 @@ package com.omega.util
 
 object JavaMap {
     
-    def apply[String, B]() = new java.util.HashMap[String, B]
+    def apply[A, B]() = new java.util.HashMap[A, B]
     
-    def apply[String, B](tups: (String, B)*): java.util.HashMap[String, B] = {
-        val map = new java.util.HashMap[String, B]
+    def apply[A, B](tups: (A, B)*): java.util.HashMap[A, B] = {
+        val map = new java.util.HashMap[A, B]
         
         tups foreach { case (k, v) =>
             map.put(k, v)
