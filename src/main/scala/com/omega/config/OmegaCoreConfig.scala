@@ -14,7 +14,6 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.EnableTransactionManagement
 
-import com.omega.debug.Debug.debug
 import com.omega.repository.BookDao
 import com.omega.repository.BookDaoJpaImpl
 import com.omega.service.BookService
@@ -71,8 +70,6 @@ class OmegaCoreConfig extends BeanLifeCycle {
     
     @Bean
     def theDataSource: DataSource = {
-        debug.on("Start Constructing MySQL DataSource")
-        
         val props = DB.props
         val dataSource: HikariDataSource = new HikariDataSource
         
@@ -96,8 +93,6 @@ class OmegaCoreConfig extends BeanLifeCycle {
         dataSource.setValidationTimeout(10000)
         dataSource.setLeakDetectionThreshold(5000)
         
-        debug.on("End Constructing MySQL DataSource")
-        
         dataSource
     }
     
@@ -106,39 +101,27 @@ class OmegaCoreConfig extends BeanLifeCycle {
     
     @Bean
     def theEntityManagerFactory: FactoryBean[EntityManagerFactory] = {
-        debug.on("Start Constructing FactoryBean[EntityManagerFactory]")
-        
         val emfb: LocalContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean
         emfb.setPersistenceUnitName("OmegaUnit1")
         emfb.setDataSource(theDataSource)
         emfb.setJpaVendorAdapter(theJpaVendorAdapter)
         emfb.setPackagesToScan("com.omega.domain")
         
-        debug.on("End Constructing FactoryBean[EntityManagerFactory]")
-        
         emfb
     }
     
     @Bean(name = Array("OmegaTM1"))
     def theTransactionManager: PlatformTransactionManager = {
-        debug.on("Start Constructing PlatformTransactionManager")
-        
         val txManager: JpaTransactionManager = new JpaTransactionManager
         txManager.setEntityManagerFactory(theEntityManagerFactory.getObject)
-        
-        debug.on("End Constructing PlatformTransactionManager")
         
         txManager
     }
     
     @Bean
     def theJdbcTemplate: JdbcTemplate = {
-        debug.on("Start Constructing JdbcTemplate")
-        
         val jdbcTemplate: JdbcTemplate = new JdbcTemplate
         jdbcTemplate.setDataSource(theDataSource)
-        
-        debug.on("End Constructing JdbcTemplate")
         
         jdbcTemplate
     }
@@ -149,29 +132,21 @@ class OmegaCoreConfig extends BeanLifeCycle {
     
     @Bean
     def theApplicationContextProvider = {
-        debug.on("Constructing ApplicationContextProvider")
-        
         new ApplicationContextProvider
     }
     
     @Bean
     def theActorService: ActorService = {
-        debug.on("Constructing ActorService")
-        
         new ActorServiceImpl(ActorSystem("OmegaActorSystem"))
     }
     
     @Bean
     def theBookDao: BookDao = {
-        debug.on("Constructing BookDao")
-        
         new BookDaoJpaImpl(theActorService)
     }
     
     @Bean
-    def theBookService: BookService = {
-        debug.on("Constructing BookService")
-        
+    def theBookService: BookService = {        
         new BookServiceImpl(theBookDao)
     }
 }

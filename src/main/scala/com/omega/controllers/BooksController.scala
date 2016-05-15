@@ -44,12 +44,7 @@ class BooksController extends CController with BeanLifeCycle {
         
         model {
             Map[Any, Any]() + 
-            ("books" -> {
-                bookService.getBooks match {
-            	    case Some(books) => books
-            	    case None => JavaList[Book]() 
-            	}
-            })
+            ("books" -> bookService.getBooks)
         }
         
         s"$lname/index"
@@ -58,10 +53,7 @@ class BooksController extends CController with BeanLifeCycle {
     @RequestMapping(value = Array("/index.json", "/index.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
 	def indexJ(implicit req: HttpServletRequest): JList[Book] = {
-        bookService.getBooks match {
-    	    case Some(books) => books
-    	    case None => JavaList[Book]() 
-    	}
+        bookService.getBooks
     }
     
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.GET))
@@ -102,7 +94,7 @@ class BooksController extends CController with BeanLifeCycle {
 	def show(@PathVariable("bid") bid: String, model: Model, redirectAttributes: RedirectAttributes)(implicit req: HttpServletRequest): String = {
         model(this)
         
-        bookService.getBook(bid.longValue) match {
+        bookService.findById(bid.longValue) match {
             case Some(book) => {
                 model {
                     Map[Any, Any]() + 
@@ -118,7 +110,7 @@ class BooksController extends CController with BeanLifeCycle {
     @RequestMapping(value = Array("/{bid}.json", "/{bid}.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
 	def showJ(@PathVariable("bid") bid: String)(implicit req: HttpServletRequest): Book = {
-        bookService.getBook(bid.longValue) match {
+        bookService.findById(bid.longValue) match {
             case Some(book) => book
             case None => throw new JSONException(s"Book with id $bid not found")
         }    
@@ -128,7 +120,7 @@ class BooksController extends CController with BeanLifeCycle {
 	def edit(@PathVariable("bid") bid: String, model: Model, redirectAttributes: RedirectAttributes)(implicit req: HttpServletRequest): String = {
         model(this)
         
-        bookService.getBook(bid.longValue) match {
+        bookService.findById(bid.longValue) match {
             case Some(book) => {
                 model {
                     Map[Any, Any]() + 
