@@ -11,6 +11,7 @@ import javax.persistence.GenerationType
 import com.omega.util.OmegaHelpers.StringHelper
 import javax.persistence.Column
 import com.omega.util.JavaList
+import javax.validation.constraints.Size
 
 @Entity
 @Table(name = "BOOK")
@@ -24,6 +25,7 @@ class Book(_id: Long, _name: String) {
     var id: Long = _id
     
     @Column
+    @Size(min=3, max=20)
     var name: String = _name
     
     def setId(_id: Long): Unit = this.id = _id

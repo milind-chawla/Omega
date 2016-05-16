@@ -6,7 +6,7 @@
   	<meta name='description' content=''>
     <title>Create Book</title>
     <style type="text/css">
-    	
+    	.formFieldError { background-color: #FFC; }
 	</style>
   </head>
   <body>
@@ -17,14 +17,24 @@
 			</h3>
 	  	</div>
 	  	<div class="panel-body">
-	  		<%@include file="/WEB-INF/views/jsp/_common0/msg.jsp" %>
+	  		<%--@include file="/WEB-INF/views/jsp/_common0/msg.jsp" --%>
 	  		
 	  		<mvc:form modelAttribute="book">
-			  <div class="form-group">
-			    <label for="name">Name</label>
-			    <mvc:input path="name" class="form-control" placeholder="Enter name here" />
+			  <div class="form-group row">
+			    <label for="name" class="col-md-12 form-control-label">Name</label>
+			    <div class="col-md-8">
+			    	<mvc:input path="name" class="form-control" cssErrorClass="form-control formFieldError" placeholder="Enter name here" />
+			    </div>
+			    <div class="col-md-4">
+			    	<mvc:errors path="name" />
+			    </div>
 			  </div>
-			  <mvc:button class="btn btn-default">Submit</mvc:button>
+			  
+			  <div class="form-group row">
+			      <div class = "col-md-12">
+			         <mvc:button class="btn btn-default">Submit</mvc:button>
+			      </div>
+			  </div>
 			</mvc:form>
 			
 	  	</div>

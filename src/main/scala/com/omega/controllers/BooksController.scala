@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod
 import com.omega.util.JavaList
 import com.omega.exceptions.JSONException
 import com.omega.exceptions.BookNotFoundException
+import javax.validation.Valid
+import org.springframework.validation.BindingResult
 
 @Controller
 @RequestMapping(value = Array("/books"))
@@ -69,15 +71,20 @@ class BooksController extends CController with BeanLifeCycle {
     }
     
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.POST))
-	def `new_post`(@ModelAttribute book: Book, model: Model, redirectAttributes: RedirectAttributes)
+	def `new_post`(@Valid book: Book, result: BindingResult, model: Model, redirectAttributes: RedirectAttributes)
         (implicit req: HttpServletRequest): String = {
         model(this)
         
-        if(book.hasErrors) {
-            model {
+        if(result.hasErrors) {
+            /*model {
                 Map[Any, Any]() +
                 ("messages" -> JavaList()) + 
                 ("errors" -> book.errors)
+            }*/
+            
+            model {
+                Map[Any, Any]() +
+                ("book" -> book)
             }
             
             s"$lname/new"
