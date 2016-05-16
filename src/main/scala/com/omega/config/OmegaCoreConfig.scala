@@ -28,6 +28,8 @@ import akka.actor.ActorSystem
 import com.omega.service.ActorServiceImpl
 import com.omega.context.ApplicationContextProvider
 import com.omega.db.DB
+import com.typesafe.config.ConfigFactory
+import java.io.File
 
 @Configuration("OmegaCoreConfig")
 @EnableTransactionManagement 
@@ -137,7 +139,10 @@ class OmegaCoreConfig extends BeanLifeCycle {
     
     @Bean
     def theActorService: ActorService = {
-        new ActorServiceImpl(ActorSystem("OmegaActorSystem"))
+        val configFile = getClass.getClassLoader.getResource("application.local.conf").getFile
+        val config = ConfigFactory.parseFile(new File(configFile))
+        
+        new ActorServiceImpl(ActorSystem("OmegaActorSystemLocal", config))
     }
     
     @Bean

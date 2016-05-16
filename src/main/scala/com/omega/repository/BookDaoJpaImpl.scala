@@ -2,7 +2,6 @@ package com.omega.repository
 
 import java.util.{ List => JList }
 
-import com.omega.actor.BookSaveActor.BookCreated
 import com.omega.domain.Book
 import com.omega.service.ActorService
 import com.omega.util.BeanLifeCycle
@@ -14,7 +13,7 @@ import javax.persistence.Table
 import com.omega.util.JavaList
 
 class BookDaoJpaImpl(val actorService: ActorService) extends BookDao with BeanLifeCycle {
-    import com.omega.actor.BookSaveActor._
+    import com.omega.actor.transport.BookTransport._
     
     @PersistenceContext(unitName = "OmegaUnit1")
     private var entityManager: EntityManager = _
