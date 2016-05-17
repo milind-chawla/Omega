@@ -12,10 +12,11 @@ import com.omega.util.BeanLifeCycle
 
 import org.springframework.web.bind.annotation.RequestMethod
 import javax.servlet.http.HttpServletRequest
+import org.springframework.web.servlet.ModelAndView
 
 @Controller
 @RequestMapping(value = Array("/home"))
-class HomeController extends CController with BeanLifeCycle {
+class HomeController extends CController {
     import CControllerHelpers._
     import com.omega.util.OmegaHelpers._
     
@@ -23,15 +24,13 @@ class HomeController extends CController with BeanLifeCycle {
     private var bookService: BookService = _
     
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
-	def root(model: Model)(implicit req: HttpServletRequest) = {
+	def root(req: HttpServletRequest) = Action {
     	s"redirect:/$lname/index"
     }
     
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
-	def index(model: Model)(implicit req: HttpServletRequest) = {
-    	// implicit def imp_gx(om: OM): Unit = imp_g(om)
-        model(this)
-        
-    	s"$lname/index"
+	def index(req: HttpServletRequest) = Action(this) { mv =>
+	    mv.setViewName(s"$lname/index")
+	    mv
     }
 }

@@ -6,65 +6,14 @@ import org.springframework.ui.Model
 import com.omega.util.JavaList
 
 object CControllerHelpers {
-    implicit class ModelMaker(model: Model) {
-        
-        def apply(): Model = {
-            model {
-                Map[Any, Any]() +
-                ("links" -> JavaList(ControllerSpace.getPublicSpace: _*))
-            }
-        }
-        
-        def apply(m: => Map[_, _]): Model = {
-            m.map { case(k, v) =>
-                model.addAttribute(k.toString, v)
-            }
-            
-            model
-        }
-        
-        def apply[C <: CController](c: C)(implicit req: HttpServletRequest): Model = {
-            model()
-            
-            model {
-                Map[Any, Any]() + 
-                ("activate" -> s"${c.lname}") + 
-                ("path" -> s"${c.path}") + 
-                ("path_new" -> s"${c.path_new}") +
-                ("uname" -> s"${c.uname}") + 
-                ("lname" -> s"${c.lname}")
-            }
-        }
-    }
-    
-    implicit class ModelAndViewMaker(mav: ModelAndView) {
+    implicit class ModelAndViewMaker(mv: ModelAndView) {
         
         def apply(): ModelAndView = {
-            mav {
-                Map[Any, Any]() +
-                ("links" -> JavaList(ControllerSpace.getPublicSpace: _*))
-            }
+            mv.addObject("links", JavaList(ControllerSpace.getPublicSpace: _*))
         }
         
-        def apply(m: => Map[_, _]): ModelAndView = {
-            m.map { case(k, v) =>
-                mav.addObject(k.toString, v)
-            }
-            
-            mav
-        }
-        
-        def apply[C <: CController](c: C)(implicit req: HttpServletRequest): ModelAndView = {
-            mav()
-            
-            mav {
-                Map[Any, Any]() + 
-                ("activate" -> s"${c.lname}") + 
-                ("path" -> s"${c.path}") + 
-                ("path_new" -> s"${c.path_new}") +
-                ("uname" -> s"${c.uname}") + 
-                ("lname" -> s"${c.lname}")
-            }
+        def setForRedirect(): Unit = {
+            mv.addObject("links", "")
         }
     }
     
@@ -72,6 +21,25 @@ object CControllerHelpers {
         
         def register: Unit = {
             ControllerSpace.insert(c)
+        }
+    }
+    
+    object Action {
+        def apply(f: => String): String = {
+            f
+        }
+        
+        def apply(c: CController)(f: ModelAndView => ModelAndView): ModelAndView = {
+            val mv = new ModelAndView
+            
+            mv.addObject("activate", s"${c.lname}") 
+            mv.addObject("path", s"${c.path}") 
+            mv.addObject("path_new", s"${c.path_new}")
+            mv.addObject("uname", s"${c.uname}") 
+            mv.addObject("lname", s"${c.lname}")
+            mv.addObject("links", JavaList(ControllerSpace.getPublicSpace: _*))
+            
+            f(mv)
         }
     }
 }

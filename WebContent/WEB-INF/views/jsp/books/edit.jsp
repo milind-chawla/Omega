@@ -6,34 +6,41 @@
   	<meta name='description' content=''>
     <title>Edit Book</title>
     <style type="text/css">
-    	.formFieldMessage { color: #8ec127; }
-		.formFieldError { color: #d41243; }
+    	.formFieldError { background-color: #FFC; }
 	</style>
   </head>
   <body>
     <div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">
-				Edit Book
+				Edit -> ${book}
 			</h3>
 	  	</div>
 	  	<div class="panel-body">
 	  		<%@include file="/WEB-INF/views/jsp/_common0/msg.jsp" %>
-	  		
-	  		<mvc:form modelAttribute="book">
-			  <div class="form-group">
-			    <label for="name">Name</label>
-			    <mvc:input path="name" class="form-control" placeholder="Enter name here" />
-			    <mvc:hidden path="id" />
-			  </div>
-			  <mvc:button id="${lname}_submit_${book.id}" class="btn btn-default">
-			  	<span class="glyphicon glyphicon-floppy-disk"></span> Submit
-			  </mvc:button>
-			  <a id="${lname}_cancel_${book.id}" class="btn btn-default" role="button" href="${path}">
-				<span class="glyphicon glyphicon-floppy-remove"></span> Cancel
-			  </a>
-			</mvc:form>
 			
+			<mvc:form modelAttribute="book">
+			  <div class="form-group row">
+			    <label for="name" class="col-md-12 form-control-label">Name</label>
+			    <div class="col-md-8">
+			    	<mvc:input path="name" class="form-control" cssErrorClass="form-control formFieldError" placeholder="Enter name here" />
+			    	<mvc:hidden path="id" />
+			    </div>
+			    <div class="col-md-4">
+			    	<mvc:errors path="name" />
+			    </div>
+			  </div>
+			  <div class="form-group row">
+			      <div class="col-md-12">
+			         <mvc:button class="btn btn-default">
+			  			<span class="glyphicon glyphicon-floppy-disk"></span> Submit
+			  		 </mvc:button>
+			  		 <a class="btn btn-default" role="button" href="${path}">
+						<span class="glyphicon glyphicon-floppy-remove"></span> Cancel
+			  		 </a>
+			      </div>
+			  </div>
+			</mvc:form>
 	  	</div>
 	</div>
   </body>

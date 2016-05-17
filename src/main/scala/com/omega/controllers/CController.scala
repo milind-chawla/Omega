@@ -2,9 +2,23 @@ package com.omega.controllers
 
 import javax.servlet.http.HttpServletRequest
 import CControllerHelpers._
+import javax.annotation.PostConstruct
+import com.omega.util.BeanLifeCycle
+import javax.annotation.PreDestroy
+import com.omega.context.ApplicationContextProvider
 
-abstract class CController {
-    this.register
+abstract class CController extends BeanLifeCycle {
+    
+    @PostConstruct
+    override def postConstruct: Unit = {
+        println("Post Construct: " + this.getClass.getName)
+        this.register
+    }
+    
+    @PreDestroy
+    override def preDestroy: Unit = {
+        println("Pre Destroy: " + this.getClass.getName)
+    }
     
     def show: Boolean = true
     
@@ -19,15 +33,15 @@ abstract class CController {
         uname.toLowerCase
     }
     
-    def contextPath(implicit req: HttpServletRequest): String = {
-        req.getContextPath
+    def contextPath: String = {
+        ApplicationContextProvider.getServletContext.getContextPath
     }
     
-    def path(implicit req: HttpServletRequest): String = {
+    def path: String = {
         s"$contextPath/$lname"
     }
     
-    def path_new(implicit req: HttpServletRequest): String = {
+    def path_new: String = {
         s"$contextPath/$lname/new"
     }
 }

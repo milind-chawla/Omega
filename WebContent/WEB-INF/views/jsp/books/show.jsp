@@ -28,7 +28,7 @@
     				</tr>
 	    		</tbody>
 	    	</table>
-	    	<a id="button_${lname}_back" class="btn btn-default" role="button" href="${path}">
+	    	<a class="btn btn-default" role="button" href="${path}">
 				<span class="glyphicon glyphicon-arrow-left"></span> Back
 			</a>
 	  	</div>

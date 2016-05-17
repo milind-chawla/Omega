@@ -16,15 +16,13 @@ class AngularSeedController extends CController with BeanLifeCycle {
     import com.omega.util.OmegaHelpers._
     
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
-	def root(model: Model)(implicit req: HttpServletRequest) = {
+	def root(req: HttpServletRequest) = Action {
     	s"redirect:/$lname/index"
     }
     
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
-	def index(model: Model)(implicit req: HttpServletRequest) = {
-    	// implicit def imp_gx(om: OM): Unit = imp_g(om)
-        model(this)
-        
-    	s"$lname/index"
+	def index(req: HttpServletRequest) = Action(this) { mv =>
+    	mv.setViewName(s"$lname/index")
+    	mv
     }
 }

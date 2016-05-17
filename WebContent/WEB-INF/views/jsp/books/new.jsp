@@ -17,7 +17,7 @@
 			</h3>
 	  	</div>
 	  	<div class="panel-body">
-	  		<%--@include file="/WEB-INF/views/jsp/_common0/msg.jsp" --%>
+	  		<%@include file="/WEB-INF/views/jsp/_common0/msg.jsp" %>
 	  		
 	  		<mvc:form modelAttribute="book">
 			  <div class="form-group row">
@@ -31,12 +31,11 @@
 			  </div>
 			  
 			  <div class="form-group row">
-			      <div class = "col-md-12">
+			      <div class="col-md-12">
 			         <mvc:button class="btn btn-default">Submit</mvc:button>
 			      </div>
 			  </div>
 			</mvc:form>
-			
 	  	</div>
 	</div>
   </body>

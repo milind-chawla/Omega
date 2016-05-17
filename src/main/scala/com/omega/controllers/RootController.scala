@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping(value = Array("", "/"))
-class RootController extends CController with BeanLifeCycle {
+class RootController extends CController {
+    import CControllerHelpers._
     
     @RequestMapping(method = Array(RequestMethod.GET))
-	def root(implicit req: HttpServletRequest): String = {
+	def root(implicit req: HttpServletRequest) = Action {
     	"redirect:/home/index"
     }
 }

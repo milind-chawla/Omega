@@ -25,10 +25,12 @@ import com.omega.exceptions.JSONException
 import com.omega.exceptions.BookNotFoundException
 import javax.validation.Valid
 import org.springframework.validation.BindingResult
+import org.springframework.web.servlet.ModelAndView
+
 
 @Controller
 @RequestMapping(value = Array("/books"))
-class BooksController extends CController with BeanLifeCycle {
+class BooksController extends CController {
     import CControllerHelpers._
     import com.omega.util.OmegaHelpers._
     
@@ -36,79 +38,51 @@ class BooksController extends CController with BeanLifeCycle {
     private var bookService: BookService = _
     
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
-	def root(model: Model)(implicit req: HttpServletRequest): String = {
+	def root(req: HttpServletRequest) = Action {
         s"redirect:/$lname/index"
     }
     
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
-	def index(model: Model)(implicit req: HttpServletRequest): String = {
-        model(this)
-        
-        model {
-            Map[Any, Any]() + 
-            ("books" -> bookService.getBooks)
-        }
-        
-        s"$lname/index"
+	def index(req: HttpServletRequest) = Action(this) { mv =>
+        mv.addObject("books", bookService.getBooks)
+        mv.setViewName(s"$lname/index")
+        mv
     }
     
     @RequestMapping(value = Array("/index.json", "/index.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
-	def indexJ(implicit req: HttpServletRequest): JList[Book] = {
+	def indexJ(req: HttpServletRequest): JList[Book] = {
         bookService.getBooks
     }
     
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.GET))
-	def `new`(model: Model, redirectAttributes: RedirectAttributes)(implicit req: HttpServletRequest): String = {
-        model(this)
-        
-        model {
-            Map[Any, Any]() + 
-            ("book" -> Book())
-        }
-        
-        s"$lname/new"
+	def `new`(req: HttpServletRequest) = Action(this) { mv =>
+        mv.addObject("book", Book())
+        mv.setViewName(s"$lname/new")
+        mv
     }
     
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.POST))
-	def `new_post`(@Valid book: Book, result: BindingResult, model: Model, redirectAttributes: RedirectAttributes)
-        (implicit req: HttpServletRequest): String = {
-        model(this)
-        
+	def `new_post`(@Valid book: Book, result: BindingResult, redirectAttributes: RedirectAttributes) = Action(this) { mv =>
         if(result.hasErrors) {
-            /*model {
-                Map[Any, Any]() +
-                ("messages" -> JavaList()) + 
-                ("errors" -> book.errors)
-            }*/
-            
-            model {
-                Map[Any, Any]() +
-                ("book" -> book)
-            }
-            
-            s"$lname/new"
+            mv.addObject("book", book)
+            mv.setViewName(s"$lname/new")
         } else {
             bookService.save(book) 
-                
             redirectAttributes.addFlashAttribute("messages", JavaList(s"$book created successfully"))
-            
-            s"redirect:/$lname/${book.id}"
-        }        
+            mv.setForRedirect()
+            mv.setViewName(s"redirect:/$lname/${book.id}") 
+        }
+        mv
     }
     
     @RequestMapping(value = Array("/{bid}", "/{bid}/"), method = Array(RequestMethod.GET))
-	def show(@PathVariable("bid") bid: String, model: Model, redirectAttributes: RedirectAttributes)(implicit req: HttpServletRequest): String = {
-        model(this)
-        
+	def show(@PathVariable("bid") bid: String, redirectAttributes: RedirectAttributes) = Action(this) { mv =>
         bookService.findById(bid.longValue) match {
             case Some(book) => {
-                model {
-                    Map[Any, Any]() + 
-                    ("book" -> book)
-                }
-                
-                s"$lname/show"
+                mv.addObject("book", book)
+                mv.setViewName(s"$lname/show")
+                mv
             }
             case None => throw new BookNotFoundException(bid)
         }
@@ -116,46 +90,36 @@ class BooksController extends CController with BeanLifeCycle {
     
     @RequestMapping(value = Array("/{bid}.json", "/{bid}.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
-	def showJ(@PathVariable("bid") bid: String)(implicit req: HttpServletRequest): Book = {
+	def showJ(@PathVariable("bid") bid: String): Book = {
         bookService.findById(bid.longValue) match {
             case Some(book) => book
-            case None => throw new JSONException(s"Book with id $bid not found")
+            case None => throw new JSONException(s"Book with id `$bid` not found")
         }    
     }
     
     @RequestMapping(value = Array("/{bid}/edit", "/{bid}/edit/"), method = Array(RequestMethod.GET))
-	def edit(@PathVariable("bid") bid: String, model: Model, redirectAttributes: RedirectAttributes)(implicit req: HttpServletRequest): String = {
-        model(this)
-        
+	def edit(@PathVariable("bid") bid: String, redirectAttributes: RedirectAttributes)(implicit req: HttpServletRequest) = Action(this) { mv =>
         bookService.findById(bid.longValue) match {
             case Some(book) => {
-                model {
-                    Map[Any, Any]() + 
-                    ("book" -> book)
-                }
-                
-                s"$lname/edit"
+                mv.addObject("book", book)
+                mv.setViewName(s"$lname/edit")
+                mv
             }
             case None => throw new BookNotFoundException(bid)
         }
     }
     
     @RequestMapping(value = Array("/{bid}/edit", "/{bid}/edit/"), method = Array(RequestMethod.POST))
-	def edit_post(@PathVariable("bid") bid: String, @ModelAttribute book: Book, model: Model, redirectAttributes: RedirectAttributes)
-        (implicit req: HttpServletRequest): String = {
-        model(this)
-        
-        if(book.hasErrors) {
-            redirectAttributes.addFlashAttribute("book", book)
-            redirectAttributes.addFlashAttribute("errors", book.errors)
-            
-            s"redirect:/$lname/${book.id}/edit"
+	def edit_post(@PathVariable("bid") bid: String, @Valid book: Book, result: BindingResult, redirectAttributes: RedirectAttributes) = Action(this) { mv =>
+        if(result.hasErrors) {
+            mv.addObject("book", book)
+            mv.setViewName(s"$lname/edit")
         } else {
             bookService.update(book)
-                   
             redirectAttributes.addFlashAttribute("messages", JavaList(s"$book updated successfully"))
-                
-            s"redirect:/$lname/${book.id}"
+            mv.setForRedirect()
+            mv.setViewName(s"redirect:/$lname/${book.id}")
         }
+        mv
     }
 }
