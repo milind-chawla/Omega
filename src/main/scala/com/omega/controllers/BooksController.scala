@@ -26,6 +26,7 @@ import com.omega.exceptions.BookNotFoundException
 import javax.validation.Valid
 import org.springframework.validation.BindingResult
 import org.springframework.web.servlet.ModelAndView
+import org.springframework.web.bind.annotation.RequestParam
 
 
 @Controller
@@ -43,8 +44,18 @@ class BooksController extends CController {
     }
     
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
-	def index(req: HttpServletRequest) = Action(this) { mv =>
+	def index(req: HttpServletRequest, 
+	        @RequestParam(value="page", required=false) _page: String,
+	        @RequestParam(value="xid", required=false) _xid: String) = Action(this) { mv =>
+	    val page = _page.longValue
+	    val xid = _xid.longValue
+	    
         mv.addObject("books", bookService.getBooks)
+        mv.addObject("xid", xid)
+        mv.addObject("xsz", 5)
+        mv.addObject("ppage", page - 1)
+        mv.addObject("npage", page + 1)
+        
         mv.setViewName(s"$lname/index")
         mv
     }
@@ -98,7 +109,7 @@ class BooksController extends CController {
     }
     
     @RequestMapping(value = Array("/{bid}/edit", "/{bid}/edit/"), method = Array(RequestMethod.GET))
-	def edit(@PathVariable("bid") bid: String, redirectAttributes: RedirectAttributes)(implicit req: HttpServletRequest) = Action(this) { mv =>
+	def edit(@PathVariable("bid") bid: String, redirectAttributes: RedirectAttributes) = Action(this) { mv =>
         bookService.findById(bid.longValue) match {
             case Some(book) => {
                 mv.addObject("book", book)

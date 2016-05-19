@@ -42,7 +42,7 @@ object OmegaHelpers {
                 s.toInt
             } catch {
                 case NonFatal(ex) =>
-                    Int.MinValue
+                    -1.asInstanceOf[Int]
             }
         }
         
@@ -51,7 +51,7 @@ object OmegaHelpers {
                 s.toLong
             } catch {
                 case NonFatal(ex) =>
-                    Long.MinValue
+                    -1.asInstanceOf[Long]
             }
         }
         
@@ -60,7 +60,7 @@ object OmegaHelpers {
                 s.toDouble
             } catch {
                 case NonFatal(ex) =>
-                    Double.MinValue
+                    -1.asInstanceOf[Double]
             }
         }
         
@@ -69,7 +69,7 @@ object OmegaHelpers {
                 s.toFloat
             } catch {
                 case NonFatal(ex) =>
-                    Float.MinValue
+                    -1.asInstanceOf[Float]
             }
         }
         
@@ -85,7 +85,7 @@ object OmegaHelpers {
         }
         
         def isEmpty: Boolean = {
-            if(s == null || s.compact == "") true else false
+            if(s.compact == "") true else false
         }
     }
     

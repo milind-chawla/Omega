@@ -23,6 +23,7 @@
 	    			</tr>
 	    		</thead>
 	    		<tbody>
+	    			<c:set var="xid" scope="page" value="-1"></c:set>
 	    			<c:forEach items="${books}" var="book">
 	    				<tr>
 	    					<td>${book.id}</td>
@@ -39,10 +40,27 @@
 	    						</a>
 	    					</td>
 	    				</tr>
+	    				<c:set var="xid" scope="page" value="${book.id}"></c:set>
 	    			</c:forEach>
 	    		</tbody>
 	    	</table>
 	  	</div>
 	</div>
+	<nav>
+  		<ul class="pager">
+    		<li id="prev"><a href="${path}/index?page=${ppage}&xid=${xid}">&larr; Previous</a></li>
+    		<li id="next"><a href="${path}/index?page=${npage}&xid=${xid}">Next &rarr;</a></li>
+  		</ul>
+	</nav>
+	
+	<script type="text/javascript">
+		var ppage = ${ppage};
+		var npage = ${npage};
+		var xsz = ${xsz};
+	</script>
+	
+	<content tag="javascripts">
+  		<script type="text/javascript" src="<%=request.getContextPath()%>/resources/javascript/books.js"></script>
+  	</content>
   </body>
 </html>

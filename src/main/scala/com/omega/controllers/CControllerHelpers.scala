@@ -13,7 +13,7 @@ object CControllerHelpers {
         }
         
         def setForRedirect(): Unit = {
-            mv.addObject("links", "")
+            mv.clear()
         }
     }
     
