@@ -18,12 +18,24 @@ class BookDaoJpaImpl(val actorService: ActorService) extends BookDao with BeanLi
     @PersistenceContext(unitName = "OmegaUnit1")
     private var entityManager: EntityManager = _
     
-    override def getBooks: JList[Book] = {
-        entityManager.createQuery("SELECT b FROM Book b").getResultList.asInstanceOf[JList[Book]]
-    }
-    
     override def findById(id: Long): Option[Book] = {
         Option(entityManager.find(classOf[Book], id))
+    }
+    
+    override def getBooks: JList[Book] = {
+        entityManager
+            .createQuery("SELECT b FROM Book b ORDER BY b.id ASC")
+            .getResultList
+            .asInstanceOf[JList[Book]]
+    }
+    
+    def getBooks(startid: Long, max: Int): JList[Book] = {
+        entityManager
+            .createQuery("SELECT b FROM Book b WHERE b.id > :id ORDER BY b.id ASC")
+            .setParameter("id", startid)
+            .setMaxResults(max)
+            .getResultList
+            .asInstanceOf[JList[Book]]
     }
     
     override def save(book: Book): Option[Book] = {

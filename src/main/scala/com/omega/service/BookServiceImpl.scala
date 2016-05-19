@@ -15,13 +15,18 @@ import javax.persistence.Table
 class BookServiceImpl(val bookDao: BookDao) extends BookService with BeanLifeCycle {
     
     @Transactional
+    override def findById(id: Long): Option[Book] = {
+        bookDao.findById(id)
+    }
+    
+    @Transactional
     override def getBooks: JList[Book] = {
         bookDao.getBooks
     }
     
     @Transactional
-    override def findById(id: Long): Option[Book] = {
-        bookDao.findById(id)
+    def getBooks(startid: Long, max: Int): JList[Book] = {
+        bookDao.getBooks(startid, max)
     }
     
     @Transactional

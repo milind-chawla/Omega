@@ -23,7 +23,7 @@
 	    			</tr>
 	    		</thead>
 	    		<tbody>
-	    			<c:set var="xid" scope="page" value="-1"></c:set>
+	    			<c:set var="startid" scope="page" value="-1"></c:set>
 	    			<c:forEach items="${books}" var="book">
 	    				<tr>
 	    					<td>${book.id}</td>
@@ -40,7 +40,7 @@
 	    						</a>
 	    					</td>
 	    				</tr>
-	    				<c:set var="xid" scope="page" value="${book.id}"></c:set>
+	    				<c:set var="startid" scope="page" value="${book.id}"></c:set>
 	    			</c:forEach>
 	    		</tbody>
 	    	</table>
@@ -48,15 +48,14 @@
 	</div>
 	<nav>
   		<ul class="pager">
-    		<li id="prev"><a href="${path}/index?page=${ppage}&xid=${xid}">&larr; Previous</a></li>
-    		<li id="next"><a href="${path}/index?page=${npage}&xid=${xid}">Next &rarr;</a></li>
+    		<li id="prev"><a href="${path}/index?page=${page - 1}&startid=${startid}">&larr; Previous</a></li>
+    		<li id="next"><a href="${path}/index?page=${page + 1}&startid=${startid}">Next &rarr;</a></li>
   		</ul>
 	</nav>
 	
 	<script type="text/javascript">
-		var ppage = ${ppage};
-		var npage = ${npage};
-		var xsz = ${xsz};
+		var disable = ${disable};
+		var startid = ${startid};
 	</script>
 	
 	<content tag="javascripts">
