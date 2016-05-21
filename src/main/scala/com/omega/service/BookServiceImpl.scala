@@ -25,8 +25,8 @@ class BookServiceImpl(val bookDao: BookDao) extends BookService with BeanLifeCyc
     }
     
     @Transactional
-    def getBooks(startid: Long, max: Int): JList[Book] = {
-        bookDao.getBooks(startid, max)
+    override def getBooks(page: Int): JList[Book] = {
+        bookDao.getBooks(page)
     }
     
     @Transactional

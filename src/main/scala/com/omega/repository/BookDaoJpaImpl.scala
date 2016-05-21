@@ -29,13 +29,21 @@ class BookDaoJpaImpl(val actorService: ActorService) extends BookDao with BeanLi
             .asInstanceOf[JList[Book]]
     }
     
-    def getBooks(startid: Long, max: Int): JList[Book] = {
-        entityManager
-            .createQuery("SELECT b FROM Book b WHERE b.id > :id ORDER BY b.id ASC")
-            .setParameter("id", startid)
-            .setMaxResults(max)
+    override def getBooks(page: Int): JList[Book] = {
+        val countQuery = entityManager.createQuery("SELECT count(b.id) FROM Book b")
+        val countResult = countQuery.getSingleResult.asInstanceOf[Long]
+        
+        val pageSize = 10
+        val lastPageNumber = (countResult / pageSize) + 1
+        
+        val list = entityManager
+            .createQuery("SELECT b FROM Book b ORDER BY b.id ASC")
+            .setFirstResult((page - 1)* pageSize)
+            .setMaxResults(pageSize)
             .getResultList
             .asInstanceOf[JList[Book]]
+        
+        list
     }
     
     override def save(book: Book): Option[Book] = {

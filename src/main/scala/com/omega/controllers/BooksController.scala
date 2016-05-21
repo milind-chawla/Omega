@@ -45,20 +45,23 @@ class BooksController extends CController {
     
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
 	def index(req: HttpServletRequest, 
-	        @RequestParam(value="page", required=false) _page: String,
-	        @RequestParam(value="startid", required=false) _startid: String) = Action(this) { mv =>
-	    val page = _page.longValue
-	    var startid = _startid.longValue
-	    val books = bookService.getBooks(startid, 5)
-	    var disable = "prev"
+	        @RequestParam(value="page", required=false) _page: String) = Action(this) { mv =>
+	    val page = if(_page.intValue < 0) {
+	        1
+	    } else {
+	        _page.intValue
+	    }
 	    
-	    if(startid == -1 && books.size() > 0)
-	        disable = "prev"
-	        startid = books.get(0).id
+	    val books = bookService.getBooks(page)
+	    
+	    val disable = if(page == 1) {
+	        "prev"
+	    } else if(books.size() < 5) {
+	        "next"
+	    }
 	    
 	    mv.addObject("disable", disable)
         mv.addObject("page", page)
-        mv.addObject("startid", startid)
         mv.addObject("books", books)
         
         mv.setViewName(s"$lname/index")
