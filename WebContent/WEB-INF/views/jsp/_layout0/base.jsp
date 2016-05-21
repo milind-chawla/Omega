@@ -58,6 +58,7 @@
   	
   	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/jquery/dist/jquery.js"></script>
   	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/bootstrap/dist/js/bootstrap.js"></script>
+  	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/bootbox/bootbox.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/javascript/omega.js"></script>
 	
 	<sitemesh:write property='page.javascripts' />

@@ -41,6 +41,15 @@ module.exports = function(grunt) {
 					}
 				]
 			},
+			bootbox: {
+				files: [
+					{   expand: true,
+						cwd: 'bower_components/bootbox.js/',
+						src: ['**'], 
+						dest: 'WebContent/resources/bootbox/'
+					}
+				]
+			},
 			angular_old: {
 				files: [
 					{   expand: true,

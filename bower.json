@@ -21,6 +21,7 @@
     "angular-new": "angular#1.5.5",
     "angular-route-old": "angular-route#1.2.16",
     "angular-route-new": "angular-route#1.5.5",
-    "Materialize": "materialize#^0.97.6"
+    "Materialize": "materialize#0.97.6",
+    "bootbox.js": "bootbox#4.4.0"
   }
 }

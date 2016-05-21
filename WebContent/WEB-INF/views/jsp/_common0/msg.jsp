@@ -11,6 +11,17 @@
 		</c:forEach>
 	</ul>
 </c:if>
+
+<c:if test="${warnings != null && warnings.size() != 0}">
+	<h4>Warnings</h4>
+	<ul>
+		<c:forEach items="${warnings}" var="warning">
+			<li class="warning">
+				<c:out value="${warning}"></c:out>
+			</li>
+		</c:forEach>
+	</ul>
+</c:if>
 	
 <c:if test="${errors != null && errors.size() != 0}">
 	<h4>Errors</h4>

@@ -6,6 +6,7 @@
 /target/
 /WebContent/resources/jquery/
 /WebContent/resources/bootstrap/
+/WebContent/resources/bootbox/
 /WebContent/resources/angular/
 /bower_components/
 /node_modules/

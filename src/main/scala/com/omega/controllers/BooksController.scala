@@ -135,7 +135,7 @@ class BooksController extends CController {
             mv.setViewName(s"$lname/edit")
         } else {
             bookService.update(book)
-            redirectAttributes.addFlashAttribute("messages", JavaList(s"$book updated successfully"))
+            redirectAttributes.addFlashAttribute("warnings", JavaList(s"$book updated successfully"))
             mv.setForRedirect()
             mv.setViewName(s"redirect:/$lname/${book.id}")
         }
