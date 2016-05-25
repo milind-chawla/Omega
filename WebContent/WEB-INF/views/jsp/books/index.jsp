@@ -24,17 +24,17 @@
 	    		</thead>
 	    		<tbody>
 	    			<c:forEach items="${books}" var="book">
-	    				<tr>
+	    				<tr id="book${book.id}">
 	    					<td>${book.id}</td>
 	    					<td>${book.name}</td>
 	    					<td>
-	    						<a class="btn btn-default" role="button" href="${path}/${book.id}">
+	    						<a class="btn btn-default book-show" role="button" href="${path}/${book.id}">
 	    							<span class="glyphicon glyphicon-search"></span> Show
 	    						</a>
-	    						<a class="btn btn-default" role="button" href="${path}/${book.id}/edit">
+	    						<a class="btn btn-default book-edit" role="button" href="${path}/${book.id}/edit">
 	    							<span class="glyphicon glyphicon-edit"></span> Edit
 	    						</a>
-	    						<a class="btn btn-default" role="button" href="${path}/${book.id}/delete">
+	    						<a class="btn btn-default book-delete" role="button" href="${path}/${book.id}/delete">
 	    							<span class="glyphicon glyphicon-remove"></span> Delete
 	    						</a>
 	    					</td>
@@ -47,7 +47,6 @@
 	<nav>
   		<ul class="pager">
     		<li id="prev"><a href="${path}/index?page=${page - 1}">&larr; Previous</a></li>
-    		<li id="middle"><a href="javascript:void" onclick="bootbox.alert('Hello world !!!');">Show Dialog</a></li>
     		<li id="next"><a href="${path}/index?page=${page + 1}">Next &rarr;</a></li>
   		</ul>
 	</nav>

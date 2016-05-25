@@ -71,7 +71,12 @@ class BooksController extends CController {
     @RequestMapping(value = Array("/index.json", "/index.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
 	def indexJ(req: HttpServletRequest): JList[Book] = {
-        bookService.getBooks
+        try {
+            bookService.getBooks  
+        } catch {
+          case NonFatal(e) =>
+              throw new JSONException(new Exception(e.getMessage))
+        }
     }
     
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.GET))
@@ -110,10 +115,15 @@ class BooksController extends CController {
     @RequestMapping(value = Array("/{bid}.json", "/{bid}.json/"), method = Array(RequestMethod.GET), produces = Array("application/json; charset=UTF-8"))
     @ResponseBody
 	def showJ(@PathVariable("bid") bid: String): Book = {
-        bookService.findById(bid.longValue) match {
-            case Some(book) => book
-            case None => throw new JSONException(s"Book with id `$bid` not found")
-        }    
+        try {
+            bookService.findById(bid.longValue) match {
+                case Some(book) => book
+                case None => throw new JSONException(new Exception(s"Book with id `$bid` not found"))
+            }  
+        } catch {
+          case NonFatal(e) =>
+              throw new JSONException(new Exception(e.getMessage))
+        }
     }
     
     @RequestMapping(value = Array("/{bid}/edit", "/{bid}/edit/"), method = Array(RequestMethod.GET))

@@ -48,6 +48,6 @@ class GlobalDefaultExceptionHandler extends BeanLifeCycle {
     def jSONException(req: HttpServletRequest, e: JSONException): java.util.Map[String, _] = {
         if(AnnotationUtils.findAnnotation(e.getClass(), classOf[ResponseStatus]) != null) throw e
         
-        JavaMap("error" -> e.message, "url" -> req.getRequestURL(), "ste" -> e.getStackTrace)
+        JavaMap("error" -> e.getMessage, "url" -> req.getRequestURL(), "ste" -> e.getStackTrace)
     }
 }
