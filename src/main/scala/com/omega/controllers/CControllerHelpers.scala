@@ -32,11 +32,11 @@ object CControllerHelpers {
         def apply(c: CController)(f: ModelAndView => ModelAndView): ModelAndView = {
             val mv = new ModelAndView
             
-            mv.addObject("activate", s"${c.lname}") 
-            mv.addObject("path", s"${c.path}") 
-            mv.addObject("path_new", s"${c.path_new}")
-            mv.addObject("uname", s"${c.uname}") 
-            mv.addObject("lname", s"${c.lname}")
+            mv.addObject("activate", s"${c.c_lname}") 
+            mv.addObject("c_path", s"${c.c_path}") 
+            mv.addObject("c_path_new", s"${c.c_path_new}")
+            mv.addObject("c_uname", s"${c.c_uname}") 
+            mv.addObject("c_lname", s"${c.c_lname}")
             mv.addObject("links", JavaList(ControllerSpace.getPublicSpace: _*))
             
             f(mv)

@@ -19,16 +19,18 @@
 	    			<tr>
 	    				<td><b>Id</b></td>
 	    				<td><b>Name</b></td>
+	    				<td><b>Thumbnail</b></td>
 	    			</tr>
 	    		</thead>
 	    		<tbody>
     				<tr>
     					<td>${book.id}</td>
     					<td>${book.name}</td>
+    					<td><img class='book-image' alt='No book' src='<%=request.getContextPath()%>/${book.image}'></td>
     				</tr>
 	    		</tbody>
 	    	</table>
-	    	<a class="btn btn-default" role="button" href="${path}">
+	    	<a class="btn btn-default" role="button" href="${c_path}">
 				<span class="glyphicon glyphicon-arrow-left"></span> Back
 			</a>
 	  	</div>

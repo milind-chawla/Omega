@@ -8,7 +8,7 @@
     <div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">
-				<a href="${path_new}" role="button" class="btn btn-default">
+				<a href="${c_path_new}" role="button" class="btn btn-default">
 					<span class="glyphicon glyphicon-plus"></span> Add Book
 				</a>
 			</h3>
@@ -28,13 +28,13 @@
 	    					<td>${book.id}</td>
 	    					<td>${book.name}</td>
 	    					<td>
-	    						<a class="btn btn-default book-show" role="button" href="${path}/${book.id}">
+	    						<a class="btn btn-default book-show" role="button" href="${c_path}/${book.id}">
 	    							<span class="glyphicon glyphicon-search"></span> Show
 	    						</a>
-	    						<a class="btn btn-default book-edit" role="button" href="${path}/${book.id}/edit">
+	    						<a class="btn btn-default book-edit" role="button" href="${c_path}/${book.id}/edit">
 	    							<span class="glyphicon glyphicon-edit"></span> Edit
 	    						</a>
-	    						<a class="btn btn-default book-delete" role="button" href="${path}/${book.id}/delete">
+	    						<a class="btn btn-default book-delete" role="button" href="${c_path}/${book.id}/delete">
 	    							<span class="glyphicon glyphicon-remove"></span> Delete
 	    						</a>
 	    					</td>
@@ -46,8 +46,8 @@
 	</div>
 	<nav>
   		<ul class="pager">
-    		<li id="prev"><a href="${path}/index?page=${page - 1}">&larr; Previous</a></li>
-    		<li id="next"><a href="${path}/index?page=${page + 1}">Next &rarr;</a></li>
+    		<li id="prev"><a href="${c_path}/index?page=${page - 1}">&larr; Previous</a></li>
+    		<li id="next"><a href="${c_path}/index?page=${page + 1}">Next &rarr;</a></li>
   		</ul>
 	</nav>
 	

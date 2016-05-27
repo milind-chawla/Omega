@@ -28,25 +28,19 @@ class Book(_id: Long, _name: String) {
     @Size(min=3, max=20)
     var name: String = _name
     
+    @Column
+    var image: String = _
+    
     def setId(_id: Long): Unit = this.id = _id
     def getId(): Long = this.id
     
     def setName(_name: String): Unit = this.name = _name
     def getName(): String = this.name
     
-    override def toString: String = "Book(id=" + id + ", name=" + name + ")"
+    def setImage(_image: String): Unit = this.image = _image
+    def getImage(): String = this.image
     
-    def hasErrors = errors.size > 0
-    
-    def errors = {
-        var err = JavaList[String]()
-        
-        if(getName().isEmpty()) {
-            err add "'Name' cannot be empty"
-        }
-        
-        err
-    }
+    override def toString: String = s"Book(id=$id, name=$name, image=$image)"
 }
 
 object Book {
