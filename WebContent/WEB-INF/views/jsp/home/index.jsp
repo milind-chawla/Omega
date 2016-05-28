@@ -2,11 +2,10 @@
 <html>
   <head>
     <title>Home</title>
-    <meta name='description' content='A simple page'>
+    <meta name='description' content=''>
   </head>
   <body>
   	<c:set var="i" value="0" scope="page"></c:set>
-  	
     <div class="row">
     	<c:forEach items="${links}" var="link">
     		<div class="col-md-4">
@@ -14,9 +13,7 @@
 	  				<a id="${link._1()}" href="${link._3()}" class="alert-link">${link._2()}</a>
 	  			</div>
 	  		</div>
-	  		
 	  		<c:set var="i" value="${i + 1}"></c:set>
-	  		
 	  		<c:if test="${i % 3 == 0}">
 	  			</div>
 	  			<div class="row"> 

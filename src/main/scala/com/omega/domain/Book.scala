@@ -15,10 +15,10 @@ import javax.validation.constraints.Size
 
 @Entity
 @Table(name = "BOOK")
-class Book(_id: Long, _name: String) {
+class Book(_id: Long, _name: String, _image: String) {
     
-    def this(_name: String) = this(-1, _name)
-    def this() = this(-1, null)
+    def this(_name: String, _image: String) = this(-1, _name, _image)
+    def this() = this(-1, null, null)
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,7 +44,7 @@ class Book(_id: Long, _name: String) {
 }
 
 object Book {
-    def apply(_id: Long, _name: String): Book = new Book(_id, _name)
-    def apply(_name: String): Book = new Book(_name)
+    def apply(_id: Long, _name: String, _image: String): Book = new Book(_id, _name, _image)
+    def apply(_name: String, _image: String): Book = new Book(_name, _image)
     def apply(): Book = new Book()
 }

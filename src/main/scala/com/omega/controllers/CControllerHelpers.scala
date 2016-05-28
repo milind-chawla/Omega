@@ -6,17 +6,6 @@ import org.springframework.ui.Model
 import com.omega.util.JavaList
 
 object CControllerHelpers {
-    implicit class ModelAndViewMaker(mv: ModelAndView) {
-        
-        def apply(): ModelAndView = {
-            mv.addObject("links", JavaList(ControllerSpace.getPublicSpace: _*))
-        }
-        
-        def setForRedirect(): Unit = {
-            mv.clear()
-        }
-    }
-    
     implicit class ControllerRegistrationHelper[C <: CController](c: C) {
         
         def register: Unit = {
@@ -32,11 +21,11 @@ object CControllerHelpers {
         def apply(c: CController)(f: ModelAndView => ModelAndView): ModelAndView = {
             val mv = new ModelAndView
             
-            mv.addObject("activate", s"${c.c_lname}") 
-            mv.addObject("c_path", s"${c.c_path}") 
-            mv.addObject("c_path_new", s"${c.c_path_new}")
-            mv.addObject("c_uname", s"${c.c_uname}") 
-            mv.addObject("c_lname", s"${c.c_lname}")
+            mv.addObject("activate", s"${c.lname}") 
+            mv.addObject("path", s"${c.path}") 
+            mv.addObject("path_new", s"${c.path_new}")
+            mv.addObject("uname", s"${c.uname}") 
+            mv.addObject("lname", s"${c.lname}")
             mv.addObject("links", JavaList(ControllerSpace.getPublicSpace: _*))
             
             f(mv)

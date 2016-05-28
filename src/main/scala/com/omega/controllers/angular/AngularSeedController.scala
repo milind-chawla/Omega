@@ -17,12 +17,12 @@ class AngularSeedController extends CController with BeanLifeCycle {
     
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
 	def root(req: HttpServletRequest) = Action {
-    	s"redirect:/$c_lname/index"
+    	s"redirect:/$lname/index"
     }
     
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
 	def index(req: HttpServletRequest) = Action(this) { mv =>
-    	mv.setViewName(s"$c_lname/index")
+    	mv.setViewName(s"$lname/index")
     	mv
     }
 }

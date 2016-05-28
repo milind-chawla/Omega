@@ -13,7 +13,7 @@
     <div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">
-				Edit -> ${book}
+				Edit ->> ${book}
 			</h3>
 	  	</div>
 	  	<div class="panel-body">
@@ -24,6 +24,7 @@
 			    <label for="name" class="col-md-12 form-control-label">Name</label>
 			    <div class="col-md-8">
 			    	<mvc:input path="name" class="form-control" cssErrorClass="form-control formFieldError" placeholder="Enter name here" />
+			    	<mvc:hidden path="image" />
 			    	<mvc:hidden path="id" />
 			    </div>
 			    <div class="col-md-4">
@@ -35,7 +36,7 @@
 			         <mvc:button class="btn btn-default">
 			  			<span class="glyphicon glyphicon-floppy-disk"></span> Submit
 			  		 </mvc:button>
-			  		 <a class="btn btn-default" role="button" href="${c_path}">
+			  		 <a class="btn btn-default" role="button" href="${path}">
 						<span class="glyphicon glyphicon-floppy-remove"></span> Cancel
 			  		 </a>
 			      </div>

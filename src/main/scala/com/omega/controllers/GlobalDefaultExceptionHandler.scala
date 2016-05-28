@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 import com.omega.exceptions.JSONException
 import com.omega.util.JavaMap
 import com.omega.exceptions.BookNotFoundException
+import com.omega.util.JavaList
 
 @ControllerAdvice
 class GlobalDefaultExceptionHandler extends BeanLifeCycle {
@@ -23,11 +24,13 @@ class GlobalDefaultExceptionHandler extends BeanLifeCycle {
     def exception(req: HttpServletRequest, e: Exception): ModelAndView = {
         if(AnnotationUtils.findAnnotation(e.getClass(), classOf[ResponseStatus]) != null) throw e
         
-        val mav = (new ModelAndView)()
-        mav.addAllObjects(JavaMap("error" -> e, "url" -> req.getRequestURL(), "ste" -> e.getStackTrace))
-        mav.setViewName("_common0/exp")
+        val mv = new ModelAndView
         
-        mav
+        mv.addObject("links", JavaList(ControllerSpace.getPublicSpace: _*))
+        mv.addAllObjects(JavaMap("error" -> e, "url" -> req.getRequestURL(), "ste" -> e.getStackTrace))
+        mv.setViewName("_common0/exp")
+        
+        mv
     }
     
     @throws(classOf[Exception])
@@ -35,11 +38,13 @@ class GlobalDefaultExceptionHandler extends BeanLifeCycle {
     def bookNotFoundException(req: HttpServletRequest, e: BookNotFoundException): ModelAndView = {
         if(AnnotationUtils.findAnnotation(e.getClass(), classOf[ResponseStatus]) != null) throw e
         
-        val mav = (new ModelAndView)()
-        mav.addAllObjects(JavaMap("id" -> e.bookId))
-        mav.setViewName("books/404")
+        val mv = new ModelAndView
         
-        mav
+        mv.addObject("links", JavaList(ControllerSpace.getPublicSpace: _*))
+        mv.addAllObjects(JavaMap("id" -> e.bookId))
+        mv.setViewName("books/404")
+        
+        mv
     }
     
     @throws(classOf[Exception])

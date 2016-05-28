@@ -22,26 +22,26 @@ abstract class CController extends BeanLifeCycle {
     
     def show: Boolean = true
     
-    def c_uname: String = {
+    def uname: String = {
         val n = this.getClass.getCanonicalName.split("\\.").last
         val i = n.indexOf("Controller")
         
         n.substring(0, i)
     }
     
-    def c_lname: String = {
-        c_uname.toLowerCase
+    def lname: String = {
+        uname.toLowerCase
     }
     
     def contextPath: String = {
         ApplicationContextProvider.getServletContext.getContextPath
     }
     
-    def c_path: String = {
-        s"$contextPath/$c_lname"
+    def path: String = {
+        s"$contextPath/$lname"
     }
     
-    def c_path_new: String = {
-        s"$contextPath/$c_lname/new"
+    def path_new: String = {
+        s"$contextPath/$lname/new"
     }
 }

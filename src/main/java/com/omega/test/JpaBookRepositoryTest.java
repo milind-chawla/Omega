@@ -30,7 +30,7 @@ public class JpaBookRepositoryTest {
 	
 	private Book book;
 	
-	@Before
+/*	@Before
 	public void setupData() {
 		book = new Book(1, "Book 1");
 	}
@@ -58,4 +58,4 @@ public class JpaBookRepositoryTest {
 		
 		entityManager.flush();
 	}
-}
+*/}

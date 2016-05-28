@@ -23,7 +23,7 @@ object ControllerSpace {
         val root = publicSpace.find(_._1 == "root").get
         val home = publicSpace.find(_._1 == "home").get
         
-        val subspace = publicSpace.filter(x => x._1 != "root" && x._1 != "home")
+        val subspace = publicSpace.filter(x => x._1 != "root" && x._1 != "home").sortBy(_._1)
         home +: subspace
     }
     
