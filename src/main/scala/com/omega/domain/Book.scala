@@ -12,6 +12,12 @@ import com.omega.util.OmegaHelpers.StringHelper
 import javax.persistence.Column
 import com.omega.util.JavaList
 import javax.validation.constraints.Size
+import com.omega.io.IO
+import com.omega.io.IO
+import org.apache.commons.io.FileUtils
+import org.springframework.security.crypto.codec.Base64
+
+
 
 @Entity
 @Table(name = "BOOK")
@@ -39,6 +45,13 @@ class Book(_id: Long, _name: String, _image: String) {
     
     def setImage(_image: String): Unit = this.image = _image
     def getImage(): String = this.image
+    
+    def getImageHex(): String = {
+        import java.io.File
+        import com.omega.io.IO._
+        
+        new File(IO.uploadDir, getImage()).readBase64
+    }
     
     override def toString: String = s"Book(id=$id, name=$name, image=$image)"
 }

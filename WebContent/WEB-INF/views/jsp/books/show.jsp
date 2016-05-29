@@ -25,8 +25,8 @@
 	    		<tbody>
     				<tr>
     					<td>${book.id}</td>
-    					<td>${book.name}</td>
-    					<td><img class='book-image' alt='No book' src='<%=request.getContextPath()%>/${book.image}'></td>
+    					<td>${book.name}</td>    					
+    					<td><img class='book-image' alt='No book' src='data:image/jpeg;charset=utf-8;base64,${book.getImageHex()}'></td>
     				</tr>
 	    		</tbody>
 	    	</table>
