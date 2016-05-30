@@ -26,7 +26,7 @@
 			    	<mvc:input path="name" class="form-control" cssErrorClass="form-control formFieldError" placeholder="Enter name here" />
 			    </div>
 			    <div class="col-md-4">
-			    	<mvc:errors path="name" />
+			    	<mvc:errors path="name" class="errors" />
 			    </div>
 			  </div>
 			  

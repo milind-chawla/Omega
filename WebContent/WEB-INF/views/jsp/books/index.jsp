@@ -11,6 +11,10 @@
 				<a href="${apath}/new" role="button" class="btn btn-default">
 					<span class="glyphicon glyphicon-plus"></span> Add Book
 				</a>
+				
+				<a href="${apath}/new2" role="button" class="btn btn-default">
+					<span class="glyphicon glyphicon-plus"></span> Add Book 2
+				</a>
 			</h3>
 	  	</div>
 	  	<div class="panel-body">
@@ -51,11 +55,11 @@
   		</ul>
 	</nav>
 	
-	<script type="text/javascript">
-		var disable = "${disable}";
-	</script>
-	
 	<content tag="javascripts">
+		<script type="text/javascript">
+			var disable = "${disable}";
+		</script>
+	
   		<script type="text/javascript" src="<%=request.getContextPath()%>/resources/javascript/books.js"></script>
   	</content>
   </body>
