@@ -18,7 +18,10 @@ class OmegaWebApplicationConfig extends WebMvcConfigurerAdapter with BeanLifeCyc
     
     override def addResourceHandlers(registry: ResourceHandlerRegistry): Unit = {
         // registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/META-INF/resources/webjars/").setCachePeriod(31556926)
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").setCachePeriod(31556926)
+        registry
+            .addResourceHandler("/resources/**")
+            .addResourceLocations("/resources/")
+            .setCachePeriod(31556926)
     }
 
     override def configureDefaultServletHandling(configurer: DefaultServletHandlerConfigurer) {
@@ -26,12 +29,17 @@ class OmegaWebApplicationConfig extends WebMvcConfigurerAdapter with BeanLifeCyc
     }
     
     @Bean
-    def theJspViewResolver(): InternalResourceViewResolver = {
+    def theJspViewResolver() = {
         val viewResolver = new InternalResourceViewResolver
         viewResolver.setViewClass(classOf[JstlView])
         viewResolver.setPrefix("/WEB-INF/views/jsp/")
         viewResolver.setSuffix(".jsp")
         viewResolver.setOrder(1)
         viewResolver
+    }
+    
+    @Bean
+    def theMultipartResolver() = {
+        new org.springframework.web.multipart.support.StandardServletMultipartResolver
     }
 }

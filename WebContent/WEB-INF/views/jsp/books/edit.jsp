@@ -36,7 +36,7 @@
 			         <mvc:button class="btn btn-default">
 			  			<span class="glyphicon glyphicon-floppy-disk"></span> Submit
 			  		 </mvc:button>
-			  		 <a class="btn btn-default" role="button" href="${path}">
+			  		 <a class="btn btn-default" role="button" href="${apath}">
 						<span class="glyphicon glyphicon-floppy-remove"></span> Cancel
 			  		 </a>
 			      </div>

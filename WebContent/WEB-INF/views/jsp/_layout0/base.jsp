@@ -53,7 +53,7 @@
   	</body>
   	
   	<script type="text/javascript">
-  		var activate = "${activate}";
+  		var id = "${id}";
   	</script>
   	
   	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/jquery/dist/jquery.js"></script>

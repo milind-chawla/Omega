@@ -35,12 +35,14 @@ class BooksController extends CController {
     import CControllerHelpers._
     import com.omega.util.OmegaHelpers._
     
+    override def config = configs.books
+    
     @Autowired
     private var bookService: BookService = _
     
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
 	def root(req: HttpServletRequest) = Action {
-        s"redirect:/$lname/index"
+        s"redirect:$rpath/index"
     }
     
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
@@ -64,7 +66,7 @@ class BooksController extends CController {
         mv.addObject("page", page)
         mv.addObject("books", books)
         
-        mv.setViewName(s"$lname/index")
+        mv.setViewName(view("index"))
         mv
     }
     
@@ -82,7 +84,7 @@ class BooksController extends CController {
     @RequestMapping(value = Array("/new", "/new/"), method = Array(RequestMethod.GET))
 	def `new`(req: HttpServletRequest) = Action(this) { mv =>
         mv.addObject("book", Book())
-        mv.setViewName(s"$lname/new")
+        mv.setViewName(view("new"))
         mv
     }
     
@@ -90,12 +92,12 @@ class BooksController extends CController {
 	def `new_post`(@Valid book: Book, result: BindingResult, redirectAttributes: RedirectAttributes) = Action(this) { mv =>
         if(result.hasErrors) {
             mv.addObject("book", book)
-            mv.setViewName(s"$lname/new")
+            mv.setViewName(view("new"))
         } else {
             bookService.save(book) 
             redirectAttributes.addFlashAttribute("messages", JavaList(s"$book created successfully"))
             mv.clear()
-            mv.setViewName(s"redirect:/$lname/${book.id}") 
+            mv.setViewName(s"redirect:$rpath/${book.id}") 
         }
         mv
     }
@@ -105,7 +107,7 @@ class BooksController extends CController {
         bookService.findById(bid.longValue) match {
             case Some(book) => {
                 mv.addObject("book", book)
-                mv.setViewName(s"$lname/show")
+                mv.setViewName(view("show"))
                 mv
             }
             case None => throw new BookNotFoundException(bid)
@@ -131,7 +133,7 @@ class BooksController extends CController {
         bookService.findById(bid.longValue) match {
             case Some(book) => {
                 mv.addObject("book", book)
-                mv.setViewName(s"$lname/edit")
+                mv.setViewName(view("edit"))
                 mv
             }
             case None => throw new BookNotFoundException(bid)
@@ -142,12 +144,12 @@ class BooksController extends CController {
 	def edit_post(@PathVariable("bid") bid: String, @Valid book: Book, result: BindingResult, redirectAttributes: RedirectAttributes) = Action(this) { mv =>
         if(result.hasErrors) {
             mv.addObject("book", book)
-            mv.setViewName(s"$lname/edit")
+            mv.setViewName(view("edit"))
         } else {
             bookService.update(book)
             redirectAttributes.addFlashAttribute("warnings", JavaList(s"$book updated successfully"))
             mv.clear()
-            mv.setViewName(s"redirect:/$lname/${book.id}")
+            mv.setViewName(s"redirect:$rpath/${book.id}")
         }
         mv
     }

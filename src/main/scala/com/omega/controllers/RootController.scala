@@ -12,8 +12,11 @@ import javax.servlet.http.HttpServletRequest
 class RootController extends CController {
     import CControllerHelpers._
     
+    override def config = configs.root
+    
     @RequestMapping(method = Array(RequestMethod.GET))
 	def root(implicit req: HttpServletRequest) = Action {
-    	"redirect:/home/index"
+        // "redirect:/home/index"
+        s"redirect:${configs.home.rpath}/index"
     }
 }

@@ -17,8 +17,10 @@ import javax.servlet.ServletException
 import javax.servlet.ServletRegistration
 import org.springframework.web.filter.DelegatingFilterProxy
 import org.springframework.security.config.BeanIds
+import javax.servlet.MultipartConfigElement
 
 class OmegaWebApplicationInitializer extends WebApplicationInitializer {
+    import OmegaWebApplicationInitializer._
     
     @throws(classOf[ServletException])
 	override def onStartup(servletContext: ServletContext): Unit = {
@@ -48,6 +50,8 @@ class OmegaWebApplicationInitializer extends WebApplicationInitializer {
 
 		dispatcher.setLoadOnStartup(1)
 		dispatcher.addMapping("/")
+		
+		dispatcher.setMultipartConfig(new MultipartConfigElement(null, MAX_FILE_UPLOAD_SIZE, MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD))
 	}
 	
 	private def registerCharacterEncodingFilter(servletContext: ServletContext): Unit = {
@@ -81,4 +85,10 @@ class OmegaWebApplicationInitializer extends WebApplicationInitializer {
 		context.register(classOf[OmegaCoreConfig])
 		context
 	}
+}
+
+object OmegaWebApplicationInitializer {
+    val MAX_FILE_UPLOAD_SIZE = 1024 * 1024 * 5;
+    val FILE_SIZE_THRESHOLD = 1024 * 1024;
+    val MAX_REQUEST_SIZE = -1L;
 }

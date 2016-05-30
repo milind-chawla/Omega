@@ -30,9 +30,9 @@ public class JpaBookRepositoryTest {
 	
 	private Book book;
 	
-/*	@Before
+	@Before
 	public void setupData() {
-		book = new Book(1, "Book 1");
+		book = new Book(1, "Book 1", null);
 	}
 	
 	@Test
@@ -45,7 +45,7 @@ public class JpaBookRepositoryTest {
 	
 	@Test
 	public void testStoreBookFull() {
-		Book book = new Book("Book xyz");
+		Book book = new Book("Book xyz", null);
 		bookDao.save(book);
 		
 		entityManager.flush();
@@ -58,4 +58,4 @@ public class JpaBookRepositoryTest {
 		
 		entityManager.flush();
 	}
-*/}
+}

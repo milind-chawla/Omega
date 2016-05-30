@@ -6,11 +6,11 @@ import org.springframework.ui.Model
 import com.omega.util.JavaList
 
 object CControllerHelpers {
-    implicit class ControllerRegistrationHelper[C <: CController](c: C) {
-        
-        def register: Unit = {
-            ControllerSpace.insert(c)
-        }
+    object configs {
+        def root = ControllerConfig.RootControllerConfig
+        def home = ControllerConfig.HomeControllerConfig
+        def books = ControllerConfig.BooksControllerConfig
+        def angularseed = ControllerConfig.AngularSeedControllerConfig
     }
     
     object Action {
@@ -21,12 +21,10 @@ object CControllerHelpers {
         def apply(c: CController)(f: ModelAndView => ModelAndView): ModelAndView = {
             val mv = new ModelAndView
             
-            mv.addObject("activate", s"${c.lname}") 
-            mv.addObject("path", s"${c.path}") 
-            mv.addObject("path_new", s"${c.path_new}")
-            mv.addObject("uname", s"${c.uname}") 
-            mv.addObject("lname", s"${c.lname}")
-            mv.addObject("links", JavaList(ControllerSpace.getPublicSpace: _*))
+            mv.addObject("id", s"${c.config.id}")
+            mv.addObject("name", s"${c.config.name}")
+            mv.addObject("apath", s"${c.config.apath}") 
+            mv.addObject("links", ControllerConfig.controllerLinkage)
             
             f(mv)
         }

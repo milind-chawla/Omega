@@ -20,17 +20,19 @@ class HomeController extends CController {
     import CControllerHelpers._
     import com.omega.util.OmegaHelpers._
     
+    override def config = configs.home
+    
     @Autowired
     private var bookService: BookService = _
     
     @RequestMapping(value = Array("", "/"), method = Array(RequestMethod.GET))
 	def root(req: HttpServletRequest) = Action {
-    	s"redirect:/$lname/index"
+    	s"redirect:$rpath/index"
     }
     
     @RequestMapping(value = Array("/index", "/index/"), method = Array(RequestMethod.GET))
 	def index(req: HttpServletRequest) = Action(this) { mv =>
-	    mv.setViewName(s"$lname/index")
+	    mv.setViewName(view("index"))
 	    mv
     }
 }

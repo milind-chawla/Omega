@@ -26,7 +26,7 @@ class GlobalDefaultExceptionHandler extends BeanLifeCycle {
         
         val mv = new ModelAndView
         
-        mv.addObject("links", JavaList(ControllerSpace.getPublicSpace: _*))
+        mv.addObject("links", ControllerConfig.controllerLinkage)
         mv.addAllObjects(JavaMap("error" -> e, "url" -> req.getRequestURL(), "ste" -> e.getStackTrace))
         mv.setViewName("_common0/exp")
         
@@ -40,7 +40,7 @@ class GlobalDefaultExceptionHandler extends BeanLifeCycle {
         
         val mv = new ModelAndView
         
-        mv.addObject("links", JavaList(ControllerSpace.getPublicSpace: _*))
+        mv.addObject("links", ControllerConfig.controllerLinkage)
         mv.addAllObjects(JavaMap("id" -> e.bookId))
         mv.setViewName("books/404")
         

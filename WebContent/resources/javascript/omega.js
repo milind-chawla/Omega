@@ -1,3 +1,3 @@
 (function($) {
-	$("#" + activate).addClass("active");
+	$("#" + id).addClass("active");
 })(jQuery);
