@@ -34,7 +34,7 @@ class BookDaoJpaImpl(val actorService: ActorService) extends BookDao with BeanLi
         val countResult = countQuery.getSingleResult.asInstanceOf[Long]
         
         val pageSize = 10
-        val lastPageNumber = (countResult / pageSize) + 1
+        //val lastPageNumber = (countResult / pageSize) + 1
         
         val list = entityManager
             .createQuery("SELECT b FROM Book b ORDER BY b.id ASC")
